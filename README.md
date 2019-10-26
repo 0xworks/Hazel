@@ -1,2 +1,2 @@
 # Hazel
-Private copy of (and completely independent from) cherno/Hazel for me to mess about with it
+Private repository based on (but completely independent to) the Hazel engine described in youtube channel https://thecherno.com/engine
