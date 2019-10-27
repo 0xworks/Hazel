@@ -1,5 +1,12 @@
 #include "Hazel.h"
 
-int main() {
-   Hazel::PrintWelcome();
+class Sandbox : public Hazel::Application {
+public:
+   Sandbox() {}
+
+   ~Sandbox() {}
+};
+
+Hazel::Application* CreateApplication() {
+   return new Sandbox;
 }

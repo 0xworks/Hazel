@@ -5,7 +5,7 @@ cmake_minimum_required (VERSION 3.10)
 
 add_library(
    Hazel SHARED
-   "src/Hazel.cpp"
+   "src/Application.cpp"
 )
 
 target_include_directories(
