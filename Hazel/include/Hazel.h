@@ -1,7 +1,9 @@
 ﻿#pragma once
 
+#include "Core.h"
+
 namespace Hazel {
 
-   _declspec(dllexport) void PrintWelcome();
+   HAZEL_API void PrintWelcome();
 
 }

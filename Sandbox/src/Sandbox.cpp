@@ -1,8 +1,4 @@
-//#include "Hazel.h"
-
-namespace Hazel {
-   __declspec(dllimport) void PrintWelcome();
-}
+#include "Hazel.h"
 
 int main() {
    Hazel::PrintWelcome();
