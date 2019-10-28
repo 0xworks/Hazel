@@ -1,8 +1,17 @@
+#include "include/hzpch.h"
 #include "WindowsWindow.h"
+#include "Events/ApplicationEvent.h"
+#include "Events/KeyEvent.h"
+#include "Events/MouseEvent.h"
 
 namespace Hazel {
 
    static bool s_GLFWInitialized = false;
+
+
+   static void GLFWErrorCallback(int error, const char* description) {
+      HZ_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
+   }
 
 
    Window* Window::Create(const WindowProps& props) {
@@ -31,25 +40,92 @@ namespace Hazel {
          // TODO: glfwTerminate on system shutdown
          int success = glfwInit();
          HZ_CORE_ASSERT(success, "Could not intialize GLFW!");
-
+         glfwSetErrorCallback(GLFWErrorCallback);
          s_GLFWInitialized = true;
       }
 
-      m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-      glfwMakeContextCurrent(m_Window);
-      glfwSetWindowUserPointer(m_Window, &m_Data);
+      m_pWindow = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+      glfwMakeContextCurrent(m_pWindow);
+      glfwSetWindowUserPointer(m_pWindow, &m_Data);
       SetVSync(true);
+
+      glfwSetWindowSizeCallback(m_pWindow, [](GLFWwindow* pWindow, int width, int height) {
+         WindowData* pData = (WindowData*)glfwGetWindowUserPointer(pWindow);
+         pData->Width = width;
+         pData->Height = height;
+         WindowResizeEvent event(width, height);
+         pData->EventCallback(event);
+      });
+
+      glfwSetWindowCloseCallback(m_pWindow, [](GLFWwindow* pWindow) {
+         WindowData* pData = (WindowData*)glfwGetWindowUserPointer(pWindow);
+         WindowCloseEvent event;
+         pData->EventCallback(event);
+      });
+
+      glfwSetKeyCallback(m_pWindow, [](GLFWwindow* pWindow, int key, int scanCode, int action, int mods) {
+         WindowData* pData = (WindowData*)glfwGetWindowUserPointer(pWindow);
+
+         switch(action) {
+            case GLFW_PRESS: {
+               KeyPressedEvent event(key, 0);
+               pData->EventCallback(event);
+               break;
+            }
+            case GLFW_RELEASE: {
+               KeyReleasedEvent event(key);
+               pData->EventCallback(event);
+               break;
+            }
+            case GLFW_REPEAT: {
+               KeyPressedEvent event(key, 1);
+               pData->EventCallback(event);
+               break;
+            }
+         }
+      });
+
+      glfwSetMouseButtonCallback(m_pWindow, [](GLFWwindow* pWindow, int button, int action, int mods) {
+         WindowData* pData = (WindowData*)glfwGetWindowUserPointer(pWindow);
+
+         switch(action) {
+            case GLFW_PRESS: {
+               MouseButtonPressedEvent event(button);
+               pData->EventCallback(event);
+               break;
+            }
+            case GLFW_RELEASE: {
+               MouseButtonReleasedEvent event(button);
+               pData->EventCallback(event);
+               break;
+            }
+         }
+      });
+
+      glfwSetScrollCallback(m_pWindow, [](GLFWwindow* pWindow, double xoffset, double yoffset) {
+         WindowData* pData = (WindowData*)glfwGetWindowUserPointer(pWindow);
+         MouseScrolledEvent event((float)xoffset, (float)yoffset);
+         pData->EventCallback(event);
+      });
+
+      glfwSetCursorPosCallback(m_pWindow, [](GLFWwindow* pWindow, double xpos, double ypos) {
+         WindowData* pData = (WindowData*)glfwGetWindowUserPointer(pWindow);
+         MouseMovedEvent event((float)xpos, (float)ypos);
+         pData->EventCallback(event);
+      });
+
+
    }
 
 
    void WindowsWindow::Shutdown() {
-      glfwDestroyWindow(m_Window);
+      glfwDestroyWindow(m_pWindow);
    }
 
 
    void WindowsWindow::OnUpdate() {
       glfwPollEvents();
-      glfwSwapBuffers(m_Window);
+      glfwSwapBuffers(m_pWindow);
    }
 
 

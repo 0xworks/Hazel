@@ -1,3 +1,4 @@
+#include "include/hzpch.h"
 #include "Events/KeyEvent.h"
 #include <sstream>
 

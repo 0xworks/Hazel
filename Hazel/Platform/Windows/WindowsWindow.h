@@ -25,7 +25,7 @@ namespace Hazel {
       virtual void Shutdown();
 
    private:
-      GLFWwindow* m_Window;
+      GLFWwindow* m_pWindow;
 
       struct WindowData {
          std::string Title;

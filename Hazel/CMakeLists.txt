@@ -44,7 +44,7 @@ set(
 
 add_library(Hazel SHARED ${HazelSources})
 
-add_precompiled_header(Hazel "include/hzpch.h" FORCEINCLUDE SOURCE_CXX "src/hzpch.cpp")
+add_precompiled_header(Hazel "include/hzpch.h" SOURCE_CXX "src/hzpch.cpp")
 
 target_compile_definitions(
    Hazel PUBLIC

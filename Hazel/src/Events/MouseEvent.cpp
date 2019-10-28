@@ -1,3 +1,4 @@
+#include "include/hzpch.h"
 #include "Events/MouseEvent.h"
 #include <sstream>
 

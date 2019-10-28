@@ -14,7 +14,7 @@ set_target_properties(
    VERSION ${PROJECT_VERSION}
 )
 
-add_precompiled_header(Sandbox "include/pch.h" FORCEINCLUDE SOURCE_CXX "src/pch.cpp")
+add_precompiled_header(Sandbox "include/pch.h" SOURCE_CXX "src/pch.cpp")
 
 target_include_directories(
    Sandbox PUBLIC
