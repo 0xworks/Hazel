@@ -5,28 +5,18 @@
 
 namespace Hazel {
 
-   Application::Application()
-   {
+   Application::Application() {
+      m_pWindow = std::unique_ptr<Window>(Window::Create());
    }
 
 
-   Application::~Application()
-   {
-   }
+   Application::~Application() {}
 
-   void Application::Run()
-   {
-      WindowResizeEvent e(1280, 720);
-      if(e.IsInCategory(EventCategoryApplication))
-      {
-         HZ_TRACE(e);
-      }
-      if(e.IsInCategory(EventCategoryInput))
-      {
-         HZ_TRACE(e);
-      }
+   void Application::Run() {
 
-      while(true);
+      while(m_bRunning) {
+         m_pWindow->OnUpdate();
+      }
    }
 
 }

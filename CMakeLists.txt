@@ -3,7 +3,15 @@
 #
 cmake_minimum_required (VERSION 3.10)
 
+include(vendor/cmake-precompiled-header/PrecompiledHeader.cmake)
+
 project ("Hazel" VERSION 0.1 DESCRIPTION "Hazel Interactive App Engine")
 
-add_subdirectory ("Hazel")
-add_subdirectory ("Sandbox")
+add_subdirectory("Hazel")
+
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+add_subdirectory("Hazel/Vendor/glfw")
+
+add_subdirectory("Sandbox")

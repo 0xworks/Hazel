@@ -2,11 +2,6 @@
 
 #include "Core.h"
 
-#include <functional>
-#include <ostream>
-#include <string>
-
-
 #define EVENT_CLASS_TYPE(type) public:                            \
 static EventType GetStaticType() {                                \
    return EventType::##type;                                      \
