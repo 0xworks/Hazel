@@ -47,10 +47,8 @@ set(
    "spdlog"
 )
 
-add_library(Hazel STATIC ${HazelSources})
+add_library(Hazel SHARED ${HazelSources})
 
-#include(GenerateExportHeader)
-#generate_export_header(Hazel)
 
 add_precompiled_header(Hazel "hzpch.h" SOURCE_CXX "hzpch.cpp")
 

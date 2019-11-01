@@ -16,4 +16,12 @@ namespace Hazel {
    }
 
 
+   std::shared_ptr<spdlog::logger>& Log::GetCoreLogger() {
+      return s_spdCoreLogger;
+   }
+
+   std::shared_ptr<spdlog::logger>& Log::GetClientLogger() {
+      return s_spdClientLogger;
+   }
+
 }

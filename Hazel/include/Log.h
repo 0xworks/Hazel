@@ -9,8 +9,8 @@ namespace Hazel {
 
       static void Init();
 
-      inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_spdCoreLogger; }
-      inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_spdClientLogger; }
+      static std::shared_ptr<spdlog::logger>& GetCoreLogger();
+      static std::shared_ptr<spdlog::logger>& GetClientLogger();
 
    private:
       static std::shared_ptr<spdlog::logger> s_spdCoreLogger;
