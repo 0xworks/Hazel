@@ -12,6 +12,12 @@ add_subdirectory("Hazel")
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-add_subdirectory("Hazel/Vendor/glfw")
+add_subdirectory("Hazel/vendor/glfw")
+
+add_subdirectory("Hazel/vendor/glad")
+
+add_subdirectory("Hazel/vendor/imgui")
+
+add_subdirectory("Hazel/vendor/spdlog")
 
 add_subdirectory("Sandbox")

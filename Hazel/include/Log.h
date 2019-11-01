@@ -4,7 +4,7 @@
 
 namespace Hazel {
 
-   class HAZEL_API Log {
+   class Log {
    public:
 
       static void Init();

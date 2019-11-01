@@ -5,7 +5,7 @@ cmake_minimum_required (VERSION 3.10)
 
 add_executable(
    Sandbox
-   "src/pch.cpp"
+   "pch.cpp"
    "src/Sandbox.cpp"
 )
 
@@ -14,7 +14,7 @@ set_target_properties(
    VERSION ${PROJECT_VERSION}
 )
 
-add_precompiled_header(Sandbox "include/pch.h" SOURCE_CXX "src/pch.cpp")
+add_precompiled_header(Sandbox "pch.h" SOURCE_CXX "pch.cpp")
 
 target_include_directories(
    Sandbox PUBLIC
@@ -26,6 +26,7 @@ target_include_directories(
 target_link_libraries(
    Sandbox PUBLIC
    Hazel
+   spdlog
 )
 
 add_custom_command(

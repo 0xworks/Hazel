@@ -4,7 +4,7 @@
 
 namespace Hazel {
 
-   class HAZEL_API KeyEvent : public Event {
+   class KeyEvent : public Event {
       EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
    public:
       int GetKeyCode() const;
@@ -15,7 +15,7 @@ namespace Hazel {
    };
 
 
-   class HAZEL_API KeyPressedEvent : public KeyEvent {
+   class KeyPressedEvent : public KeyEvent {
       EVENT_CLASS_TYPE(KeyPressed)
    public:
       KeyPressedEvent(int keycode, int repeatCount);
@@ -29,7 +29,7 @@ namespace Hazel {
    };
 
 
-   class HAZEL_API KeyReleasedEvent : public KeyEvent {
+   class KeyReleasedEvent : public KeyEvent {
       EVENT_CLASS_TYPE(KeyReleased)
    public:
       KeyReleasedEvent(int keycode);

@@ -7,3 +7,6 @@
 [submodule "Hazel/vendor/cmake-precompiled-header"]
 	path = vendor/cmake-precompiled-header
 	url = https://github.com/larsch/cmake-precompiled-header.git
+[submodule "Hazel/vendor/imgui"]
+	path = Hazel/vendor/imgui
+	url = https://github.com/ocornut/imgui.git

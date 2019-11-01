@@ -10,9 +10,13 @@ set(
    "src/Events/KeyEvent.cpp"
    "src/Events/MouseEvent.cpp"
    "src/Application.cpp"
-   "src/hzpch.cpp"
+   "hzpch.cpp"
+   "src/ImGuiLayer.cpp"
+   "src/Layer.cpp"
+   "src/LayerStack.cpp"
    "src/Log.cpp"
    "src/Window.cpp"
+   "Platform/OpenGL/imgui_impl_opengl3.cpp"
 )
 
 if(WIN32)
@@ -26,8 +30,6 @@ set(
    HazelIncludes
    "."
    "include"
-   "vendor/spdlog/include"
-   "vendor/glfw/include"
 )
 
 if(WIN32)
@@ -39,18 +41,25 @@ endif(WIN32)
 
 set(
    HazelLibs
+   "glad"
    "glfw"
+   "imgui"
+   "spdlog"
 )
 
-add_library(Hazel SHARED ${HazelSources})
+add_library(Hazel STATIC ${HazelSources})
 
-add_precompiled_header(Hazel "include/hzpch.h" SOURCE_CXX "src/hzpch.cpp")
+#include(GenerateExportHeader)
+#generate_export_header(Hazel)
+
+add_precompiled_header(Hazel "hzpch.h" SOURCE_CXX "hzpch.cpp")
 
 target_compile_definitions(
-   Hazel PUBLIC
+   Hazel PRIVATE
+   GLFW_INCLUDE_NONE
   "$<$<CONFIG:DEBUG>:HZ_ENABLE_ASSERTS>"
 )
 
 target_include_directories(Hazel PUBLIC ${HazelIncludes})
 
-target_link_libraries(Hazel PUBLIC ${HazelLibs})
+target_link_libraries(Hazel PRIVATE ${HazelLibs})

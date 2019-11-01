@@ -59,7 +59,7 @@ namespace Hazel {
    };
 
 
-   class HAZEL_API Event {
+   class Event {
       friend class EventDispatcher;
    public:
       virtual EventType GetEventType() const = 0;
@@ -68,6 +68,8 @@ namespace Hazel {
       virtual std::string ToString() const;
 
       bool IsInCategory(EventCategory category);
+
+      bool IsHandled();
 
    protected:
       bool m_Handled = false;

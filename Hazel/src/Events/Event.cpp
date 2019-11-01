@@ -1,4 +1,4 @@
-#include "include/hzpch.h"
+#include "hzpch.h"
 #include "Events/Event.h"
 
 namespace Hazel {
@@ -7,12 +7,17 @@ namespace Hazel {
       return GetName();
    }
 
+
    bool Event::IsInCategory(EventCategory category) {
       return GetCategoryFlags() & category;
    }
 
-   EventDispatcher::EventDispatcher(Event& event) : m_Event(event) {
 
+   bool Event::IsHandled() {
+      return(m_Handled);
    }
+
+
+   EventDispatcher::EventDispatcher(Event& event) : m_Event(event) {}
 
 }

@@ -1,15 +1,15 @@
 #pragma once
 
-#ifdef WIN32
-#ifdef Hazel_EXPORTS
-#define HAZEL_API __declspec(dllexport)
-#else
-#define HAZEL_API __declspec(dllimport)
-#endif
-#else
-#define HAZEL_API
-#endif
-
+// #ifdef WIN32
+// #ifdef Hazel_EXPORTS
+// #define HAZEL_API __declspec(dllexport)
+// #else
+// #define HAZEL_API __declspec(dllimport)
+// #endif
+// #else
+// #define HAZEL_API
+// #endif
+//#include <hazel_export.h>
 
 #ifdef HZ_ENABLE_ASSERTS
 #define HZ_ASSERT(x, ...) { if(!(x)) { HZ_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
