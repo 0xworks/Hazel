@@ -2,6 +2,7 @@
 #include "Application.h"
 
 #include "Events/ApplicationEvent.h"
+#include "glad/glad.h"
 #include "Log.h"
 
 namespace Hazel {
@@ -23,6 +24,13 @@ namespace Hazel {
    void Application::Run() {
 
       while(m_bRunning) {
+
+         // does not belong here.
+         // Application should not have to know that it's OpenGL under the hood.
+         // Doesnt really belong in WindowsWindow either.. as that class is for Windows specific implementation
+         glClearColor(1, 0, 1, 1);
+         glClear(GL_COLOR_BUFFER_BIT);
+
          for(Layer* pLayer : m_layerStack) {
             pLayer->OnUpdate();
          }
@@ -36,14 +44,14 @@ namespace Hazel {
 
       // JRW: I am not convinced about this.
       // This seems like an overly complicated way to just do a switch on event type...
-      //EventDispatcher dispatcher(e);
-      //dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClose));
+      EventDispatcher dispatcher(e);
+      dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClose));
 
-      switch(e.GetEventType()) {
-         case EventType::WindowClose:
-            OnWindowClose((WindowCloseEvent&)e);
-            break;
-      }
+      //switch(e.GetEventType()) {
+      //   case EventType::WindowClose:
+      //      OnWindowClose((WindowCloseEvent&)e);
+      //      break;
+      //}
 
       for(auto it = m_layerStack.rbegin(); it != m_layerStack.rend(); ++it) {
          (*it)->OnEvent(e);

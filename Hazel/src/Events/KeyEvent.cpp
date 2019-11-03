@@ -35,4 +35,13 @@ namespace Hazel {
       return ss.str();
    }
 
+
+   KeyTypedEvent::KeyTypedEvent(int keycode) : KeyEvent(keycode) {}
+
+
+   std::string KeyTypedEvent::ToString() const {
+      std::stringstream ss;
+      ss << "KeyTypedEvent: " << m_KeyCode;
+      return ss.str();
+   }
 }

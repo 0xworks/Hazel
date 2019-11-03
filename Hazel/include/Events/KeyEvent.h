@@ -38,4 +38,14 @@ namespace Hazel {
 
    };
 
+
+   class KeyTypedEvent : public KeyEvent {
+      EVENT_CLASS_TYPE(KeyTyped)
+   public:
+      KeyTypedEvent(int keycode);
+
+      std::string ToString() const override;
+
+   };
+
 }
