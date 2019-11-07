@@ -1,6 +1,7 @@
 #include "hzpch.h"
 #include "ImGuiLayer.h"
 #include "Application.h"
+#include "KeyCodes.h"
 #include "Platform/OpenGL/imgui_impl_opengl3.h"
 
 // should not be here
@@ -25,28 +26,28 @@ namespace Hazel {
 
       // TEMPORARY HACK
       // Keyboard mapping. ImGui will use those indices to peek into the io.KeysDown[] array.
-      io.KeyMap[ImGuiKey_Tab] = GLFW_KEY_TAB;
-      io.KeyMap[ImGuiKey_LeftArrow] = GLFW_KEY_LEFT;
-      io.KeyMap[ImGuiKey_RightArrow] = GLFW_KEY_RIGHT;
-      io.KeyMap[ImGuiKey_UpArrow] = GLFW_KEY_UP;
-      io.KeyMap[ImGuiKey_DownArrow] = GLFW_KEY_DOWN;
-      io.KeyMap[ImGuiKey_PageUp] = GLFW_KEY_PAGE_UP;
-      io.KeyMap[ImGuiKey_PageDown] = GLFW_KEY_PAGE_DOWN;
-      io.KeyMap[ImGuiKey_Home] = GLFW_KEY_HOME;
-      io.KeyMap[ImGuiKey_End] = GLFW_KEY_END;
-      io.KeyMap[ImGuiKey_Insert] = GLFW_KEY_INSERT;
-      io.KeyMap[ImGuiKey_Delete] = GLFW_KEY_DELETE;
-      io.KeyMap[ImGuiKey_Backspace] = GLFW_KEY_BACKSPACE;
-      io.KeyMap[ImGuiKey_Space] = GLFW_KEY_SPACE;
-      io.KeyMap[ImGuiKey_Enter] = GLFW_KEY_ENTER;
-      io.KeyMap[ImGuiKey_Escape] = GLFW_KEY_ESCAPE;
-      io.KeyMap[ImGuiKey_KeyPadEnter] = GLFW_KEY_KP_ENTER;
-      io.KeyMap[ImGuiKey_A] = GLFW_KEY_A;
-      io.KeyMap[ImGuiKey_C] = GLFW_KEY_C;
-      io.KeyMap[ImGuiKey_V] = GLFW_KEY_V;
-      io.KeyMap[ImGuiKey_X] = GLFW_KEY_X;
-      io.KeyMap[ImGuiKey_Y] = GLFW_KEY_Y;
-      io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
+      io.KeyMap[ImGuiKey_Tab] = HZ_KEY_TAB;
+      io.KeyMap[ImGuiKey_LeftArrow] = HZ_KEY_LEFT;
+      io.KeyMap[ImGuiKey_RightArrow] = HZ_KEY_RIGHT;
+      io.KeyMap[ImGuiKey_UpArrow] = HZ_KEY_UP;
+      io.KeyMap[ImGuiKey_DownArrow] = HZ_KEY_DOWN;
+      io.KeyMap[ImGuiKey_PageUp] = HZ_KEY_PAGE_UP;
+      io.KeyMap[ImGuiKey_PageDown] = HZ_KEY_PAGE_DOWN;
+      io.KeyMap[ImGuiKey_Home] = HZ_KEY_HOME;
+      io.KeyMap[ImGuiKey_End] = HZ_KEY_END;
+      io.KeyMap[ImGuiKey_Insert] = HZ_KEY_INSERT;
+      io.KeyMap[ImGuiKey_Delete] = HZ_KEY_DELETE;
+      io.KeyMap[ImGuiKey_Backspace] = HZ_KEY_BACKSPACE;
+      io.KeyMap[ImGuiKey_Space] = HZ_KEY_SPACE;
+      io.KeyMap[ImGuiKey_Enter] = HZ_KEY_ENTER;
+      io.KeyMap[ImGuiKey_Escape] = HZ_KEY_ESCAPE;
+      io.KeyMap[ImGuiKey_KeyPadEnter] = HZ_KEY_KP_ENTER;
+      io.KeyMap[ImGuiKey_A] = HZ_KEY_A;
+      io.KeyMap[ImGuiKey_C] = HZ_KEY_C;
+      io.KeyMap[ImGuiKey_V] = HZ_KEY_V;
+      io.KeyMap[ImGuiKey_X] = HZ_KEY_X;
+      io.KeyMap[ImGuiKey_Y] = HZ_KEY_Y;
+      io.KeyMap[ImGuiKey_Z] = HZ_KEY_Z;
 
       ImGui_ImplOpenGL3_Init("#version 410");
    }
@@ -60,7 +61,7 @@ namespace Hazel {
 
       ImGuiIO& io = ImGui::GetIO();
       Window& window = Application::Get().GetWindow();
-      io.DisplaySize = ImVec2(window.GetWidth(), window.GetHeight());
+      io.DisplaySize = ImVec2((float)window.GetWidth(), (float)window.GetHeight());
 
       float fTime = (float)glfwGetTime();
       io.DeltaTime = (m_fTime > 0.0)? (fTime - m_fTime) : 1.0f / 60.0f;
@@ -122,10 +123,10 @@ namespace Hazel {
       ImGuiIO& io = ImGui::GetIO();
       io.KeysDown[e.GetKeyCode()] = true;
 
-      io.KeyCtrl  = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
-      io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT]   || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
-      io.KeyAlt   = io.KeysDown[GLFW_KEY_LEFT_ALT]     || io.KeysDown[GLFW_KEY_RIGHT_ALT];
-      io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER]   || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
+      io.KeyCtrl  = io.KeysDown[HZ_KEY_LEFT_CONTROL] || io.KeysDown[HZ_KEY_RIGHT_CONTROL];
+      io.KeyShift = io.KeysDown[HZ_KEY_LEFT_SHIFT]   || io.KeysDown[HZ_KEY_RIGHT_SHIFT];
+      io.KeyAlt   = io.KeysDown[HZ_KEY_LEFT_ALT]     || io.KeysDown[HZ_KEY_RIGHT_ALT];
+      io.KeySuper = io.KeysDown[HZ_KEY_LEFT_SUPER]   || io.KeysDown[HZ_KEY_RIGHT_SUPER];
 
       return false;
    }

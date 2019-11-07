@@ -1,8 +1,8 @@
 #include "hzpch.h"
 #include "Application.h"
-
 #include "Events/ApplicationEvent.h"
 #include "glad/glad.h"
+#include "Input.h"
 #include "Log.h"
 
 namespace Hazel {
@@ -30,6 +30,9 @@ namespace Hazel {
          // Doesnt really belong in WindowsWindow either.. as that class is for Windows specific implementation
          glClearColor(1, 0, 1, 1);
          glClear(GL_COLOR_BUFFER_BIT);
+
+         auto [x, y] = Input::GetMousePosition();
+         HZ_CORE_TRACE("mouse = {0}, {1}", x, y);
 
          for(Layer* pLayer : m_layerStack) {
             pLayer->OnUpdate();

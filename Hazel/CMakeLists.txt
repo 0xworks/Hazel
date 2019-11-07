@@ -22,6 +22,7 @@ set(
 if(WIN32)
    list(
       APPEND HazelSources
+      "Platform/Windows/WindowsInput.cpp"
       "Platform/Windows/WindowsWindow.cpp"
    )
 endif()
@@ -51,6 +52,11 @@ add_library(Hazel STATIC ${HazelSources})
 
 
 add_precompiled_header(Hazel "hzpch.h" SOURCE_CXX "hzpch.cpp")
+
+set_target_properties(
+   Hazel PROPERTIES
+   CXX_STANDARD 17
+)
 
 target_compile_definitions(
    Hazel PRIVATE
