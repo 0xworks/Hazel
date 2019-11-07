@@ -26,6 +26,7 @@ target_include_directories(
 target_link_libraries(
    Sandbox PUBLIC
    Hazel
+   glm
    spdlog
 )
 

@@ -16,6 +16,8 @@ add_subdirectory("Hazel/vendor/glfw")
 
 add_subdirectory("Hazel/vendor/glad")
 
+add_subdirectory("Hazel/vendor/glm")
+
 add_subdirectory("Hazel/vendor/imgui")
 
 add_subdirectory("Hazel/vendor/spdlog")

@@ -44,6 +44,7 @@ set(
    HazelLibs
    "glad"
    "glfw"
+   "glm"
    "imgui"
    "spdlog"
 )
