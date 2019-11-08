@@ -78,7 +78,7 @@ set(
    "glfw"
    "glm"
    "imgui"
-   "spdlog"
+   "spdlog_header_only"
 )
 
 add_library(Hazel STATIC ${HazelSources})
