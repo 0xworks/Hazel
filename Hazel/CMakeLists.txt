@@ -3,6 +3,39 @@
 #
 cmake_minimum_required (VERSION 3.10)
 
+#
+# IMGUI library
+# This is here (as opposed to in vendor/imgui folder) for two reasons
+# 1) I dont want to make any changes to the imgui submodule
+# 2) Some of this is not specific to imgui but rather is stuff that we are borrowing from the imgui examples
+#    in order to implment IMGUI in our application
+
+add_library(
+   imgui STATIC
+   "vendor/imgui/imgui.cpp"
+   "vendor/imgui/imgui_draw.cpp"
+   "vendor/imgui/imgui_widgets.cpp"
+   "vendor/imgui/imgui_demo.cpp"
+   "vendor/imgui/examples/imgui_impl_opengl3.cpp"
+   "vendor/imgui/examples/imgui_impl_glfw.cpp"
+)
+
+target_compile_definitions(
+   imgui PRIVATE
+   IMGUI_IMPL_OPENGL_LOADER_GLAD
+)
+
+target_include_directories(
+   imgui PUBLIC
+   "vendor/imgui"
+)
+
+target_link_libraries(
+   imgui PUBLIC
+   "glad"
+   "glfw"
+)
+
 set(
    HazelSources
    "src/Events/ApplicationEvent.cpp"
@@ -16,7 +49,6 @@ set(
    "src/LayerStack.cpp"
    "src/Log.cpp"
    "src/Window.cpp"
-   "Platform/OpenGL/imgui_impl_opengl3.cpp"
 )
 
 if(WIN32)

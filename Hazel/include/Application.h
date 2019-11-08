@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core.h"
+#include "ImGuiLayer.h"
 #include "LayerStack.h"
 #include "Window.h"
 
@@ -33,6 +34,7 @@ namespace Hazel {
 
       LayerStack m_layerStack;
       std::unique_ptr<Window> m_pWindow;
+      ImGuiLayer* m_pImGuiLayer;
       bool m_bRunning = true;
    };
 
