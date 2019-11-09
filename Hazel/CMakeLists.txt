@@ -38,22 +38,29 @@ target_link_libraries(
 
 set(
    HazelSources
+   "src/Application.cpp"
    "src/Events/ApplicationEvent.cpp"
    "src/Events/Event.cpp"
    "src/Events/KeyEvent.cpp"
    "src/Events/MouseEvent.cpp"
-   "src/Application.cpp"
    "hzpch.cpp"
    "src/ImGuiLayer.cpp"
    "src/Layer.cpp"
    "src/LayerStack.cpp"
    "src/Log.cpp"
+   "src/Renderer/IndexBuffer.cpp"
+   "src/Renderer/Renderer.cpp"
+   "src/Renderer/Shader.cpp"
+   "src/Renderer/VertexBuffer.cpp"
    "src/Window.cpp"
 )
 
 if(WIN32)
    list(
       APPEND HazelSources
+      "Platform/OpenGL/OpenGLContext.cpp"
+      "Platform/OpenGL/OpenGLIndexBuffer.cpp"
+      "Platform/OpenGL/OpenGLVertexBuffer.cpp"
       "Platform/Windows/WindowsInput.cpp"
       "Platform/Windows/WindowsWindow.cpp"
    )

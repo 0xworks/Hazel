@@ -3,7 +3,8 @@
 #include "Events/ApplicationEvent.h"
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
-#include "glad/glad.h"
+#include "Platform/OpenGL/OpenGLContext.h"
+
 #include "GLFW/glfw3.h"
 
 namespace Hazel {
@@ -47,9 +48,8 @@ namespace Hazel {
       }
 
       m_pWindow = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-      glfwMakeContextCurrent(m_pWindow);
-      int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-      HZ_CORE_ASSERT(status, "Could not intialize GLAD!");
+      m_pContext = new OpenGLContext(m_pWindow);
+
       glfwSetWindowUserPointer(m_pWindow, &m_Data);
       SetVSync(true);
 
@@ -134,7 +134,7 @@ namespace Hazel {
 
    void WindowsWindow::OnUpdate() {
       glfwPollEvents();
-      glfwSwapBuffers(m_pWindow);
+      m_pContext->SwapBuffers();
    }
 
 

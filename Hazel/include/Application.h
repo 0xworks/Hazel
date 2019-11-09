@@ -1,11 +1,14 @@
 #pragma once
 
 #include "Core.h"
+#include "Events/ApplicationEvent.h"
 #include "ImGuiLayer.h"
 #include "LayerStack.h"
+#include "Renderer/Shader.h"
+#include "Renderer/IndexBuffer.h"
+#include "Renderer/VertexBuffer.h"
 #include "Window.h"
 
-#include "Events/ApplicationEvent.h"
 
 namespace Hazel {
 
@@ -33,8 +36,13 @@ namespace Hazel {
       bool OnWindowClose(WindowCloseEvent& event);
 
       LayerStack m_layerStack;
-      std::unique_ptr<Window> m_pWindow;
-      ImGuiLayer* m_pImGuiLayer;
+      std::unique_ptr<Window> m_window;
+      std::unique_ptr<Shader> m_shader;
+      std::unique_ptr<IndexBuffer> m_indexBuffer;
+      std::unique_ptr<VertexBuffer> m_vertexBuffer;
+      ImGuiLayer* m_imGuiLayer;
+      unsigned int m_vertexArray;
+
       bool m_bRunning = true;
    };
 

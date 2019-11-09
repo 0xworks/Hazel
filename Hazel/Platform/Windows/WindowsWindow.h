@@ -6,6 +6,8 @@ struct GLFWwindow;
 
 namespace Hazel {
 
+   class GraphicsContext;
+
    class WindowsWindow : public Window {
    public:
       WindowsWindow(const WindowProps& props);
@@ -28,6 +30,7 @@ namespace Hazel {
 
    private:
       GLFWwindow* m_pWindow;
+      GraphicsContext* m_pContext;
 
       struct WindowData {
          std::string Title;

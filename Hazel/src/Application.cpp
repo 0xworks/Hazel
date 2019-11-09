@@ -13,10 +13,55 @@ namespace Hazel {
    Application::Application() {
       HZ_CORE_ASSERT(!m_spApp, "Application already exists!");
       m_spApp = this;
-      m_pWindow = std::unique_ptr<Window>(Window::Create());
-      m_pWindow->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
-      m_pImGuiLayer = new ImGuiLayer;
-      PushOverlay(m_pImGuiLayer);
+      m_window = std::unique_ptr<Window>(Window::Create());
+      m_window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
+      m_imGuiLayer = new ImGuiLayer;
+      PushOverlay(m_imGuiLayer);
+
+      glGenVertexArrays(1, &m_vertexArray);
+      glBindVertexArray(m_vertexArray);
+
+      float vertices[3 * 3] = {
+         -0.5f, -0.5f, 0.0f,
+          0.5f, -0.5f, 0.0f, 
+          0.0f,  0.5f, 0.0f
+      };
+
+      m_vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices) / sizeof(float)));
+      m_vertexBuffer->Bind();
+
+      glEnableVertexAttribArray(0);
+      glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), nullptr);
+
+      unsigned int indices[3] = {0, 1, 2};
+      m_indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int)));
+
+      std::string vertexSrc = R"(
+         #version 330 core
+
+         layout(location = 0) in vec3 a_position;
+         out vec3 v_position;
+
+         void main() {
+            v_position = a_position;
+            gl_Position = vec4(a_position, 1.0);
+
+         }
+      )";
+
+      std::string fragmentSrc = R"(
+         #version 330 core
+
+         layout(location = 0) out vec4 color;
+         in vec3 v_position;
+
+         void main() {
+            color = vec4(v_position * 0.5 + 0.5, 1.0);
+         }
+      )";
+
+      m_shader = std::make_unique<Shader>(vertexSrc, fragmentSrc);
+
    }
 
 
@@ -30,23 +75,23 @@ namespace Hazel {
          // does not belong here.
          // Application should not have to know that it's OpenGL under the hood.
          // Doesnt really belong in WindowsWindow either.. as that class is for Windows specific implementation
-         glClearColor(1, 0, 1, 1);
+         glClearColor(0.1f, 0.1f, 0.1f, 1);
          glClear(GL_COLOR_BUFFER_BIT);
 
-         auto [x, y] = Input::GetMousePosition();
-         HZ_CORE_TRACE("mouse = {0}, {1}", x, y);
-
+         glBindVertexArray(m_vertexArray);
+         m_shader->Bind();
+         glDrawElements(GL_TRIANGLES, m_indexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
          for(Layer* pLayer : m_layerStack) {
             pLayer->OnUpdate();
          }
 
-         m_pImGuiLayer->Begin();
+         m_imGuiLayer->Begin();
          for(Layer* pLayer : m_layerStack) {
             pLayer->OnImGuiRender();
          }
-         m_pImGuiLayer->End();
+         m_imGuiLayer->End();
 
-         m_pWindow->OnUpdate();
+         m_window->OnUpdate();
       }
    }
 
@@ -86,8 +131,8 @@ namespace Hazel {
 
 
    Window& Application::GetWindow() {
-      HZ_CORE_ASSERT(m_pWindow, "Window is null!");
-      return(*m_pWindow);
+      HZ_CORE_ASSERT(m_window, "Window is null!");
+      return(*m_window);
    }
 
 
