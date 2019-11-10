@@ -6,6 +6,7 @@
 #include "LayerStack.h"
 #include "Renderer/Shader.h"
 #include "Renderer/IndexBuffer.h"
+#include "Renderer/VertexArray.h"
 #include "Renderer/VertexBuffer.h"
 #include "Window.h"
 
@@ -38,9 +39,12 @@ namespace Hazel {
       LayerStack m_layerStack;
       std::unique_ptr<Window> m_window;
       std::unique_ptr<Shader> m_shader;
-      std::unique_ptr<IndexBuffer> m_indexBuffer;
-      std::unique_ptr<VertexBuffer> m_vertexBuffer;
-      uint32_t m_vertexArray;
+      std::unique_ptr<VertexArray> m_vertexArray;
+      std::shared_ptr<IndexBuffer> m_indexBuffer;
+      std::shared_ptr<VertexBuffer> m_vertexBuffer;
+
+      std::unique_ptr<VertexArray> m_squareVA;
+      std::unique_ptr<Shader> m_shaderBlue;
 
       bool m_bRunning = true;
    };

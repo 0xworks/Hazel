@@ -4,6 +4,7 @@
 #include "Platform/OpenGL/OpenGlVertexBuffer.h"
 
 namespace Hazel {
+
    std::unique_ptr<VertexBuffer> VertexBuffer::Create(const float* vertices, const uint32_t count) {
       if (Renderer::GetRendererAPI() == RendererAPI::OpenGL) {
          return std::make_unique<OpenGLVertexBuffer>(vertices, count);

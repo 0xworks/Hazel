@@ -52,6 +52,7 @@ set(
    "src/Renderer/IndexBuffer.cpp"
    "src/Renderer/Renderer.cpp"
    "src/Renderer/Shader.cpp"
+   "src/Renderer/VertexArray.cpp"
    "src/Renderer/VertexBuffer.cpp"
    "src/Window.cpp"
 )
@@ -61,6 +62,7 @@ if(WIN32)
       APPEND HazelSources
       "Platform/OpenGL/OpenGLContext.cpp"
       "Platform/OpenGL/OpenGLIndexBuffer.cpp"
+      "Platform/OpenGL/OpenGLVertexArray.cpp"
       "Platform/OpenGL/OpenGLVertexBuffer.cpp"
       "Platform/Windows/WindowsInput.cpp"
       "Platform/Windows/WindowsWindow.cpp"

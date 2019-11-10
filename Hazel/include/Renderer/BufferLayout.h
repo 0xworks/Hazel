@@ -56,8 +56,14 @@ namespace Hazel {
       auto begin() { return m_elements.begin(); }
       auto end() { return m_elements.end(); }
 
+      auto begin() const { return m_elements.begin(); }
+      auto end() const { return m_elements.end(); }
+
       auto rbegin() { return m_elements.rbegin(); }
       auto rend() { return m_elements.rend(); }
+
+      auto rbegin() const { return m_elements.rbegin(); }
+      auto rend() const { return m_elements.rend(); }
 
    private:
       void CalculateOffsetsAndStride();
