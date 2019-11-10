@@ -13,6 +13,6 @@ namespace Hazel {
       void Unbind() const;
 
    private:
-      unsigned int m_shaderId;
+      uint32_t m_shaderId;
    };
 }

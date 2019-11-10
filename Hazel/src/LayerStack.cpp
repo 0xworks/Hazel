@@ -3,43 +3,40 @@
 
 namespace Hazel {
 
-   LayerStack::LayerStack() {}
-
-
    LayerStack::~LayerStack() {
-      for(Layer* layer : m_Layers) {
+      for(Layer* layer : m_layers) {
          delete layer;
       }
    }
 
 
    void LayerStack::PushLayer(Layer* pLayer) {
-      m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex++, pLayer);
+      m_layers.emplace(m_layers.begin() + m_layerInsertIndex++, pLayer);
       pLayer->OnAttach();
       
    }
 
 
    void LayerStack::PushOverlay(Layer* pOverlay) {
-      m_Layers.emplace_back(pOverlay);
+      m_layers.emplace_back(pOverlay);
       pOverlay->OnAttach();
    }
 
 
    void LayerStack::PopLayer(Layer* pLayer) {
-      auto it = std::find(m_Layers.begin(), m_Layers.end(), pLayer);
-      if(it != m_Layers.end()) {
-         m_Layers.erase(it); 
-         --m_LayerInsertIndex;
+      auto it = std::find(m_layers.begin(), m_layers.end(), pLayer);
+      if(it != m_layers.end()) {
+         m_layers.erase(it); 
+         --m_layerInsertIndex;
          pLayer->OnDetach();
       }
    }
 
 
    void LayerStack::PopOverlay(Layer* pOverlay) {
-      auto it = std::find(m_Layers.begin(), m_Layers.end(), pOverlay);
-      if(it != m_Layers.end()) {
-         m_Layers.erase(it);
+      auto it = std::find(m_layers.begin(), m_layers.end(), pOverlay);
+      if(it != m_layers.end()) {
+         m_layers.erase(it);
          pOverlay->OnDetach();
       }
    }

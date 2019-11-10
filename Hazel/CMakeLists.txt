@@ -48,6 +48,7 @@ set(
    "src/Layer.cpp"
    "src/LayerStack.cpp"
    "src/Log.cpp"
+   "src/Renderer/BufferLayout.cpp"
    "src/Renderer/IndexBuffer.cpp"
    "src/Renderer/Renderer.cpp"
    "src/Renderer/Shader.cpp"

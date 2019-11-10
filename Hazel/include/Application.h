@@ -41,7 +41,7 @@ namespace Hazel {
       std::unique_ptr<IndexBuffer> m_indexBuffer;
       std::unique_ptr<VertexBuffer> m_vertexBuffer;
       ImGuiLayer* m_imGuiLayer;
-      unsigned int m_vertexArray;
+      uint32_t m_vertexArray;
 
       bool m_bRunning = true;
    };

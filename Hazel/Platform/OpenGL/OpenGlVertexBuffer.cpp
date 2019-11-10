@@ -4,7 +4,7 @@
 
 namespace Hazel {
 
-   OpenGLVertexBuffer::OpenGLVertexBuffer(const float* vertices, const size_t count)
+   OpenGLVertexBuffer::OpenGLVertexBuffer(const float* vertices, const uint32_t count)
    : m_count(count) {
       glCreateBuffers(1, &m_vertexBufferId);
       glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferId);
@@ -14,6 +14,16 @@ namespace Hazel {
 
    OpenGLVertexBuffer::~OpenGLVertexBuffer() {
       glDeleteBuffers(1, &m_vertexBufferId);
+   }
+
+
+   const BufferLayout& OpenGLVertexBuffer::GetLayout() const {
+      return(m_layout);
+   }
+
+
+   void OpenGLVertexBuffer::SetLayout(const BufferLayout& layout) {
+      m_layout = layout;
    }
 
 
@@ -27,7 +37,7 @@ namespace Hazel {
    }
 
 
-   size_t OpenGLVertexBuffer::GetCount() const {
+   uint32_t OpenGLVertexBuffer::GetCount() const {
       return(m_count);
    }
 }

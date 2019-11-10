@@ -89,9 +89,9 @@ namespace Hazel {
          }
       });
 
-      glfwSetCharCallback(m_pWindow, [](GLFWwindow* pWindow, unsigned int keycode) {
+      glfwSetCharCallback(m_pWindow, [](GLFWwindow* pWindow, uint32_t keycode) {
          WindowData* pData = (WindowData*)glfwGetWindowUserPointer(pWindow);
-         KeyTypedEvent event((int)keycode);
+         KeyTypedEvent event(keycode);
          pData->EventCallback(event);
       });
 

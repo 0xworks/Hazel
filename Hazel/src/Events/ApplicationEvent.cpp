@@ -5,15 +5,15 @@
 
 namespace Hazel {
 
-   WindowResizeEvent::WindowResizeEvent(unsigned int width, unsigned int height) : m_Width(width), m_Height(height) {}
+   WindowResizeEvent::WindowResizeEvent(uint32_t width, uint32_t height) : m_Width(width), m_Height(height) {}
 
 
-   unsigned int WindowResizeEvent::GetWidth() const {
+   uint32_t WindowResizeEvent::GetWidth() const {
       return m_Width;
    }
 
 
-   unsigned int  WindowResizeEvent::GetHeight() const {
+   uint32_t  WindowResizeEvent::GetHeight() const {
       return m_Height;
    }
 

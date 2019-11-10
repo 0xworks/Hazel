@@ -8,15 +8,16 @@ namespace Hazel {
       EVENT_CLASS_TYPE(WindowResize);
       EVENT_CLASS_CATEGORY(EventCategoryApplication);
    public:
-      WindowResizeEvent(unsigned int width, unsigned int height);
+      WindowResizeEvent(uint32_t width, uint32_t height);
 
-      unsigned int GetWidth() const;
-      unsigned int GetHeight() const;
+      uint32_t GetWidth() const;
+      uint32_t GetHeight() const;
 
       std::string ToString() const override;
 
    private:
-      unsigned int m_Width, m_Height;
+      uint32_t m_Width;
+      uint32_t m_Height;
    };
 
 
