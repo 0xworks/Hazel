@@ -11,10 +11,10 @@ namespace Hazel {
    public:
       ~LayerStack();
 
-      void PushLayer(Layer* layer);
-      void PushOverlay(Layer* overlay);
-      void PopLayer(Layer* layer);
-      void PopOverlay(Layer* overlay);
+      void PushLayer(std::unique_ptr<Layer> layer);
+      void PushOverlay(std::unique_ptr<Layer> layer);
+//       void PopLayer(Layer* layer);
+//       void PopOverlay(Layer* overlay);
 
       auto begin() { return m_layers.begin(); }
       auto end() { return m_layers.end(); }
@@ -23,7 +23,7 @@ namespace Hazel {
       auto rend() { return m_layers.rend(); }
 
    private:
-      std::vector<Layer*> m_layers;
+      std::vector<std::unique_ptr<Layer>> m_layers;
       uint32_t m_layerInsertIndex = 0;
    };
 

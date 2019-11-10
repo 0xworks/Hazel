@@ -4,9 +4,9 @@
 #include "Platform/OpenGL/OpenGlIndexBuffer.h"
 
 namespace Hazel {
-   IndexBuffer* IndexBuffer::Create(const uint32_t* indices, const uint32_t count) {
+   std::unique_ptr<IndexBuffer> IndexBuffer::Create(const uint32_t* indices, const uint32_t count) {
       if (Renderer::GetRendererAPI() == RendererAPI::OpenGL) {
-         return new OpenGLIndexBuffer(indices, count);
+         return std::make_unique<OpenGLIndexBuffer>(indices, count);
       }
       HZ_CORE_ASSERT(false, "Renderer API not supported!")
       return  nullptr;

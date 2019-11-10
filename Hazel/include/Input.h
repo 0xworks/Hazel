@@ -6,13 +6,12 @@ namespace Hazel {
 
    class Input {
    public:
-      Input() {}
       virtual ~Input() {}
-      static bool IsKeyPressed(int keycode) { return sm_pInput->IsKeyPressedImpl(keycode); }
-      static bool IsMouseButtonPressed(int button) { return sm_pInput->IsMouseButtonPressedImpl(button); }
-      static float GetMouseX() { return sm_pInput->GetMouseXImpl(); }
-      static float GetMouseY() { return sm_pInput->GetMouseYImpl(); }
-      static std::pair<float, float> GetMousePosition() { return sm_pInput->GetMousePositionImpl(); }
+      static bool IsKeyPressed(int keycode) { return sm_input->IsKeyPressedImpl(keycode); }
+      static bool IsMouseButtonPressed(int button) { return sm_input->IsMouseButtonPressedImpl(button); }
+      static float GetMouseX() { return sm_input->GetMouseXImpl(); }
+      static float GetMouseY() { return sm_input->GetMouseYImpl(); }
+      static std::pair<float, float> GetMousePosition() { return sm_input->GetMousePositionImpl(); }
 
    protected:
       virtual bool IsKeyPressedImpl(int keycode) = 0;
@@ -22,7 +21,7 @@ namespace Hazel {
       virtual std::pair<float, float> GetMousePositionImpl() = 0;
 
    private:
-      static std::unique_ptr<Input> sm_pInput;
+      static std::unique_ptr<Input> sm_input;
    };
 
 }

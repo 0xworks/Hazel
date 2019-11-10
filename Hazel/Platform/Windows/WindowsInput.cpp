@@ -5,17 +5,20 @@
 
 namespace Hazel {
 
-   std::unique_ptr<Input> Input::sm_pInput = std::make_unique<WindowsInput>();
+   std::unique_ptr<Input> Input::sm_input = std::make_unique<WindowsInput>();
+
 
    bool WindowsInput::IsKeyPressedImpl(int keycode) {
       GLFWwindow* pwnd = (GLFWwindow*)Application::Get().GetWindow().GetNativeWindow();
       return(glfwGetKey(pwnd, keycode) == GLFW_PRESS);
    }
 
+
    bool WindowsInput::IsMouseButtonPressedImpl(int button) {
       GLFWwindow* pwnd = (GLFWwindow*)Application::Get().GetWindow().GetNativeWindow();
       return(glfwGetMouseButton(pwnd, button) == GLFW_PRESS);
    }
+
 
    std::pair<float, float> WindowsInput::GetMousePositionImpl() {
       GLFWwindow* pwnd = (GLFWwindow*)Application::Get().GetWindow().GetNativeWindow();
@@ -25,10 +28,12 @@ namespace Hazel {
       return {(float)x, (float)y};
    }
 
+
    float WindowsInput::GetMouseXImpl() {
       auto [x, y] = GetMousePositionImpl();
       return x;
    }
+
 
    float WindowsInput::GetMouseYImpl() {
       auto [x, y] = GetMousePositionImpl();

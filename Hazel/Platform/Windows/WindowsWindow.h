@@ -25,12 +25,8 @@ namespace Hazel {
       virtual void* GetNativeWindow() const override;
 
    private:
-      virtual void Init(const WindowProps& props);
-      virtual void Shutdown();
-
-   private:
-      GLFWwindow* m_pWindow;
-      GraphicsContext* m_pContext;
+      GLFWwindow* m_window;
+      std::unique_ptr<GraphicsContext> m_context;
 
       struct WindowData {
          std::string Title;

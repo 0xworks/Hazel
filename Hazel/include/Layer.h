@@ -17,6 +17,7 @@ namespace Hazel {
       virtual void OnImGuiRender() {};
 
       const std::string& GetName() const;
+
    protected:
       std::string m_DebugName;
    };

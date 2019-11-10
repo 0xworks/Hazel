@@ -4,24 +4,24 @@
 
 namespace Hazel {
 
-   std::shared_ptr<spdlog::logger> Log::s_spdCoreLogger;
-   std::shared_ptr<spdlog::logger> Log::s_spdClientLogger;
+   std::shared_ptr<spdlog::logger> Log::s_spdlogCore;
+   std::shared_ptr<spdlog::logger> Log::s_spdlogClient;
 
    void Log::Init() {
       spdlog::set_pattern("%^[%T] %n: %v%$");
-      s_spdCoreLogger = spdlog::stdout_color_mt("HAZEL");
-      s_spdCoreLogger->set_level(spdlog::level::trace);
-      s_spdClientLogger = spdlog::stdout_color_mt("APP");
-      s_spdClientLogger->set_level(spdlog::level::trace);
+      s_spdlogCore = spdlog::stdout_color_mt("HAZEL");
+      s_spdlogCore->set_level(spdlog::level::trace);
+      s_spdlogClient = spdlog::stdout_color_mt("APP");
+      s_spdlogClient->set_level(spdlog::level::trace);
    }
 
 
-   std::shared_ptr<spdlog::logger>& Log::GetCoreLogger() {
-      return s_spdCoreLogger;
+   spdlog::logger& Log::GetCoreLogger() {
+      return *s_spdlogCore;
    }
 
-   std::shared_ptr<spdlog::logger>& Log::GetClientLogger() {
-      return s_spdClientLogger;
+   spdlog::logger& Log::GetClientLogger() {
+      return *s_spdlogClient;
    }
 
 }

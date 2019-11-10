@@ -16,10 +16,8 @@ namespace Hazel {
       virtual void OnDetach() override;
       virtual void OnImGuiRender() override;
 
-      void Begin();
-      void End();
+      static void Begin();
+      static void End();
 
-   private:
-      float m_fTime = 0.0;
    };
 }

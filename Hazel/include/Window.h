@@ -33,7 +33,7 @@ namespace Hazel {
       // JRW: man this is ugly
       virtual void* GetNativeWindow() const = 0;
 
-      static Window* Create(const WindowProps& props = WindowProps());
+      static std::unique_ptr<Window> Create(const WindowProps& props = WindowProps());
    };
 
 }

@@ -48,7 +48,7 @@ namespace Hazel {
 
    void BufferLayout::CalculateOffsetsAndStride() {
       uint32_t offset = 0;
-      for (auto&& element : m_elements) {
+      for (auto& element : m_elements) {
          element.Offset = offset;
          offset += element.Size;
       }

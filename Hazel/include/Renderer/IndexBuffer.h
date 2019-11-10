@@ -11,7 +11,7 @@ namespace Hazel {
 
       virtual uint32_t GetCount() const = 0;
 
-      static IndexBuffer* Create(const uint32_t* indices, const uint32_t count);
+      static std::unique_ptr<IndexBuffer> Create(const uint32_t* indices, const uint32_t count);
 
    };
 }

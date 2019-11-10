@@ -14,7 +14,7 @@ namespace Hazel {
       virtual void Unbind() const = 0;
       virtual uint32_t GetCount() const = 0;
 
-      static VertexBuffer* Create(const float* vertices, const uint32_t count);
+      static std::unique_ptr<VertexBuffer> Create(const float* vertices, const uint32_t count);
 
    };
 

@@ -4,9 +4,9 @@
 #include "Platform/OpenGL/OpenGlVertexBuffer.h"
 
 namespace Hazel {
-   VertexBuffer* VertexBuffer::Create(const float* vertices, const uint32_t count) {
+   std::unique_ptr<VertexBuffer> VertexBuffer::Create(const float* vertices, const uint32_t count) {
       if (Renderer::GetRendererAPI() == RendererAPI::OpenGL) {
-         return new OpenGLVertexBuffer(vertices, count);
+         return std::make_unique<OpenGLVertexBuffer>(vertices, count);
       }
       HZ_CORE_ASSERT(false, "Renderer API not supported!")
       return  nullptr;

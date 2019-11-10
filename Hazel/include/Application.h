@@ -9,10 +9,10 @@
 #include "Renderer/VertexBuffer.h"
 #include "Window.h"
 
-
 namespace Hazel {
 
    class Application {
+
    public:
       Application();
       virtual ~Application();
@@ -21,9 +21,9 @@ namespace Hazel {
 
       void OnEvent(Event& e);
 
-      void PushLayer(Layer* pLayer);
+      void PushLayer(std::unique_ptr<Layer> layer);
 
-      void PushOverlay(Layer* pLayerOverlay);
+      void PushOverlay(std::unique_ptr<Layer> overlay);
 
       Window& GetWindow();
 
@@ -31,7 +31,7 @@ namespace Hazel {
 
    private:
 
-      static Application* m_spApp;
+      static Application* sm_application;
 
       bool OnWindowClose(WindowCloseEvent& event);
 
@@ -40,7 +40,6 @@ namespace Hazel {
       std::unique_ptr<Shader> m_shader;
       std::unique_ptr<IndexBuffer> m_indexBuffer;
       std::unique_ptr<VertexBuffer> m_vertexBuffer;
-      ImGuiLayer* m_imGuiLayer;
       uint32_t m_vertexArray;
 
       bool m_bRunning = true;
@@ -50,4 +49,4 @@ namespace Hazel {
 
 
 // Must be defined in client
-extern Hazel::Application* CreateApplication();
+extern std::unique_ptr<Hazel::Application> CreateApplication();

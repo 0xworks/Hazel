@@ -7,7 +7,7 @@
 
 namespace Hazel {
 
-   Application* Application::m_spApp = nullptr;
+   Application* Application::sm_application = nullptr;
 
 
    GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
@@ -30,12 +30,11 @@ namespace Hazel {
 
 
    Application::Application() {
-      HZ_CORE_ASSERT(!m_spApp, "Application already exists!");
-      m_spApp = this;
+      HZ_CORE_ASSERT(!sm_application, "Application already exists!");
+      sm_application = this;
       m_window = std::unique_ptr<Window>(Window::Create());
       m_window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
-      m_imGuiLayer = new ImGuiLayer;
-      PushOverlay(m_imGuiLayer);
+      PushOverlay(std::make_unique<ImGuiLayer>());
 
       glGenVertexArrays(1, &m_vertexArray);
       glBindVertexArray(m_vertexArray);
@@ -46,7 +45,7 @@ namespace Hazel {
           0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f
       };
 
-      m_vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices) / sizeof(float)));
+      m_vertexBuffer = VertexBuffer::Create(vertices, sizeof(vertices) / sizeof(float));
 
       BufferLayout layout = {
          {"a_Position", ShaderDataType::Float3},
@@ -69,7 +68,7 @@ namespace Hazel {
       }
 
       uint32_t indices[3] = {0, 1, 2};
-      m_indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+      m_indexBuffer = IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
 
       std::string vertexSrc = R"(
          #version 330 core
@@ -120,15 +119,15 @@ namespace Hazel {
          glBindVertexArray(m_vertexArray);
          m_shader->Bind();
          glDrawElements(GL_TRIANGLES, m_indexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
-         for(Layer* pLayer : m_layerStack) {
-            pLayer->OnUpdate();
+         for(auto& layer : m_layerStack) {
+            layer->OnUpdate();
          }
 
-         m_imGuiLayer->Begin();
-         for(Layer* pLayer : m_layerStack) {
-            pLayer->OnImGuiRender();
+         ImGuiLayer::Begin();
+         for(auto& layer : m_layerStack) {
+            layer->OnImGuiRender();
          }
-         m_imGuiLayer->End();
+         ImGuiLayer::End();
 
          m_window->OnUpdate();
       }
@@ -158,14 +157,13 @@ namespace Hazel {
    }
 
 
-   void Application::PushLayer(Layer* pLayer) {
-      m_layerStack.PushLayer(pLayer);
-      pLayer->OnAttach();
+   void Application::PushLayer(std::unique_ptr<Layer> layer) {
+      m_layerStack.PushLayer(std::move(layer));
    }
 
 
-   void Application::PushOverlay(Layer* pLayerOverlay) {
-      m_layerStack.PushOverlay(pLayerOverlay);
+   void Application::PushOverlay(std::unique_ptr<Layer> overlay) {
+      m_layerStack.PushOverlay(std::move(overlay));
    }
 
 
@@ -176,8 +174,8 @@ namespace Hazel {
 
 
    Application& Application::Get() {
-      HZ_CORE_ASSERT(m_spApp, "Application is null!");
-      return(*m_spApp);
+      HZ_CORE_ASSERT(sm_application, "Application is null!");
+      return(*sm_application);
    }
 
 
