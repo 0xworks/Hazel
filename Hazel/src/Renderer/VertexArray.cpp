@@ -7,7 +7,7 @@
 namespace Hazel {
 
    std::unique_ptr<VertexArray> VertexArray::Create() {
-      if (Renderer::GetRendererAPI() == RendererAPI::OpenGL) {
+      if (Renderer::GetRendererAPI() == RendererAPI::API::OpenGL) {
          return std::make_unique<OpenGLVertexArray>();
       }
       HZ_CORE_ASSERT(false, "Renderer API not supported!")

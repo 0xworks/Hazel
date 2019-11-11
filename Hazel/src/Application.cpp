@@ -1,9 +1,9 @@
 #include "hzpch.h"
 #include "Application.h"
 #include "Events/ApplicationEvent.h"
-#include "glad/glad.h"
 #include "Input.h"
 #include "Log.h"
+#include "Renderer/Renderer.h"
 
 namespace Hazel {
 
@@ -25,19 +25,19 @@ namespace Hazel {
           0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f
       };
 
-      m_vertexBuffer = VertexBuffer::Create(vertices, sizeof(vertices) / sizeof(float));
+      std::unique_ptr<VertexBuffer> vertexBuffer = VertexBuffer::Create(vertices, sizeof(vertices) / sizeof(float));
       BufferLayout layout = {
          {"a_Position", ShaderDataType::Float3},
          {"a_Color",    ShaderDataType::Float4}
       };
-      m_vertexBuffer->SetLayout(layout);
+      vertexBuffer->SetLayout(layout);
 
-      m_vertexArray->AddVertexBuffer(m_vertexBuffer);
+      m_vertexArray->AddVertexBuffer(std::move(vertexBuffer));
 
       uint32_t indices[3] = {0, 1, 2};
-      m_indexBuffer = IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
+      std::unique_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
 
-      m_vertexArray->SetIndexBuffer(m_indexBuffer);
+      m_vertexArray->SetIndexBuffer(std::move(indexBuffer));
 
       m_squareVA = VertexArray::Create();
       float verticesSquare[3 * 4] = {
@@ -46,18 +46,18 @@ namespace Hazel {
           0.75f,  0.75f, 0.0f,
          -0.75f,  0.75f, 0.0f,
       };
-      std::shared_ptr<VertexBuffer> squareVB = VertexBuffer::Create(verticesSquare, sizeof(verticesSquare) / sizeof(float));
+      std::unique_ptr<VertexBuffer> squareVB = VertexBuffer::Create(verticesSquare, sizeof(verticesSquare) / sizeof(float));
 
       squareVB->SetLayout({
          {"a_Position", ShaderDataType::Float3}
       });
 
-      m_squareVA->AddVertexBuffer(squareVB);
+      m_squareVA->AddVertexBuffer(std::move(squareVB));
 
       uint32_t indicesSquare[6] = {0, 1, 2, 2, 3, 0};
-      std::shared_ptr<IndexBuffer> squareIB = IndexBuffer::Create(indicesSquare, sizeof(indicesSquare) / sizeof(uint32_t));
+      std::unique_ptr<IndexBuffer> squareIB = IndexBuffer::Create(indicesSquare, sizeof(indicesSquare) / sizeof(uint32_t));
 
-      m_squareVA->SetIndexBuffer(squareIB);
+      m_squareVA->SetIndexBuffer(std::move(squareIB));
 
       std::string vertexSrc = R"(
          #version 330 core
@@ -125,20 +125,18 @@ namespace Hazel {
 
       while(m_bRunning) {
 
-         // does not belong here.
-         // Application should not have to know that it's OpenGL under the hood.
-         // Doesnt really belong in WindowsWindow either.. as that class is for Windows specific implementation
-         glClearColor(0.1f, 0.1f, 0.1f, 1);
-         glClear(GL_COLOR_BUFFER_BIT);
+         RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
+         RenderCommand::Clear();
+
+         Renderer::BeginScene();
 
          m_shaderBlue->Bind();
-         m_squareVA->Bind();
-         glDrawElements(GL_TRIANGLES, m_squareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
-
+         Renderer::Submit(*m_squareVA);
+         
          m_shader->Bind();
-         m_vertexArray->Bind();
-         glDrawElements(GL_TRIANGLES, m_vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+         Renderer::Submit(*m_vertexArray);
 
+         Renderer::EndScene();
 
          for(auto& layer : m_layerStack) {
             layer->OnUpdate();

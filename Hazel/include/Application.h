@@ -38,10 +38,9 @@ namespace Hazel {
 
       LayerStack m_layerStack;
       std::unique_ptr<Window> m_window;
-      std::unique_ptr<Shader> m_shader;
+
       std::unique_ptr<VertexArray> m_vertexArray;
-      std::shared_ptr<IndexBuffer> m_indexBuffer;
-      std::shared_ptr<VertexBuffer> m_vertexBuffer;
+      std::unique_ptr<Shader> m_shader;
 
       std::unique_ptr<VertexArray> m_squareVA;
       std::unique_ptr<Shader> m_shaderBlue;
