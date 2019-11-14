@@ -6,6 +6,7 @@
 #include "LayerStack.h"
 #include "Renderer/Shader.h"
 #include "Renderer/IndexBuffer.h"
+#include "Renderer/OrthographicCamera.h"
 #include "Renderer/VertexArray.h"
 #include "Renderer/VertexBuffer.h"
 #include "Window.h"
@@ -35,6 +36,8 @@ namespace Hazel {
       static Application* sm_application;
 
       bool OnWindowClose(WindowCloseEvent& event);
+
+      OrthographicCamera m_camera;
 
       LayerStack m_layerStack;
       std::unique_ptr<Window> m_window;

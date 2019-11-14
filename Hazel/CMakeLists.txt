@@ -50,6 +50,7 @@ set(
    "src/Log.cpp"
    "src/Renderer/BufferLayout.cpp"
    "src/Renderer/IndexBuffer.cpp"
+   "src/Renderer/OrthographicCamera.cpp"
    "src/Renderer/RenderCommand.cpp"
    "src/Renderer/Renderer.cpp"
    "src/Renderer/RendererAPI.cpp"

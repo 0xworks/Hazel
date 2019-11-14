@@ -10,7 +10,9 @@ namespace Hazel {
    Application* Application::sm_application = nullptr;
 
 
-   Application::Application() {
+   Application::Application()
+   : m_camera(-1.6, 0.9f, 1.6f, -0.9f)
+   {
       HZ_CORE_ASSERT(!sm_application, "Application already exists!");
       sm_application = this;
       m_window = std::unique_ptr<Window>(Window::Create());
@@ -20,9 +22,9 @@ namespace Hazel {
       m_vertexArray = VertexArray::Create();
 
       float vertices[3 * 7] = {
-         -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-          0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-          0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f
+         -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+          0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+          0.0f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f
       };
 
       std::unique_ptr<VertexBuffer> vertexBuffer = VertexBuffer::Create(vertices, sizeof(vertices) / sizeof(float));
@@ -65,13 +67,15 @@ namespace Hazel {
          layout(location = 0) in vec3 a_position;
          layout(location = 1) in vec4 a_color;
 
+         uniform mat4 u_ViewProjection;
+
          out vec3 v_position;
          out vec4 v_color;
 
          void main() {
             v_position = a_position;
             v_color = a_color;
-            gl_Position = vec4(a_position, 1.0);
+            gl_Position = u_ViewProjection * vec4(a_position, 1.0);
          }
       )";
 
@@ -95,11 +99,13 @@ namespace Hazel {
 
          layout(location = 0) in vec3 a_position;
 
+         uniform mat4 u_ViewProjection;
+
          out vec3 v_position;
 
          void main() {
             v_position = a_position;
-            gl_Position = vec4(a_position, 1.0);
+            gl_Position = u_ViewProjection * vec4(a_position, 1.0);
          }
       )";
 
@@ -128,14 +134,12 @@ namespace Hazel {
          RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
          RenderCommand::Clear();
 
-         Renderer::BeginScene();
+         m_camera.SetRotation(45.0f);
+         m_camera.SetPosition({0.5f, 0.5f, 0.0f});
 
-         m_shaderBlue->Bind();
-         Renderer::Submit(*m_squareVA);
-         
-         m_shader->Bind();
-         Renderer::Submit(*m_vertexArray);
-
+         Renderer::BeginScene(m_camera);
+         Renderer::Submit(*m_shaderBlue, *m_squareVA);
+         Renderer::Submit(*m_shader, *m_vertexArray);
          Renderer::EndScene();
 
          for(auto& layer : m_layerStack) {
