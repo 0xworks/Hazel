@@ -32,22 +32,13 @@ namespace Hazel {
       static Application& Get();
 
    private:
-
-      static Application* sm_application;
-
       bool OnWindowClose(WindowCloseEvent& event);
 
-      OrthographicCamera m_camera;
+   private:
+      static Application* sm_application;
 
       LayerStack m_layerStack;
       std::unique_ptr<Window> m_window;
-
-      std::unique_ptr<VertexArray> m_vertexArray;
-      std::unique_ptr<Shader> m_shader;
-
-      std::unique_ptr<VertexArray> m_squareVA;
-      std::unique_ptr<Shader> m_shaderBlue;
-
       bool m_bRunning = true;
    };
 
