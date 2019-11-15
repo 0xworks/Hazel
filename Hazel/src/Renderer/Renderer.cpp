@@ -20,9 +20,10 @@ namespace Hazel {
    void Renderer::EndScene() {}
 
 
-   void Renderer::Submit(const Shader& shader, const VertexArray& vertexArray) {
+   void Renderer::Submit(const Shader& shader, const VertexArray& vertexArray, const glm::mat4& transform) {
       shader.Bind();
-      shader.UploadUniformMat4("u_ViewProjection", s_viewProjectionMatrix);
+      shader.UploadUniformMat4("u_viewProjection", s_viewProjectionMatrix);
+      shader.UploadUniformMat4("u_transform", transform);
       vertexArray.Bind();
       RenderCommand::DrawIndexed(vertexArray);
    }

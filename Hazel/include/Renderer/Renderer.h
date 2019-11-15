@@ -13,7 +13,7 @@ namespace Hazel {
       static void BeginScene(const OrthographicCamera& camera);
       static void EndScene();
 
-      static void Submit(const Shader& shader, const VertexArray& vertexArray);
+      static void Submit(const Shader& shader, const VertexArray& vertexArray, const glm::mat4& transform);
 
 
    };

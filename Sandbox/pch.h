@@ -3,6 +3,7 @@
 #include "hzpch.h"
 #include "Application.h"
 #include "Core.h"
+#include "Core/Timestep.h"
 #include "EntryPoint.h"
 #include "ImGuiLayer.h"
 #include "Input.h"

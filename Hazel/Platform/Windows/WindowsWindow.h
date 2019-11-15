@@ -15,10 +15,10 @@ namespace Hazel {
 
       void OnUpdate() override;
 
-      uint32_t GetWidth() const override { return m_Data.Width; }
-      uint32_t GetHeight() const override { return m_Data.Height; }
+      uint32_t GetWidth() const override { return m_data.Width; }
+      uint32_t GetHeight() const override { return m_data.Height; }
 
-      void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
+      void SetEventCallback(const EventCallbackFn& callback) override { m_data.EventCallback = callback; }
       void SetVSync(bool enabled) override;
       bool IsVSync() const override;
 
@@ -36,7 +36,7 @@ namespace Hazel {
          EventCallbackFn EventCallback;
       };
 
-      WindowData m_Data;
+      WindowData m_data;
    };
 
 }

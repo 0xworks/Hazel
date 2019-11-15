@@ -3,14 +3,7 @@
 
 class ExampleLayer : public Hazel::Layer {
 public:
-   ExampleLayer()
-   : Layer("Example")
-   , m_camera(-1.6f, 0.9f, 1.6f, -0.9f)
-   , m_cameraPosition(glm::zero<glm::vec3>())
-   , m_cameraRotation(0.0f)
-   , m_cameraMoveSpeed(0.1f)
-   , m_cameraRotationSpeed(2.0f)
-   {
+   ExampleLayer() {
       m_vertexArray = Hazel::VertexArray::Create();
 
       float vertices[3 * 7] = {
@@ -35,10 +28,10 @@ public:
 
       m_squareVA = Hazel::VertexArray::Create();
       float verticesSquare[3 * 4] = {
-         -0.75f, -0.75f, 0.0f,
-          0.75f, -0.75f, 0.0f,
-          0.75f,  0.75f, 0.0f,
-         -0.75f,  0.75f, 0.0f,
+         -0.5f, -0.5f, 0.0f,
+          0.5f, -0.5f, 0.0f,
+          0.5f,  0.5f, 0.0f,
+         -0.5f,  0.5f, 0.0f,
       };
       std::unique_ptr<Hazel::VertexBuffer> squareVB = Hazel::VertexBuffer::Create(verticesSquare, sizeof(verticesSquare) / sizeof(float));
 
@@ -59,7 +52,8 @@ public:
          layout(location = 0) in vec3 a_position;
          layout(location = 1) in vec4 a_color;
 
-         uniform mat4 u_ViewProjection;
+         uniform mat4 u_viewProjection;
+         uniform mat4 u_transform;
 
          out vec3 v_position;
          out vec4 v_color;
@@ -67,7 +61,7 @@ public:
          void main() {
             v_position = a_position;
             v_color = a_color;
-            gl_Position = u_ViewProjection * vec4(a_position, 1.0);
+            gl_Position = u_viewProjection * u_transform * vec4(a_position, 1.0);
          }
       )";
 
@@ -91,13 +85,14 @@ public:
 
          layout(location = 0) in vec3 a_position;
 
-         uniform mat4 u_ViewProjection;
+         uniform mat4 u_viewProjection;
+         uniform mat4 u_transform;
 
          out vec3 v_position;
 
          void main() {
             v_position = a_position;
-            gl_Position = u_ViewProjection * vec4(a_position, 1.0);
+            gl_Position = u_viewProjection * u_transform * vec4(a_position, 1.0);
          }
       )";
 
@@ -115,24 +110,27 @@ public:
    }
 
 
-   virtual void OnUpdate(float deltaTime) override {
+   virtual void OnUpdate(Hazel::Timestep ts) override {
 
+      //HZ_CORE_INFO("Delta time = {0}ms", deltaTime.GetMilliseconds());
+
+      float deltaTime = ts;
       if (Hazel::Input::IsKeyPressed(HZ_KEY_LEFT)) {
-         m_cameraPosition.x -= m_cameraMoveSpeed;
+         m_cameraPosition.x -= (m_cameraMoveSpeed * deltaTime);
       } else if (Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT)) {
-         m_cameraPosition.x += m_cameraMoveSpeed;
+         m_cameraPosition.x += (m_cameraMoveSpeed * deltaTime);
       }
 
       if (Hazel::Input::IsKeyPressed(HZ_KEY_DOWN)) {
-         m_cameraPosition.y -= m_cameraMoveSpeed;
+         m_cameraPosition.y -= (m_cameraMoveSpeed * deltaTime);
       } else if (Hazel::Input::IsKeyPressed(HZ_KEY_UP)) {
-         m_cameraPosition.y += m_cameraMoveSpeed;
+         m_cameraPosition.y += (m_cameraMoveSpeed * deltaTime);
       }
 
       if (Hazel::Input::IsKeyPressed(HZ_KEY_A)) {
-         m_cameraRotation += m_cameraRotationSpeed;
+         m_cameraRotation += (m_cameraRotationSpeed * deltaTime);
       } else if (Hazel::Input::IsKeyPressed(HZ_KEY_D)) {
-         m_cameraRotation -= m_cameraRotationSpeed;
+         m_cameraRotation -= (m_cameraRotationSpeed * deltaTime);
       }
 
       Hazel::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
@@ -141,18 +139,27 @@ public:
       m_camera.SetPosition(m_cameraPosition);
       m_camera.SetRotation(m_cameraRotation);
 
+      glm::mat4 scale = glm::scale(glm::identity<glm::mat4>(), glm::vec3(0.1f));
+
       Hazel::Renderer::BeginScene(m_camera);
-      Hazel::Renderer::Submit(*m_shaderBlue, *m_squareVA);
-      Hazel::Renderer::Submit(*m_shader, *m_vertexArray);
+
+      for (int y = -10; y < 10; ++y) {
+         for (int x = -10; x < 10; ++x) {
+            glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
+            glm::mat4 transform = glm::translate(glm::identity<glm::mat4>(), pos) * scale;
+            Hazel::Renderer::Submit(*m_shaderBlue, *m_squareVA, transform);
+         }
+      }
+      Hazel::Renderer::Submit(*m_shader, *m_vertexArray, glm::identity<glm::mat4>());
       Hazel::Renderer::EndScene();
    }
 
 private:
-   Hazel::OrthographicCamera m_camera;
-   glm::vec3 m_cameraPosition;
-   float m_cameraRotation;
-   float m_cameraMoveSpeed;
-   float m_cameraRotationSpeed;
+   Hazel::OrthographicCamera m_camera = {-1.6f, 0.9f, 1.6f, -0.9f};
+   glm::vec3 m_cameraPosition = glm::zero<glm::vec3>();
+   float m_cameraRotation = 0.0f;
+   float m_cameraMoveSpeed = 5.0f;
+   float m_cameraRotationSpeed = 180.0f;
    std::unique_ptr<Hazel::VertexArray> m_vertexArray;
    std::unique_ptr<Hazel::Shader> m_shader;
    std::unique_ptr<Hazel::VertexArray> m_squareVA;

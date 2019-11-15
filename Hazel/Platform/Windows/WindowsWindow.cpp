@@ -23,9 +23,9 @@ namespace Hazel {
 
 
    WindowsWindow::WindowsWindow(const WindowProps& props) {
-      m_Data.Title = props.Title;
-      m_Data.Width = props.Width;
-      m_Data.Height = props.Height;
+      m_data.Title = props.Title;
+      m_data.Width = props.Width;
+      m_data.Height = props.Height;
 
       HZ_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
@@ -37,10 +37,10 @@ namespace Hazel {
          s_GLFWInitialized = true;
       }
 
-      m_window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+      m_window = glfwCreateWindow((int)props.Width, (int)props.Height, m_data.Title.c_str(), nullptr, nullptr);
       m_context = std::make_unique<OpenGLContext>(m_window);
 
-      glfwSetWindowUserPointer(m_window, &m_Data);
+      glfwSetWindowUserPointer(m_window, &m_data);
       SetVSync(true);
 
       glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
@@ -134,12 +134,12 @@ namespace Hazel {
       else
          glfwSwapInterval(0);
 
-      m_Data.VSync = enabled;
+      m_data.VSync = enabled;
    }
 
 
    bool WindowsWindow::IsVSync() const {
-      return m_Data.VSync;
+      return m_data.VSync;
    }
 
    void* WindowsWindow::GetNativeWindow() const {

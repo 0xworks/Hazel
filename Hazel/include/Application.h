@@ -4,6 +4,7 @@
 #include "Events/ApplicationEvent.h"
 #include "ImGuiLayer.h"
 #include "LayerStack.h"
+#include "Core/Timestep.h"
 #include "Renderer/Shader.h"
 #include "Renderer/IndexBuffer.h"
 #include "Renderer/OrthographicCamera.h"
@@ -35,11 +36,14 @@ namespace Hazel {
       bool OnWindowClose(WindowCloseEvent& event);
 
    private:
-      static Application* sm_application;
-
       LayerStack m_layerStack;
+      float m_lastFrameTime = 0.0f;
       std::unique_ptr<Window> m_window;
       bool m_bRunning = true;
+
+   private:
+      static Application* sm_application;
+
    };
 
 }
