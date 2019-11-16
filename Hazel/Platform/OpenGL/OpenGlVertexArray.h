@@ -2,6 +2,8 @@
 
 #include "Renderer/VertexArray.h"
 
+#include <memory>
+
 namespace Hazel {
 
    class OpenGLVertexArray : public VertexArray {

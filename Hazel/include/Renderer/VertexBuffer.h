@@ -2,6 +2,8 @@
 
 #include "Renderer/BufferLayout.h"
 
+#include <memory>
+
 namespace Hazel {
 
    class VertexBuffer {

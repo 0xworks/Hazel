@@ -3,6 +3,8 @@
 #include "Renderer/IndexBuffer.h"
 #include "Renderer/VertexBuffer.h"
 
+#include <memory>
+
 namespace Hazel {
 
    class VertexArray {

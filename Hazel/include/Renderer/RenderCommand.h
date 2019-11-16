@@ -2,7 +2,10 @@
 
 #include "Renderer/RendererAPI.h"
 #include "Renderer/VertexArray.h"
+
 #include "glm/glm.hpp"
+
+#include <memory>
 
 namespace Hazel {
 

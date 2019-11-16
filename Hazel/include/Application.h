@@ -1,16 +1,10 @@
 #pragma once
 
-#include "Core.h"
 #include "Events/ApplicationEvent.h"
-#include "ImGuiLayer.h"
 #include "LayerStack.h"
-#include "Core/Timestep.h"
-#include "Renderer/Shader.h"
-#include "Renderer/IndexBuffer.h"
-#include "Renderer/OrthographicCamera.h"
-#include "Renderer/VertexArray.h"
-#include "Renderer/VertexBuffer.h"
 #include "Window.h"
+
+#include <memory>
 
 namespace Hazel {
 

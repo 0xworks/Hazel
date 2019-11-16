@@ -1,8 +1,11 @@
 #include "hzpch.h"
 #include "Application.h"
+
 #include "Events/ApplicationEvent.h"
 #include "Input.h"
+#include "ImGuiLayer.h"
 #include "Log.h"
+
 #include "GLFW/glfw3.h"
 
 namespace Hazel {
@@ -13,7 +16,7 @@ namespace Hazel {
    Application::Application() {
       HZ_CORE_ASSERT(!sm_application, "Application already exists!");
       sm_application = this;
-      m_window = std::unique_ptr<Window>(Window::Create());
+      m_window = Window::Create();
       m_window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
       PushOverlay(std::make_unique<ImGuiLayer>());
    }

@@ -2,6 +2,9 @@
 
 #include "Window.h"
 
+#include <memory>
+#include <string>
+
 struct GLFWwindow;
 
 namespace Hazel {

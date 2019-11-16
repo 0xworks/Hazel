@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core.h"
 #include "Layer.h"
 
+#include <memory>
 #include <vector>
 
 namespace Hazel {
