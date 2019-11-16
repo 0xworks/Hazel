@@ -1,5 +1,5 @@
 #include "hzpch.h"
-#include "OpenGlIndexBuffer.h"
+#include "OpenGLIndexBuffer.h"
 
 #include "glad/glad.h"
 

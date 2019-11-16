@@ -1,20 +1,16 @@
 #pragma once
 
-#include "glm/glm.hpp"
-
 namespace Hazel {
 
    class Shader {
    public:
-      Shader(const std::string& vertexSource, const std::string& fragmentSource);
-      virtual ~Shader();
+      virtual ~Shader() = default;
 
-      void Bind() const;
-      void Unbind() const;
+      virtual void Bind() const = 0;
+      virtual void Unbind() const = 0;
 
-      void UploadUniformMat4(const std::string& name, const glm::mat4& uniform) const;
+   public:
+      static std::unique_ptr<Shader> Create(const std::string& sVertexSrc, const std::string& sFragmentSrc);
 
-   private:
-      uint32_t m_shaderId;
    };
 }

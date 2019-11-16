@@ -6,7 +6,7 @@ namespace Hazel {
 
    class Input {
    public:
-      virtual ~Input() {}
+      virtual ~Input() = default;
       static bool IsKeyPressed(int keycode) { return sm_input->IsKeyPressedImpl(keycode); }
       static bool IsMouseButtonPressed(int button) { return sm_input->IsMouseButtonPressedImpl(button); }
       static float GetMouseX() { return sm_input->GetMouseXImpl(); }

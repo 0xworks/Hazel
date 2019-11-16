@@ -65,7 +65,8 @@ if(WIN32)
       APPEND HazelSources
       "Platform/OpenGL/OpenGLContext.cpp"
       "Platform/OpenGL/OpenGLIndexBuffer.cpp"
-	  "Platform/OpenGL/OpenGLRendererAPI.cpp"
+      "Platform/OpenGL/OpenGLRendererAPI.cpp"
+      "Platform/OpenGL/OpenGLShader.cpp"
       "Platform/OpenGL/OpenGLVertexArray.cpp"
       "Platform/OpenGL/OpenGLVertexBuffer.cpp"
       "Platform/Windows/WindowsInput.cpp"

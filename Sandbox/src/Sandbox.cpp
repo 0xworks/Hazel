@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "glm/ext.hpp"
+#include "vendor/imgui/imgui.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 
 class ExampleLayer : public Hazel::Layer {
 public:
@@ -78,9 +80,9 @@ public:
          }
       )";
 
-      m_shader = std::make_unique<Hazel::Shader>(vertexSrc, fragmentSrc);
+      m_shader = Hazel::Shader::Create(vertexSrc, fragmentSrc);
 
-      std::string vertexBlueSrc = R"(
+      std::string vertexFlatColorSrc = R"(
          #version 330 core
 
          layout(location = 0) in vec3 a_position;
@@ -96,17 +98,18 @@ public:
          }
       )";
 
-      std::string fragmentBlueSrc = R"(
+      std::string fragmentFlatColorSrc = R"(
          #version 330 core
 
+         uniform vec3 u_color;
          out vec4 color;
 
          void main() {
-            color = vec4(0.2, 0.3, 0.8, 1.0);
+            color = vec4(u_color, 1.0);
          }
       )";
 
-      m_shaderBlue = std::make_unique<Hazel::Shader>(vertexBlueSrc, fragmentBlueSrc);
+      m_flatColorShader = Hazel::Shader::Create(vertexFlatColorSrc, fragmentFlatColorSrc);
    }
 
 
@@ -143,27 +146,36 @@ public:
 
       Hazel::Renderer::BeginScene(m_camera);
 
+      ((Hazel::OpenGLShader*)m_flatColorShader.get())->Bind();
+      ((Hazel::OpenGLShader*)m_flatColorShader.get())->UploadUniformVec3("u_color", m_squareColor);
+
       for (int y = -10; y < 10; ++y) {
          for (int x = -10; x < 10; ++x) {
             glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
             glm::mat4 transform = glm::translate(glm::identity<glm::mat4>(), pos) * scale;
-            Hazel::Renderer::Submit(*m_shaderBlue, *m_squareVA, transform);
+            Hazel::Renderer::Submit(*m_flatColorShader, *m_squareVA, transform);
          }
       }
       Hazel::Renderer::Submit(*m_shader, *m_vertexArray, glm::identity<glm::mat4>());
       Hazel::Renderer::EndScene();
    }
 
+   virtual void OnImGuiRender() override {
+      ImGui::Begin("Settings");
+      ImGui::ColorEdit3("Square Color", glm::value_ptr(m_squareColor));
+      ImGui::End();
+   }
 private:
-   Hazel::OrthographicCamera m_camera = {-1.6f, 0.9f, 1.6f, -0.9f};
+   Hazel::OrthographicCamera m_camera = {-3.2f, 1.8f, 3.2f, -1.8f};
    glm::vec3 m_cameraPosition = glm::zero<glm::vec3>();
+   glm::vec3 m_squareColor = {0.2f, 0.3f, 0.8f};
    float m_cameraRotation = 0.0f;
    float m_cameraMoveSpeed = 5.0f;
    float m_cameraRotationSpeed = 180.0f;
    std::unique_ptr<Hazel::VertexArray> m_vertexArray;
    std::unique_ptr<Hazel::Shader> m_shader;
    std::unique_ptr<Hazel::VertexArray> m_squareVA;
-   std::unique_ptr<Hazel::Shader> m_shaderBlue;
+   std::unique_ptr<Hazel::Shader> m_flatColorShader;
 };
 
 class Sandbox : public Hazel::Application {
