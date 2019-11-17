@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "ImGuiLayer.h"
 #include "Log.h"
+#include "Renderer/Renderer.h"
 
 #include "GLFW/glfw3.h"
 
@@ -18,6 +19,9 @@ namespace Hazel {
       sm_application = this;
       m_window = Window::Create();
       m_window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
+
+      Renderer::Init();
+
       PushOverlay(std::make_unique<ImGuiLayer>());
    }
 

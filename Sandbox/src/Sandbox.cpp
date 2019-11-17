@@ -29,16 +29,17 @@ public:
       m_vertexArray->SetIndexBuffer(std::move(indexBuffer));
 
       m_squareVA = Hazel::VertexArray::Create();
-      float verticesSquare[3 * 4] = {
-         -0.5f, -0.5f, 0.0f,
-          0.5f, -0.5f, 0.0f,
-          0.5f,  0.5f, 0.0f,
-         -0.5f,  0.5f, 0.0f,
+      float verticesSquare[5 * 4] = {
+         -0.5f, -0.5f, 0.0f, 0.0, 0.0,
+          0.5f, -0.5f, 0.0f, 1.0, 0.0,
+          0.5f,  0.5f, 0.0f, 1.0, 1.0,
+         -0.5f,  0.5f, 0.0f, 0.0, 1.0,
       };
       std::unique_ptr<Hazel::VertexBuffer> squareVB = Hazel::VertexBuffer::Create(verticesSquare, sizeof(verticesSquare) / sizeof(float));
 
       squareVB->SetLayout({
-         {"a_Position", Hazel::ShaderDataType::Float3}
+         {"a_Position", Hazel::ShaderDataType::Float3},
+         {"a_TexCoord", Hazel::ShaderDataType::Float2}
       });
 
       m_squareVA->AddVertexBuffer(std::move(squareVB));
@@ -57,11 +58,9 @@ public:
          uniform mat4 u_viewProjection;
          uniform mat4 u_transform;
 
-         out vec3 v_position;
          out vec4 v_color;
 
          void main() {
-            v_position = a_position;
             v_color = a_color;
             gl_Position = u_viewProjection * u_transform * vec4(a_position, 1.0);
          }
@@ -72,7 +71,6 @@ public:
 
          layout(location = 0) out vec4 color;
 
-         in vec3 v_position;
          in vec4 v_color;
 
          void main() {
@@ -82,7 +80,7 @@ public:
 
       m_shader = Hazel::Shader::Create(vertexSrc, fragmentSrc);
 
-      std::string vertexFlatColorSrc = R"(
+      std::string flatColorVertexSrc = R"(
          #version 330 core
 
          layout(location = 0) in vec3 a_position;
@@ -90,26 +88,63 @@ public:
          uniform mat4 u_viewProjection;
          uniform mat4 u_transform;
 
-         out vec3 v_position;
-
          void main() {
-            v_position = a_position;
             gl_Position = u_viewProjection * u_transform * vec4(a_position, 1.0);
          }
       )";
 
-      std::string fragmentFlatColorSrc = R"(
+      std::string flatColorFragmentSrc = R"(
          #version 330 core
 
+         layout(location = 0) out vec4 color;
+
          uniform vec3 u_color;
-         out vec4 color;
 
          void main() {
             color = vec4(u_color, 1.0);
          }
       )";
 
-      m_flatColorShader = Hazel::Shader::Create(vertexFlatColorSrc, fragmentFlatColorSrc);
+      m_flatColorShader = Hazel::Shader::Create(flatColorVertexSrc, flatColorFragmentSrc);
+
+      std::string textureVertexSrc = R"(
+         #version 330 core
+
+         layout(location = 0) in vec3 a_position;
+         layout(location = 1) in vec2 a_texCoord;
+
+         uniform mat4 u_viewProjection;
+         uniform mat4 u_transform;
+
+         out vec2 v_texCoord;
+
+         void main() {
+            v_texCoord = a_texCoord;
+            gl_Position = u_viewProjection * u_transform * vec4(a_position, 1.0);
+         }
+      )";
+
+      std::string textureFragmentSrc = R"(
+         #version 330 core
+
+         layout(location = 0) out vec4 color;
+
+         in vec2 v_texCoord;
+
+         uniform sampler2D u_texture;
+
+         void main() {
+            color = texture(u_texture, v_texCoord);
+         }
+      )";
+
+      m_textureShader = Hazel::Shader::Create(textureVertexSrc, textureFragmentSrc);
+      m_texture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
+      m_chernoTexture = Hazel::Texture2D::Create("assets/textures/ChernoLogo.png");
+
+      m_textureShader->Bind();
+      ((Hazel::OpenGLShader*)m_textureShader.get())->UploadUniformUInt("u_Texture", 0); // TODO: parameterise texture slot?
+
    }
 
 
@@ -130,9 +165,9 @@ public:
          m_cameraPosition.y += (m_cameraMoveSpeed * deltaTime);
       }
 
-      if (Hazel::Input::IsKeyPressed(HZ_KEY_A)) {
+      if (Hazel::Input::IsKeyPressed(HZ_KEY_Q)) {
          m_cameraRotation += (m_cameraRotationSpeed * deltaTime);
-      } else if (Hazel::Input::IsKeyPressed(HZ_KEY_D)) {
+      } else if (Hazel::Input::IsKeyPressed(HZ_KEY_E)) {
          m_cameraRotation -= (m_cameraRotationSpeed * deltaTime);
       }
 
@@ -146,9 +181,10 @@ public:
 
       Hazel::Renderer::BeginScene(m_camera);
 
-      ((Hazel::OpenGLShader*)m_flatColorShader.get())->Bind();
+      m_flatColorShader->Bind();
       ((Hazel::OpenGLShader*)m_flatColorShader.get())->UploadUniformVec3("u_color", m_squareColor);
 
+      // Grid squares
       for (int y = -10; y < 10; ++y) {
          for (int x = -10; x < 10; ++x) {
             glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
@@ -156,7 +192,17 @@ public:
             Hazel::Renderer::Submit(*m_flatColorShader, *m_squareVA, transform);
          }
       }
-      Hazel::Renderer::Submit(*m_shader, *m_vertexArray, glm::identity<glm::mat4>());
+
+     // Big squares
+      m_texture->Bind(0);
+      Hazel::Renderer::Submit(*m_textureShader, *m_squareVA, glm::scale(glm::identity<glm::mat4>(), glm::vec3(1.5f)));
+
+      m_chernoTexture->Bind(0);
+      Hazel::Renderer::Submit(*m_textureShader, *m_squareVA, glm::scale(glm::identity<glm::mat4>(), glm::vec3(1.5f)));
+
+      // Triangle
+      //Hazel::Renderer::Submit(*m_shader, *m_vertexArray, glm::identity<glm::mat4>());
+
       Hazel::Renderer::EndScene();
    }
 
@@ -176,6 +222,9 @@ private:
    std::unique_ptr<Hazel::Shader> m_shader;
    std::unique_ptr<Hazel::VertexArray> m_squareVA;
    std::unique_ptr<Hazel::Shader> m_flatColorShader;
+   std::unique_ptr<Hazel::Shader> m_textureShader;
+   std::unique_ptr<Hazel::Texture2D> m_texture;
+   std::unique_ptr<Hazel::Texture2D> m_chernoTexture;
 };
 
 class Sandbox : public Hazel::Application {

@@ -6,6 +6,10 @@ namespace Hazel {
 
    std::unique_ptr<RendererAPI> RenderCommand::sm_rendererAPI = std::make_unique<OpenGLRendererAPI>();
 
+   void RenderCommand::Init() {
+      sm_rendererAPI->Init();
+   }
+
    void RenderCommand::SetClearColor(glm::vec4 color) {
       sm_rendererAPI->SetClearColor(color);
    }

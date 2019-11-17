@@ -48,6 +48,13 @@ set(
    "src/Layer.cpp"
    "src/LayerStack.cpp"
    "src/Log.cpp"
+   "Platform/OpenGL/OpenGLContext.cpp"
+   "Platform/OpenGL/OpenGLIndexBuffer.cpp"
+   "Platform/OpenGL/OpenGLRendererAPI.cpp"
+   "Platform/OpenGL/OpenGLShader.cpp"
+   "Platform/OpenGL/OpenGLTexture.cpp"
+   "Platform/OpenGL/OpenGLVertexArray.cpp"
+   "Platform/OpenGL/OpenGLVertexBuffer.cpp"
    "src/Renderer/BufferLayout.cpp"
    "src/Renderer/IndexBuffer.cpp"
    "src/Renderer/OrthographicCamera.cpp"
@@ -55,20 +62,16 @@ set(
    "src/Renderer/Renderer.cpp"
    "src/Renderer/RendererAPI.cpp"
    "src/Renderer/Shader.cpp"
+   "src/Renderer/Texture.cpp"
    "src/Renderer/VertexArray.cpp"
    "src/Renderer/VertexBuffer.cpp"
+   "src/stb_image.cpp"
    "src/Window.cpp"
 )
 
 if(WIN32)
    list(
       APPEND HazelSources
-      "Platform/OpenGL/OpenGLContext.cpp"
-      "Platform/OpenGL/OpenGLIndexBuffer.cpp"
-      "Platform/OpenGL/OpenGLRendererAPI.cpp"
-      "Platform/OpenGL/OpenGLShader.cpp"
-      "Platform/OpenGL/OpenGLVertexArray.cpp"
-      "Platform/OpenGL/OpenGLVertexBuffer.cpp"
       "Platform/Windows/WindowsInput.cpp"
       "Platform/Windows/WindowsWindow.cpp"
    )
@@ -112,6 +115,14 @@ target_compile_definitions(
   "$<$<CONFIG:DEBUG>:HZ_ENABLE_ASSERTS>"
 )
 
-target_include_directories(Hazel PUBLIC ${HazelIncludes})
+target_include_directories(
+   Hazel PUBLIC
+   ${HazelIncludes}
+)
+
+target_include_directories(
+   Hazel PRIVATE
+   "vendor/stb"
+)
 
 target_link_libraries(Hazel PRIVATE ${HazelLibs})

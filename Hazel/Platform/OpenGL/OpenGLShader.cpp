@@ -122,15 +122,24 @@ namespace Hazel {
       glUseProgram(0);
    }
 
+
+   void OpenGLShader::UploadUniformUInt(const std::string& name, const uint32_t ui) const {
+      GLint location = glGetUniformLocation(m_shaderId, name.c_str());
+      glUniform1ui(location, (GLuint)ui);
+   }
+
+
    void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& mat) const {
       GLint location = glGetUniformLocation(m_shaderId, name.c_str());
       glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
    }
 
+
    void OpenGLShader::UploadUniformVec3(const std::string& name, const glm::vec3& vec) const {
       GLint location = glGetUniformLocation(m_shaderId, name.c_str());
       glUniform3fv(location, 1, glm::value_ptr(vec));
    }
+
 
    void OpenGLShader::UploadUniformVec4(const std::string& name, const glm::vec4& vec) const {
       GLint location = glGetUniformLocation(m_shaderId, name.c_str());

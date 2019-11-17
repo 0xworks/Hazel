@@ -13,6 +13,11 @@ namespace Hazel {
    }
 
 
+   void Renderer::Init() {
+      RenderCommand::Init();
+   }
+
+
    void Renderer::BeginScene(const OrthographicCamera& camera) {
       s_viewProjectionMatrix = camera.GetViewProjectionMatrix();
    }
