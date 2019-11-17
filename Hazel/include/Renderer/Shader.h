@@ -13,7 +13,8 @@ namespace Hazel {
       virtual void Unbind() const = 0;
 
    public:
-      static std::unique_ptr<Shader> Create(const std::string& sVertexSrc, const std::string& sFragmentSrc);
+      static std::unique_ptr<Shader> Create(const std::string& path);
+      static std::unique_ptr<Shader> Create(const std::string& vertexSrc, const std::string& fragmentSrc);
 
    };
 }

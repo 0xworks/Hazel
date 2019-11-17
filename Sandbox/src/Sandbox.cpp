@@ -49,96 +49,10 @@ public:
 
       m_squareVA->SetIndexBuffer(std::move(squareIB));
 
-      std::string vertexSrc = R"(
-         #version 330 core
+      m_shader = Hazel::Shader::Create("Assets/Shaders/VertexColor.glsl");
+      m_flatColorShader = Hazel::Shader::Create("Assets/Shaders/FlatColor.glsl");
+      m_textureShader = Hazel::Shader::Create("Assets/Shaders/Texture.glsl");
 
-         layout(location = 0) in vec3 a_position;
-         layout(location = 1) in vec4 a_color;
-
-         uniform mat4 u_viewProjection;
-         uniform mat4 u_transform;
-
-         out vec4 v_color;
-
-         void main() {
-            v_color = a_color;
-            gl_Position = u_viewProjection * u_transform * vec4(a_position, 1.0);
-         }
-      )";
-
-      std::string fragmentSrc = R"(
-         #version 330 core
-
-         layout(location = 0) out vec4 color;
-
-         in vec4 v_color;
-
-         void main() {
-            color = vec4(v_color);
-         }
-      )";
-
-      m_shader = Hazel::Shader::Create(vertexSrc, fragmentSrc);
-
-      std::string flatColorVertexSrc = R"(
-         #version 330 core
-
-         layout(location = 0) in vec3 a_position;
-
-         uniform mat4 u_viewProjection;
-         uniform mat4 u_transform;
-
-         void main() {
-            gl_Position = u_viewProjection * u_transform * vec4(a_position, 1.0);
-         }
-      )";
-
-      std::string flatColorFragmentSrc = R"(
-         #version 330 core
-
-         layout(location = 0) out vec4 color;
-
-         uniform vec3 u_color;
-
-         void main() {
-            color = vec4(u_color, 1.0);
-         }
-      )";
-
-      m_flatColorShader = Hazel::Shader::Create(flatColorVertexSrc, flatColorFragmentSrc);
-
-      std::string textureVertexSrc = R"(
-         #version 330 core
-
-         layout(location = 0) in vec3 a_position;
-         layout(location = 1) in vec2 a_texCoord;
-
-         uniform mat4 u_viewProjection;
-         uniform mat4 u_transform;
-
-         out vec2 v_texCoord;
-
-         void main() {
-            v_texCoord = a_texCoord;
-            gl_Position = u_viewProjection * u_transform * vec4(a_position, 1.0);
-         }
-      )";
-
-      std::string textureFragmentSrc = R"(
-         #version 330 core
-
-         layout(location = 0) out vec4 color;
-
-         in vec2 v_texCoord;
-
-         uniform sampler2D u_texture;
-
-         void main() {
-            color = texture(u_texture, v_texCoord);
-         }
-      )";
-
-      m_textureShader = Hazel::Shader::Create(textureVertexSrc, textureFragmentSrc);
       m_texture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
       m_chernoTexture = Hazel::Texture2D::Create("assets/textures/ChernoLogo.png");
 

@@ -33,6 +33,6 @@ target_link_libraries(
 add_custom_command(
   TARGET Sandbox POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${CMAKE_CURRENT_SOURCE_DIR}/assets
-    ${CMAKE_CURRENT_BINARY_DIR}/assets
+    ${CMAKE_CURRENT_SOURCE_DIR}/Assets
+    ${CMAKE_CURRENT_BINARY_DIR}/Assets
 )
