@@ -41,34 +41,26 @@ namespace Hazel {
    }
 
 
-   static std::unordered_map<GLenum, std::string> PreProcess(const std::string& source) {
-      std::unordered_map<GLenum, std::string> shaderSources;
-
-      const char* typeToken = "#type";
-      size_t typeTokenLength = strlen(typeToken);
-      size_t pos = source.find(typeToken, 0);
-      while (pos != std::string::npos) {
+   static std::string InjectPreprocessorDefinition(const std::string& source, const std::string& definition) {
+      const char* versionToken = "#version";
+      size_t versionTokenLength = strlen(versionToken);
+      size_t pos = source.find(versionToken, 0);
+      size_t nextLinePos = 0;
+      if (pos != std::string::npos) {
          size_t eol = source.find_first_of("\r\n", pos);
          HZ_CORE_ASSERT(eol != std::string::npos, "Syntax error");
-         size_t begin = pos + typeTokenLength + 1;
-         std::string type = source.substr(begin, eol - begin);
-         HZ_CORE_ASSERT(ShaderTypeFromString(type), "Invalid shader type specified");
 
-         size_t nextLinePos = source.find_first_not_of("\r\n", eol);
+         nextLinePos = source.find_first_not_of("\r\n", eol);
          HZ_CORE_ASSERT(nextLinePos != std::string::npos, "Syntax error");
-         pos = source.find(typeToken, nextLinePos);
-
-         shaderSources[ShaderTypeFromString(type)] = (pos == std::string::npos) ? source.substr(nextLinePos) : source.substr(nextLinePos, pos - nextLinePos);
       }
-
-      return shaderSources;
+      return source.substr(0, nextLinePos) + "#define " + definition + "\r\n" + source.substr(nextLinePos);
    }
 
 
    static GLuint Compile(const std::unordered_map<GLenum, std::string>& shaderSources) {
 
       GLuint program = glCreateProgram();
-      HZ_CORE_ASSERT(shaderSources.size() <= 2, "We only support 2 shaders for now");
+      HZ_CORE_ASSERT((shaderSources.size() > 0) && (shaderSources.size() <= 2), "We only support 2 shaders for now");
       std::array<GLenum, 2> glShaderIDs;
       int glShaderIDIndex = 0;
       for (const auto& [type, source] : shaderSources) {
@@ -134,7 +126,11 @@ namespace Hazel {
    OpenGLShader::OpenGLShader(const std::string& path)
    : m_shaderId(0)
    {
-      m_shaderId = Compile(PreProcess(ReadFile(path)));
+      std::string source = ReadFile(path);
+      m_shaderId = Compile({
+         {GL_VERTEX_SHADER, InjectPreprocessorDefinition(source, "VERTEX_SHADER")},
+         {GL_FRAGMENT_SHADER, InjectPreprocessorDefinition(source, "FRAGMENT_SHADER")}
+      });
    }
 
 

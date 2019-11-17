@@ -1,5 +1,6 @@
-#type vertex
 #version 330 core
+
+#ifdef VERTEX_SHADER
 
 layout(location = 0) in vec3 a_position;
 layout(location = 1) in vec2 a_texCoord;
@@ -14,9 +15,10 @@ void main() {
    gl_Position = u_viewProjection * u_transform * vec4(a_position, 1.0);
 }
 
+#endif
 
-#type fragment
-#version 330 core
+
+#ifdef FRAGMENT_SHADER
 
 layout(location = 0) out vec4 color;
 
@@ -27,3 +29,4 @@ uniform sampler2D u_texture;
 void main() {
    color = texture(u_texture, v_texCoord);
 }
+#endif
