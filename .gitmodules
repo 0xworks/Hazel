@@ -13,3 +13,7 @@
 [submodule "Hazel/vendor/stb"]
 	path = Hazel/vendor/stb
 	url = https://github.com/nothings/stb.git
+[submodule "Hazel/vendor/imgui"]
+	path = Hazel/vendor/imgui
+	url = https://github.com/ocornut/imgui.git
+	branch = docking
