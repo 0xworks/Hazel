@@ -62,6 +62,7 @@ set(
    "src/Renderer/Renderer.cpp"
    "src/Renderer/RendererAPI.cpp"
    "src/Renderer/Shader.cpp"
+   "src/Renderer/ShaderLibrary.cpp"
    "src/Renderer/Texture.cpp"
    "src/Renderer/VertexArray.cpp"
    "src/Renderer/VertexBuffer.cpp"

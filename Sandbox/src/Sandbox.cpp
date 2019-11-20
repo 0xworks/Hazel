@@ -1,7 +1,10 @@
 #include "pch.h"
-#include "glm/ext.hpp"
 #include "vendor/imgui/imgui.h"
+
+// temporary
+#include "glm/ext.hpp"
 #include "Platform/OpenGL/OpenGLShader.h"
+
 
 class ExampleLayer : public Hazel::Layer {
 public:
@@ -49,15 +52,17 @@ public:
 
       m_squareVA->SetIndexBuffer(std::move(squareIB));
 
-      m_shader = Hazel::Shader::Create("Assets/Shaders/VertexColor.glsl");
-      m_flatColorShader = Hazel::Shader::Create("Assets/Shaders/FlatColor.glsl");
-      m_textureShader = Hazel::Shader::Create("Assets/Shaders/Texture.glsl");
+      m_shaderLibrary = std::make_unique<Hazel::ShaderLibrary>();
+      m_shaderLibrary->LoadShader("Assets/Shaders/VertexColor.glsl");
+      m_shaderLibrary->LoadShader("Assets/Shaders/FlatColor.glsl");
+      m_shaderLibrary->LoadShader("Assets/Shaders/Texture.glsl");
 
       m_texture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
       m_chernoTexture = Hazel::Texture2D::Create("assets/textures/ChernoLogo.png");
 
-      m_textureShader->Bind();
-      ((Hazel::OpenGLShader*)m_textureShader.get())->UploadUniformUInt("u_Texture", 0); // TODO: parameterise texture slot?
+      std::shared_ptr<Hazel::Shader> textureShader = m_shaderLibrary->GetShader("Texture");
+      textureShader->Bind();
+      ((Hazel::OpenGLShader*)textureShader.get())->UploadUniformUInt("u_Texture", 0); // TODO: parameterise texture slot?
 
    }
 
@@ -95,24 +100,26 @@ public:
 
       Hazel::Renderer::BeginScene(m_camera);
 
-      m_flatColorShader->Bind();
-      ((Hazel::OpenGLShader*)m_flatColorShader.get())->UploadUniformVec3("u_color", m_squareColor);
+      std::shared_ptr<Hazel::Shader> flatColorShader = m_shaderLibrary->GetShader("FlatColor");
+      flatColorShader->Bind();
+      ((Hazel::OpenGLShader*)flatColorShader.get())->UploadUniformVec3("u_color", m_squareColor);
 
       // Grid squares
       for (int y = -10; y < 10; ++y) {
          for (int x = -10; x < 10; ++x) {
             glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
             glm::mat4 transform = glm::translate(glm::identity<glm::mat4>(), pos) * scale;
-            Hazel::Renderer::Submit(*m_flatColorShader, *m_squareVA, transform);
+            Hazel::Renderer::Submit(*flatColorShader, *m_squareVA, transform);
          }
       }
 
      // Big squares
+      std::shared_ptr<Hazel::Shader> textureShader = m_shaderLibrary->GetShader("Texture");
       m_texture->Bind(0);
-      Hazel::Renderer::Submit(*m_textureShader, *m_squareVA, glm::scale(glm::identity<glm::mat4>(), glm::vec3(1.5f)));
+      Hazel::Renderer::Submit(*textureShader, *m_squareVA, glm::scale(glm::identity<glm::mat4>(), glm::vec3(1.5f)));
 
       m_chernoTexture->Bind(0);
-      Hazel::Renderer::Submit(*m_textureShader, *m_squareVA, glm::scale(glm::identity<glm::mat4>(), glm::vec3(1.5f)));
+      Hazel::Renderer::Submit(*textureShader, *m_squareVA, glm::scale(glm::identity<glm::mat4>(), glm::vec3(1.5f)));
 
       // Triangle
       //Hazel::Renderer::Submit(*m_shader, *m_vertexArray, glm::identity<glm::mat4>());
@@ -135,8 +142,7 @@ private:
    std::unique_ptr<Hazel::VertexArray> m_vertexArray;
    std::unique_ptr<Hazel::Shader> m_shader;
    std::unique_ptr<Hazel::VertexArray> m_squareVA;
-   std::unique_ptr<Hazel::Shader> m_flatColorShader;
-   std::unique_ptr<Hazel::Shader> m_textureShader;
+   std::unique_ptr<Hazel::ShaderLibrary> m_shaderLibrary;
    std::unique_ptr<Hazel::Texture2D> m_texture;
    std::unique_ptr<Hazel::Texture2D> m_chernoTexture;
 };
