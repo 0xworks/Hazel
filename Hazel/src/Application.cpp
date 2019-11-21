@@ -52,7 +52,7 @@ namespace Hazel {
 
 
    void Application::OnEvent(Event& e) {
-      HZ_CORE_TRACE("{0}", e);
+      //HZ_CORE_TRACE("{0}", e);
 
       // JRW: I am not convinced about this.
       // This seems like an overly complicated way to just do a switch on event type...

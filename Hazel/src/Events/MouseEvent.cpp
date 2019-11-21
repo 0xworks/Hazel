@@ -4,33 +4,33 @@
 
 namespace Hazel {
 
-   MouseMovedEvent::MouseMovedEvent(float x, float y) : m_MouseX(x), m_MouseY(y) {}
+   MouseMovedEvent::MouseMovedEvent(float x, float y) : m_mouseX(x), m_mouseY(y) {}
 
 
    float MouseMovedEvent::GetX() const {
-      return m_MouseX;
+      return m_mouseX;
    }
 
 
    float MouseMovedEvent::GetY() const {
-      return m_MouseY;
+      return m_mouseY;
    }
 
 
    std::string MouseMovedEvent::ToString() const {
       std::stringstream ss;
-      ss << "MouseMovedEvent: " << m_MouseX << ", " << m_MouseY;
+      ss << "MouseMovedEvent: " << m_mouseX << ", " << m_mouseY;
       return ss.str();
    }
 
 
    float MouseScrolledEvent::GetXOffset() const {
-      return m_XOffset;
+      return m_xOffset;
    }
 
 
    float MouseScrolledEvent::GetYOffset() const {
-      return m_YOffset;
+      return m_yOffset;
    }
 
 
@@ -41,11 +41,11 @@ namespace Hazel {
    }
 
 
-   MouseButtonEvent::MouseButtonEvent(int button) : m_Button(button) {}
+   MouseButtonEvent::MouseButtonEvent(int button) : m_button(button) {}
 
 
    int MouseButtonEvent::GetMouseButton() const {
-      return m_Button;
+      return m_button;
    }
 
 
@@ -54,7 +54,7 @@ namespace Hazel {
 
    std::string MouseButtonPressedEvent::ToString() const {
       std::stringstream ss;
-      ss << "MouseButtonPressedEvent: " << m_Button;
+      ss << "MouseButtonPressedEvent: " << m_button;
       return ss.str();
    }
 
@@ -64,7 +64,7 @@ namespace Hazel {
 
    std::string MouseButtonReleasedEvent::ToString() const {
       std::stringstream ss;
-      ss << "MouseButtonReleasedEvent: " << m_Button;
+      ss << "MouseButtonReleasedEvent: " << m_button;
       return ss.str();
    }
 

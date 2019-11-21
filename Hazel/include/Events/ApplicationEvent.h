@@ -16,8 +16,8 @@ namespace Hazel {
       std::string ToString() const override;
 
    private:
-      uint32_t m_Width;
-      uint32_t m_Height;
+      uint32_t m_width;
+      uint32_t m_height;
    };
 
 

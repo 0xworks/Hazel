@@ -48,6 +48,7 @@ set(
    "src/Layer.cpp"
    "src/LayerStack.cpp"
    "src/Log.cpp"
+   "src/OrthographicCameraController.cpp"
    "Platform/OpenGL/OpenGLContext.cpp"
    "Platform/OpenGL/OpenGLIndexBuffer.cpp"
    "Platform/OpenGL/OpenGLRendererAPI.cpp"

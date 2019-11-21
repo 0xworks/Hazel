@@ -19,7 +19,7 @@ namespace Hazel {
       const std::string& GetName() const;
 
    protected:
-      std::string m_DebugName;
+      std::string m_debugName;
    };
 
 }

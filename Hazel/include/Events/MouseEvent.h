@@ -15,8 +15,8 @@ namespace Hazel {
       std::string ToString() const override;
 
    protected:
-      float m_MouseX;
-      float m_MouseY;
+      float m_mouseX;
+      float m_mouseY;
    };
 
 
@@ -24,7 +24,7 @@ namespace Hazel {
       EVENT_CLASS_TYPE(MouseScrolled);
       EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput);
    public:
-      MouseScrolledEvent(float xOffset, float yOffset) : m_XOffset(xOffset), m_YOffset(yOffset) {}
+      MouseScrolledEvent(float xOffset, float yOffset) : m_xOffset(xOffset), m_yOffset(yOffset) {}
 
       float GetXOffset() const;
       float GetYOffset() const;
@@ -32,8 +32,8 @@ namespace Hazel {
       std::string ToString() const override;
 
    private:
-      float m_XOffset;
-      float m_YOffset;
+      float m_xOffset;
+      float m_yOffset;
    };
 
 
@@ -44,7 +44,7 @@ namespace Hazel {
 
    protected:
       MouseButtonEvent(int button);
-      int m_Button;
+      int m_button;
    };
 
 

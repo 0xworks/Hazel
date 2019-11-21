@@ -8,7 +8,11 @@
 
 class ExampleLayer : public Hazel::Layer {
 public:
-   ExampleLayer() {
+   ExampleLayer()
+   : Layer("Example")
+   , m_cameraController(/*aspectRatio=*/1280.0f / 720.0f, /*allowRotation=*/true)
+   , m_squareColor(0.2f, 0.3f, 0.8f)
+   {
       m_vertexArray = Hazel::VertexArray::Create();
 
       float vertices[3 * 7] = {
@@ -67,38 +71,25 @@ public:
    }
 
 
+   virtual void OnEvent(Hazel::Event& e) override {
+      m_cameraController.OnEvent(e);
+   }
+
+
    virtual void OnUpdate(Hazel::Timestep ts) override {
 
       //HZ_CORE_INFO("Delta time = {0}ms", deltaTime.GetMilliseconds());
 
-      float deltaTime = ts;
-      if (Hazel::Input::IsKeyPressed(HZ_KEY_LEFT)) {
-         m_cameraPosition.x -= (m_cameraMoveSpeed * deltaTime);
-      } else if (Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT)) {
-         m_cameraPosition.x += (m_cameraMoveSpeed * deltaTime);
-      }
+      // Update
+      m_cameraController.OnUpdate(ts);
 
-      if (Hazel::Input::IsKeyPressed(HZ_KEY_DOWN)) {
-         m_cameraPosition.y -= (m_cameraMoveSpeed * deltaTime);
-      } else if (Hazel::Input::IsKeyPressed(HZ_KEY_UP)) {
-         m_cameraPosition.y += (m_cameraMoveSpeed * deltaTime);
-      }
-
-      if (Hazel::Input::IsKeyPressed(HZ_KEY_Q)) {
-         m_cameraRotation += (m_cameraRotationSpeed * deltaTime);
-      } else if (Hazel::Input::IsKeyPressed(HZ_KEY_E)) {
-         m_cameraRotation -= (m_cameraRotationSpeed * deltaTime);
-      }
-
+      // Render
       Hazel::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
       Hazel::RenderCommand::Clear();
 
-      m_camera.SetPosition(m_cameraPosition);
-      m_camera.SetRotation(m_cameraRotation);
-
       glm::mat4 scale = glm::scale(glm::identity<glm::mat4>(), glm::vec3(0.1f));
 
-      Hazel::Renderer::BeginScene(m_camera);
+      Hazel::Renderer::BeginScene(m_cameraController.GetCamera());
 
       std::shared_ptr<Hazel::Shader> flatColorShader = m_shaderLibrary->GetShader("FlatColor");
       flatColorShader->Bind();
@@ -113,7 +104,7 @@ public:
          }
       }
 
-     // Big squares
+      // Big squares
       std::shared_ptr<Hazel::Shader> textureShader = m_shaderLibrary->GetShader("Texture");
       m_texture->Bind(0);
       Hazel::Renderer::Submit(*textureShader, *m_squareVA, glm::scale(glm::identity<glm::mat4>(), glm::vec3(1.5f)));
@@ -127,18 +118,17 @@ public:
       Hazel::Renderer::EndScene();
    }
 
+
    virtual void OnImGuiRender() override {
       ImGui::Begin("Settings");
       ImGui::ColorEdit3("Square Color", glm::value_ptr(m_squareColor));
       ImGui::End();
    }
+
+
 private:
-   Hazel::OrthographicCamera m_camera = {-3.2f, 1.8f, 3.2f, -1.8f};
-   glm::vec3 m_cameraPosition = glm::zero<glm::vec3>();
-   glm::vec3 m_squareColor = {0.2f, 0.3f, 0.8f};
-   float m_cameraRotation = 0.0f;
-   float m_cameraMoveSpeed = 5.0f;
-   float m_cameraRotationSpeed = 180.0f;
+   Hazel::OrthographicCameraController m_cameraController;
+   glm::vec3 m_squareColor;
    std::unique_ptr<Hazel::VertexArray> m_vertexArray;
    std::unique_ptr<Hazel::Shader> m_shader;
    std::unique_ptr<Hazel::VertexArray> m_squareVA;
@@ -146,6 +136,7 @@ private:
    std::unique_ptr<Hazel::Texture2D> m_texture;
    std::unique_ptr<Hazel::Texture2D> m_chernoTexture;
 };
+
 
 class Sandbox : public Hazel::Application {
 public:

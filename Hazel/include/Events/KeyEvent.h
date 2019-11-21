@@ -11,7 +11,7 @@ namespace Hazel {
 
    protected:
       KeyEvent(uint32_t keycode);
-      uint32_t m_KeyCode;
+      uint32_t m_keyCode;
    };
 
 
@@ -25,7 +25,7 @@ namespace Hazel {
       std::string ToString() const override;
 
    protected:
-      int m_RepeatCount;
+      int m_repeatCount;
    };
 
 

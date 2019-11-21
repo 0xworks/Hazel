@@ -14,10 +14,10 @@ namespace Hazel {
 
 
    bool Event::IsHandled() {
-      return(m_Handled);
+      return(m_handled);
    }
 
 
-   EventDispatcher::EventDispatcher(Event& event) : m_Event(event) {}
+   EventDispatcher::EventDispatcher(Event& event) : m_event(event) {}
 
 }

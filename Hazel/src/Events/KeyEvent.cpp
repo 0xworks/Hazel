@@ -4,24 +4,24 @@
 
 namespace Hazel {
 
-   KeyEvent::KeyEvent(uint32_t keycode) : m_KeyCode(keycode) {}
+   KeyEvent::KeyEvent(uint32_t keycode) : m_keyCode(keycode) {}
 
    uint32_t Hazel::KeyEvent::GetKeyCode() const {
-      return m_KeyCode;
+      return m_keyCode;
    }
 
 
-   KeyPressedEvent::KeyPressedEvent(uint32_t keycode, int repeatCount) : KeyEvent(keycode), m_RepeatCount(repeatCount) {}
+   KeyPressedEvent::KeyPressedEvent(uint32_t keycode, int repeatCount) : KeyEvent(keycode), m_repeatCount(repeatCount) {}
 
 
    int KeyPressedEvent::GetRepeatCount() const {
-      return m_RepeatCount;
+      return m_repeatCount;
    }
 
 
    std::string KeyPressedEvent::ToString() const {
       std::stringstream ss;
-      ss << "KeyPressedEvent: " << m_KeyCode << " (" << m_RepeatCount << " repeats)";
+      ss << "KeyPressedEvent: " << m_keyCode << " (" << m_repeatCount << " repeats)";
       return ss.str();
    }
 
@@ -31,7 +31,7 @@ namespace Hazel {
 
    std::string KeyReleasedEvent::ToString() const {
       std::stringstream ss;
-      ss << "KeyReleasedEvent: " << m_KeyCode;
+      ss << "KeyReleasedEvent: " << m_keyCode;
       return ss.str();
    }
 
@@ -41,7 +41,7 @@ namespace Hazel {
 
    std::string KeyTypedEvent::ToString() const {
       std::stringstream ss;
-      ss << "KeyTypedEvent: " << m_KeyCode;
+      ss << "KeyTypedEvent: " << m_keyCode;
       return ss.str();
    }
 }
