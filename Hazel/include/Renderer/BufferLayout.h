@@ -30,12 +30,12 @@ namespace Hazel {
       bool Normalized;
 
       BufferElement(const std::string& name, ShaderDataType type)
-         : Name(name)
-         , Type(type)
-         , Size(ShaderDataTypeSize(type))
-         , Offset(0)
-         , Normalized(false) {
-      }
+      : Name(name)
+      , Type(type)
+      , Size(ShaderDataTypeSize(type))
+      , Offset(0)
+      , Normalized(false)
+      {}
 
       uint32_t GetComponentCount() const { return ShaderDataTypeComponentCount(Type); }
 

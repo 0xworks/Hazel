@@ -60,6 +60,7 @@ namespace Hazel {
       uint32_t index = 0;
       const auto& layout = vertexBuffer->GetLayout();
       for (const auto& element : layout) {
+         intptr_t offset = element.Offset;
          glEnableVertexAttribArray(index);
          glVertexAttribPointer(
             index,
@@ -67,7 +68,7 @@ namespace Hazel {
             ShaderDataTypeToOpenGLBaseType(element.Type),
             element.Normalized ? GL_TRUE : GL_FALSE,
             layout.GetStride(),
-            (const void*)element.Offset
+            (const void*)offset
          );
          ++index;
       }
