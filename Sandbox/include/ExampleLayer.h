@@ -1,17 +1,17 @@
-#include "pch.h"
+#pragma once
+
 #include "vendor/imgui/imgui.h"
 
 // temporary
 #include "glm/ext.hpp"
 #include "Platform/OpenGL/OpenGLShader.h"
 
-
 class ExampleLayer : public Hazel::Layer {
 public:
    ExampleLayer()
    : Layer("Example")
    , m_cameraController(/*aspectRatio=*/1280.0f / 720.0f, /*allowRotation=*/true)
-   , m_squareColor(0.2f, 0.3f, 0.8f)
+   , m_squareColor(0.2f, 0.3f, 0.8f, 1.0f)
    {
       m_vertexArray = Hazel::VertexArray::Create();
 
@@ -47,7 +47,7 @@ public:
       squareVB->SetLayout({
          {"a_Position", Hazel::ShaderDataType::Float3},
          {"a_TexCoord", Hazel::ShaderDataType::Float2}
-      });
+         });
 
       m_squareVA->AddVertexBuffer(std::move(squareVB));
 
@@ -93,7 +93,7 @@ public:
 
       std::shared_ptr<Hazel::Shader> flatColorShader = m_shaderLibrary->GetShader("FlatColor");
       flatColorShader->Bind();
-      ((Hazel::OpenGLShader*)flatColorShader.get())->UploadUniformVec3("u_color", m_squareColor);
+      ((Hazel::OpenGLShader*)flatColorShader.get())->UploadUniformVec4("u_color", m_squareColor);
 
       // Grid squares
       for (int y = -10; y < 10; ++y) {
@@ -121,14 +121,14 @@ public:
 
    virtual void OnImGuiRender() override {
       ImGui::Begin("Settings");
-      ImGui::ColorEdit3("Square Color", glm::value_ptr(m_squareColor));
+      ImGui::ColorEdit4("Square Color", glm::value_ptr(m_squareColor));
       ImGui::End();
    }
 
 
 private:
    Hazel::OrthographicCameraController m_cameraController;
-   glm::vec3 m_squareColor;
+   glm::vec4 m_squareColor;
    std::unique_ptr<Hazel::VertexArray> m_vertexArray;
    std::unique_ptr<Hazel::Shader> m_shader;
    std::unique_ptr<Hazel::VertexArray> m_squareVA;
@@ -136,18 +136,3 @@ private:
    std::unique_ptr<Hazel::Texture2D> m_texture;
    std::unique_ptr<Hazel::Texture2D> m_chernoTexture;
 };
-
-
-class Sandbox : public Hazel::Application {
-public:
-   Sandbox() {
-      PushLayer(std::move(std::make_unique<ExampleLayer>()));
-   }
-
-   ~Sandbox() {}
-};
-
-
-std::unique_ptr<Hazel::Application> CreateApplication() {
-   return std::make_unique<Sandbox>();
-}
