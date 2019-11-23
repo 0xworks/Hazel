@@ -4,7 +4,7 @@
 
 #define EVENT_CLASS_TYPE(type) public:                            \
 static EventType GetStaticType() {                                \
-   return EventType::##type;                                      \
+   return EventType::type;                                        \
 }                                                                 \
                                                                   \
 virtual EventType GetEventType() const override {                 \

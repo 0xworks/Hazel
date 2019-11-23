@@ -21,15 +21,19 @@ namespace Hazel {
 
    void OrthographicCameraController::OnUpdate(Timestep deltaTime) {
       if (Input::IsKeyPressed(HZ_KEY_A)) {
-         m_cameraPosition.x -= (m_cameraTranslationSpeed * deltaTime);
+         m_cameraPosition.x -= cos(glm::radians(m_cameraRotation)) * m_cameraTranslationSpeed * deltaTime;
+         m_cameraPosition.y -= sin(glm::radians(m_cameraRotation)) * m_cameraTranslationSpeed * deltaTime;
       } else if (Input::IsKeyPressed(HZ_KEY_D)) {
-         m_cameraPosition.x += (m_cameraTranslationSpeed * deltaTime);
+         m_cameraPosition.x += cos(glm::radians(m_cameraRotation)) * m_cameraTranslationSpeed * deltaTime;
+         m_cameraPosition.y += sin(glm::radians(m_cameraRotation)) * m_cameraTranslationSpeed * deltaTime;
       }
 
-      if (Input::IsKeyPressed(HZ_KEY_S)) {
-         m_cameraPosition.y -= (m_cameraTranslationSpeed * deltaTime);
-      } else if (Input::IsKeyPressed(HZ_KEY_W)) {
-         m_cameraPosition.y += (m_cameraTranslationSpeed * deltaTime);
+      if (Input::IsKeyPressed(HZ_KEY_W)) {
+         m_cameraPosition.x += -sin(glm::radians(m_cameraRotation)) * m_cameraTranslationSpeed * deltaTime;
+         m_cameraPosition.y += cos(glm::radians(m_cameraRotation)) * m_cameraTranslationSpeed * deltaTime;
+      } else if (Input::IsKeyPressed(HZ_KEY_S)) {
+         m_cameraPosition.x -= -sin(glm::radians(m_cameraRotation)) * m_cameraTranslationSpeed * deltaTime;
+         m_cameraPosition.y -= cos(glm::radians(m_cameraRotation)) * m_cameraTranslationSpeed * deltaTime;
       }
       m_camera.SetPosition(m_cameraPosition);
 
@@ -39,9 +43,13 @@ namespace Hazel {
          } else if (Input::IsKeyPressed(HZ_KEY_E)) {
             m_cameraRotation -= (m_cameraRotationSpeed * deltaTime);
          }
+         if (m_cameraRotation > 180.0f) {
+            m_cameraRotation -= 360.0f;
+         } else if (m_cameraRotation <= -180.0f) {
+            m_cameraRotation += 360.0f;
+         }
          m_camera.SetRotation(m_cameraRotation);
       }
-
    }
 
 

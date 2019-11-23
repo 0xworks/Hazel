@@ -3,7 +3,11 @@
 
 namespace Hazel {
 
-   LayerStack::~LayerStack() {}
+   LayerStack::~LayerStack() {
+      for (auto& layer : m_layers) {
+         layer->OnDetach();
+      }
+   }
 
 
    void LayerStack::PushLayer(std::unique_ptr<Layer> layer) {
