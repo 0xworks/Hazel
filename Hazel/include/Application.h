@@ -12,7 +12,7 @@ namespace Hazel {
 
    public:
       Application();
-      virtual ~Application();
+      virtual ~Application() = default;
 
       void Run();
 
@@ -27,13 +27,15 @@ namespace Hazel {
       static Application& Get();
 
    private:
-      bool OnWindowClose(WindowCloseEvent& event);
+      bool OnWindowClose(WindowCloseEvent& e);
+      bool OnWindowResize(WindowResizeEvent& e);
 
    private:
       LayerStack m_layerStack;
       float m_lastFrameTime = 0.0f;
       std::unique_ptr<Window> m_window;
       bool m_bRunning = true;
+      bool m_bMinimised = false;
 
    private:
       static Application* sm_application;

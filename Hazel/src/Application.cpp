@@ -26,9 +26,6 @@ namespace Hazel {
    }
 
 
-   Application::~Application() {}
-
-
    void Application::Run() {
 
       while(m_bRunning) {
@@ -36,8 +33,10 @@ namespace Hazel {
          Timestep deltaTime = (time - m_lastFrameTime);
          m_lastFrameTime = time;
 
-         for(auto& layer : m_layerStack) {
-            layer->OnUpdate(deltaTime);
+         if (!m_bMinimised) {
+            for (auto& layer : m_layerStack) {
+               layer->OnUpdate(deltaTime);
+            }
          }
 
          ImGuiLayer::Begin();
@@ -58,6 +57,7 @@ namespace Hazel {
       // This seems like an overly complicated way to just do a switch on event type...
       EventDispatcher dispatcher(e);
       dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClose));
+      dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(Application::OnWindowResize));
 
       //switch(e.GetEventType()) {
       //   case EventType::WindowClose:
@@ -86,19 +86,29 @@ namespace Hazel {
 
    Window& Application::GetWindow() {
       HZ_CORE_ASSERT(m_window, "Window is null!");
-      return(*m_window);
+      return *m_window;
    }
 
 
    Application& Application::Get() {
       HZ_CORE_ASSERT(sm_application, "Application is null!");
-      return(*sm_application);
+      return *sm_application;
    }
 
 
-   bool Application::OnWindowClose(WindowCloseEvent& event) {
+   bool Application::OnWindowClose(WindowCloseEvent& e) {
       m_bRunning = false;
-      return(true);
+      return true;
+   }
+
+   bool Application::OnWindowResize(WindowResizeEvent& e) {
+      if (e.GetWidth() == 0 || e.GetHeight() == 0) {
+         m_bMinimised = true;
+      } else {
+         m_bMinimised = false;
+         Renderer::OnWindowResized(e.GetWidth(), e.GetHeight());
+      }
+      return false;
    }
 
 }

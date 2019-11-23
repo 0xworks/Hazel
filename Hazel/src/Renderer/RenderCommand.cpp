@@ -10,7 +10,11 @@ namespace Hazel {
       sm_rendererAPI->Init();
    }
 
-   void RenderCommand::SetClearColor(glm::vec4 color) {
+   void RenderCommand::SetViewport(const uint32_t x, const uint32_t y, const uint32_t width, const uint32_t height) {
+      sm_rendererAPI->SetViewport(x, y, width, height);
+   }
+
+   void RenderCommand::SetClearColor(const glm::vec4& color) {
       sm_rendererAPI->SetClearColor(color);
    }
 

@@ -13,7 +13,8 @@ namespace Hazel {
    public:
 
       static void Init();
-      static void SetClearColor(glm::vec4 color);
+      static void SetViewport(const uint32_t left, const uint32_t top, const uint32_t right, const uint32_t bottom);
+      static void SetClearColor(const glm::vec4& color);
       static void Clear();
       static void DrawIndexed(const VertexArray& vertexArray);
 

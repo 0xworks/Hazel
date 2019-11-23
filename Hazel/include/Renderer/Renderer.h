@@ -17,6 +17,7 @@ namespace Hazel {
 
       static void Submit(Shader& shader, const VertexArray& vertexArray, const glm::mat4& transform);
 
+      static void OnWindowResized(const uint32_t width, const uint32_t height);
 
    };
 
