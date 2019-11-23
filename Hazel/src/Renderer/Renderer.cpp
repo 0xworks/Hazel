@@ -1,9 +1,13 @@
 #include "hzpch.h"
 #include "Renderer/Renderer.h"
 
-#include "Platform/OpenGL/OpenGLShader.h"
+#include "Renderer/Renderer2D.h"
 
 #include "glm/glm.hpp"
+
+// temporary
+#include "Platform/OpenGL/OpenGLShader.h"
+
 
 namespace Hazel {
 
@@ -16,6 +20,12 @@ namespace Hazel {
 
    void Renderer::Init() {
       RenderCommand::Init();
+      Renderer2D::Init();
+   }
+
+
+   void Renderer::ShutDown() {
+      Renderer2D::ShutDown();
    }
 
 

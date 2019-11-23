@@ -19,6 +19,7 @@
 #include "Renderer/OrthographicCameraController.h"
 #include "Renderer/RenderCommand.h"
 #include "Renderer/Renderer.h"
+#include "Renderer/Renderer2D.h"
 #include "Renderer/Shader.h"
 #include "Renderer/ShaderLibrary.h"
 #include "Renderer/Texture.h"

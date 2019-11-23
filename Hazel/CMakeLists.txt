@@ -56,6 +56,7 @@ set(
    "src/Renderer/OrthographicCameraController.cpp"
    "src/Renderer/RenderCommand.cpp"
    "src/Renderer/Renderer.cpp"
+   "src/Renderer/Renderer2D.cpp"
    "src/Renderer/RendererAPI.cpp"
    "src/Renderer/Shader.cpp"
    "src/Renderer/ShaderLibrary.cpp"

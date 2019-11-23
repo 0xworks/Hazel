@@ -26,6 +26,11 @@ namespace Hazel {
    }
 
 
+   Application::~Application() {
+      Renderer::ShutDown();
+   }
+
+
    void Application::Run() {
 
       while(m_bRunning) {
