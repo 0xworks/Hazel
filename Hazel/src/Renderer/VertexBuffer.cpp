@@ -1,7 +1,8 @@
 #include "hzpch.h"
 #include "Renderer/VertexBuffer.h"
-#include "Renderer/Renderer.h"
+
 #include "Platform/OpenGL/OpenGlVertexBuffer.h"
+#include "Renderer/Renderer.h"
 
 namespace Hazel {
 

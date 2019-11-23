@@ -1,7 +1,8 @@
 #include "hzpch.h"
-#include "ImGuiLayer.h"
+#include "Core/ImGuiLayer.h"
 
-#include "Application.h"
+#include "Core/Application.h"
+
 #include "imgui.h"
 #include "examples/imgui_impl_glfw.h"
 #include "examples/imgui_impl_opengl3.h"

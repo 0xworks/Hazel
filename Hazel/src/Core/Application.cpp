@@ -1,10 +1,10 @@
 #include "hzpch.h"
-#include "Application.h"
+#include "Core/Application.h"
 
+#include "Core/Input.h"
+#include "Core/ImGuiLayer.h"
+#include "Core/Log.h"
 #include "Events/ApplicationEvent.h"
-#include "Input.h"
-#include "ImGuiLayer.h"
-#include "Log.h"
 #include "Renderer/Renderer.h"
 
 #include "GLFW/glfw3.h"

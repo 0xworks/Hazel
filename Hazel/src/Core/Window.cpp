@@ -1,5 +1,5 @@
 #include "hzpch.h"
-#include "Window.h"
+#include "Core/Window.h"
 
 namespace Hazel {
 

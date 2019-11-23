@@ -2,6 +2,7 @@
 #include "Renderer/Renderer.h"
 
 #include "Platform/OpenGL/OpenGLShader.h"
+
 #include "glm/glm.hpp"
 
 namespace Hazel {
