@@ -1,8 +1,9 @@
 #pragma once
 
-#include "OrthographicCamera.h"
-#include "RenderCommand.h"
-#include "Shader.h"
+#include "Renderer/OrthographicCamera.h"
+#include "Renderer/RenderCommand.h"
+#include "Renderer/Shader.h"
+#include "Renderer/Texture.h"
 
 namespace Hazel {
 
@@ -17,6 +18,8 @@ namespace Hazel {
 
       static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);
       static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color);
+      static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Texture& texture, const glm::vec4& color = glm::vec4(1.0f));
+      static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Texture& texture, const glm::vec4& color = glm::vec4(1.0f));
 
    };
 

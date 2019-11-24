@@ -1,8 +1,8 @@
 #pragma once
 
-#include "OrthographicCamera.h"
-#include "RenderCommand.h"
-#include "Shader.h"
+#include "Renderer/OrthographicCamera.h"
+#include "Renderer/RenderCommand.h"
+#include "Renderer/Shader.h"
 
 namespace Hazel {
 
