@@ -170,27 +170,26 @@ namespace Hazel {
    }
 
 
-   void OpenGLShader::UploadUniformUInt(const std::string& name, const uint32_t ui) {
+   void OpenGLShader::SetUInt32(const std::string& name, const uint32_t ui) {
       GLint location = glGetUniformLocation(m_shaderId, name.c_str());
       glUniform1ui(location, (GLuint)ui);
    }
 
 
-   void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& mat) {
+   void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& mat4) {
       GLint location = glGetUniformLocation(m_shaderId, name.c_str());
-      glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
+      glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat4));
    }
 
 
-   void OpenGLShader::UploadUniformVec3(const std::string& name, const glm::vec3& vec) {
+   void OpenGLShader::SetVec3(const std::string& name, const glm::vec3& vec3) {
       GLint location = glGetUniformLocation(m_shaderId, name.c_str());
-      glUniform3fv(location, 1, glm::value_ptr(vec));
+      glUniform3fv(location, 1, glm::value_ptr(vec3));
    }
 
-
-   void OpenGLShader::UploadUniformVec4(const std::string& name, const glm::vec4& vec) {
+   void OpenGLShader::SetVec4(const std::string& name, const glm::vec4& vec4) {
       GLint location = glGetUniformLocation(m_shaderId, name.c_str());
-      glUniform4fv(location, 1, glm::value_ptr(vec));
+      glUniform4fv(location, 1, glm::value_ptr(vec4));
    }
 
 }

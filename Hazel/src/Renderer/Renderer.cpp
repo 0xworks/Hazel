@@ -5,10 +5,6 @@
 
 #include "glm/glm.hpp"
 
-// temporary
-#include "Platform/OpenGL/OpenGLShader.h"
-
-
 namespace Hazel {
 
    static glm::mat4 s_viewProjectionMatrix;
@@ -39,8 +35,8 @@ namespace Hazel {
 
    void Renderer::Submit(Shader& shader, const VertexArray& vertexArray, const glm::mat4& transform) {
       shader.Bind();
-      dynamic_cast<OpenGLShader&>(shader).UploadUniformMat4("u_viewProjection", s_viewProjectionMatrix);
-      dynamic_cast<OpenGLShader&>(shader).UploadUniformMat4("u_transform", transform);
+      shader.SetMat4("u_viewProjection", s_viewProjectionMatrix);
+      shader.SetMat4("u_transform", transform);
       vertexArray.Bind();
       RenderCommand::DrawIndexed(vertexArray);
    }

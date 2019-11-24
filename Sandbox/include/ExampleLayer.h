@@ -4,7 +4,6 @@
 
 // temporary
 #include "glm/ext.hpp"
-#include "Platform/OpenGL/OpenGLShader.h"
 
 class ExampleLayer : public Hazel::Layer {
 public:
@@ -66,8 +65,8 @@ public:
 
       std::shared_ptr<Hazel::Shader> textureShader = m_shaderLibrary->GetShader("Texture");
       textureShader->Bind();
-      ((Hazel::OpenGLShader*)textureShader.get())->UploadUniformUInt("u_Texture", 0); // TODO: parameterise texture slot?
-
+      textureShader->SetUInt32("u_Texture", 0); // TODO: parameterise texture slot?
+       
    }
 
 
@@ -93,7 +92,7 @@ public:
 
       std::shared_ptr<Hazel::Shader> flatColorShader = m_shaderLibrary->GetShader("FlatColor");
       flatColorShader->Bind();
-      ((Hazel::OpenGLShader*)flatColorShader.get())->UploadUniformVec4("u_color", m_squareColor);
+      flatColorShader->SetVec4("u_color", m_squareColor);
 
       // Grid squares
       for (int y = -10; y < 10; ++y) {
