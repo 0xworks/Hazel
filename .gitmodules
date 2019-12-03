@@ -17,3 +17,6 @@
 	path = Hazel/vendor/imgui
 	url = https://github.com/ocornut/imgui.git
 	branch = docking
+[submodule "vendor/Tracy"]
+	path = vendor/Tracy
+	url = https://freeman40@bitbucket.org/wolfpld/tracy.git

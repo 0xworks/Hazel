@@ -7,6 +7,7 @@ add_executable(
    Sandbox
    "pch.cpp"
    "src/SandboxApp.cpp"
+   "../vendor/Tracy/TracyClient.cpp"
 )
 
 set_target_properties(
@@ -15,6 +16,12 @@ set_target_properties(
 )
 
 add_precompiled_header(Sandbox "pch.h" SOURCE_CXX "pch.cpp")
+
+# no precompiled header for TracyClient.cpp
+set_source_files_properties(
+   "../vendor/Tracy/TracyClient.cpp" PROPERTIES
+   COMPILE_FLAGS /Y-
+)
 
 target_include_directories(
    Sandbox PUBLIC

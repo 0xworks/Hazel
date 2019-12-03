@@ -7,6 +7,12 @@ include(vendor/cmake-precompiled-header/PrecompiledHeader.cmake)
 
 project ("Hazel" VERSION 0.1 DESCRIPTION "Hazel Interactive App Engine")
 
+OPTION(ENABLE_TRACY "Enable Tracy Profiling" OFF) # Disable by default
+
+if(ENABLE_TRACY)
+    add_definitions(-DTRACY_ENABLE)
+endif(ENABLE_TRACY)
+
 add_subdirectory("Hazel")
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
