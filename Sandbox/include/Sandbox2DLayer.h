@@ -20,6 +20,7 @@ public:
 
 
    virtual void OnUpdate(Hazel::Timestep deltaTime) override {
+      HZ_PROFILE_FUNCTION();
       // Update
       m_cameraController.OnUpdate(deltaTime);
 

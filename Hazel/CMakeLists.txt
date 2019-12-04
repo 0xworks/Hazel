@@ -70,6 +70,7 @@ set(
    "Platform/OpenGL/OpenGLTexture.cpp"
    "Platform/OpenGL/OpenGLVertexArray.cpp"
    "Platform/OpenGL/OpenGLVertexBuffer.cpp"
+   "../vendor/Tracy/TracyClient.cpp"
 )
 
 if(WIN32)
@@ -110,6 +111,12 @@ add_precompiled_header(Hazel "hzpch.h" SOURCE_CXX "hzpch.cpp")
 set_target_properties(
    Hazel PROPERTIES
    CXX_STANDARD 17
+)
+
+# no precompiled header for TracyClient.cpp
+set_source_files_properties(
+   "../vendor/Tracy/TracyClient.cpp" PROPERTIES
+   COMPILE_FLAGS /Y-
 )
 
 target_compile_definitions(

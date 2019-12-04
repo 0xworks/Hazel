@@ -14,5 +14,6 @@ public:
 
 
 std::unique_ptr<Hazel::Application> CreateApplication() {
+   HZ_PROFILE_FUNCTION();
    return std::make_unique<SandboxApp>();
 }

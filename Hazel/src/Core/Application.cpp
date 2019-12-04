@@ -32,6 +32,7 @@ namespace Hazel {
 
 
    void Application::Run() {
+      HZ_PROFILE_FUNCTION();
 
       while(m_bRunning) {
          float time = (float)glfwGetTime(); // this should be in Platform/...
@@ -44,6 +45,7 @@ namespace Hazel {
             }
          }
 
+         HZ_PROFILE_SCOPE("ImGuiLayer");
          ImGuiLayer::Begin();
          for(auto& layer : m_layerStack) {
             layer->OnImGuiRender();
