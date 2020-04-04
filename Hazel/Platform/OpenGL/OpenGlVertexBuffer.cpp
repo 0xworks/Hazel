@@ -4,12 +4,19 @@
 
 namespace Hazel {
 
-   OpenGLVertexBuffer::OpenGLVertexBuffer(const float* vertices, const uint32_t count)
-   : m_count(count) {
+   OpenGLVertexBuffer::OpenGLVertexBuffer(const uint32_t size) {
       glCreateBuffers(1, &m_vertexBufferId);
       glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferId);
-      glBufferData(GL_ARRAY_BUFFER, count * sizeof(float), vertices, GL_STATIC_DRAW);
+      glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
    }
+
+
+   OpenGLVertexBuffer::OpenGLVertexBuffer(const float* vertices, const uint32_t size) {
+      glCreateBuffers(1, &m_vertexBufferId);
+      glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferId);
+      glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+   }
+
 
 
    OpenGLVertexBuffer::~OpenGLVertexBuffer() {
@@ -27,6 +34,12 @@ namespace Hazel {
    }
 
 
+   void OpenGLVertexBuffer::SetData(const void* data, const uint32_t size) {
+      glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferId);
+      glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+   }
+
+
    void Hazel::OpenGLVertexBuffer::Bind() const {
       glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferId);
    }
@@ -36,8 +49,4 @@ namespace Hazel {
       glBindBuffer(GL_ARRAY_BUFFER, 0);
    }
 
-
-   uint32_t OpenGLVertexBuffer::GetCount() const {
-      return(m_count);
-   }
 }

@@ -23,8 +23,8 @@ namespace Hazel {
       sm_rendererAPI->Clear();
    }
 
-   void RenderCommand::DrawIndexed(const VertexArray& vertexArray) {
-      sm_rendererAPI->DrawIndexed(vertexArray);
+   void RenderCommand::DrawIndexed(const VertexArray& vertexArray, const uint32_t indexCount) {
+      sm_rendererAPI->DrawIndexed(vertexArray, indexCount);
    }
 
 }

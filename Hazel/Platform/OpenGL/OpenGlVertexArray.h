@@ -15,13 +15,13 @@ namespace Hazel {
       virtual void Unbind() const override;
 
       virtual void SetIndexBuffer(std::unique_ptr<IndexBuffer> indexBuffer) override;
-      virtual void AddVertexBuffer(std::unique_ptr<VertexBuffer> vertexBuffer) override;
+      virtual void SetVertexBuffer(std::unique_ptr<VertexBuffer> vertexBuffer) override;
 
-      virtual const std::vector<std::unique_ptr<VertexBuffer>>& GetVertexBuffers() const override;
+      virtual VertexBuffer& GetVertexBuffer() const override;
       virtual const IndexBuffer& GetIndexBuffer() const override;
 
    private:
-      std::vector<std::unique_ptr<VertexBuffer>> m_vertexBuffers;
+      std::unique_ptr<VertexBuffer> m_vertexBuffer;
       std::unique_ptr<IndexBuffer> m_indexBuffer;
       uint32_t m_vertexArrayId;
    };

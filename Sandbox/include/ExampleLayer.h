@@ -27,7 +27,7 @@ public:
       };
       vertexBuffer->SetLayout(layout);
 
-      m_vertexArray->AddVertexBuffer(std::move(vertexBuffer));
+      m_vertexArray->SetVertexBuffer(std::move(vertexBuffer));
 
       uint32_t indices[3] = {0, 1, 2};
       std::unique_ptr<Hazel::IndexBuffer> indexBuffer = Hazel::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
@@ -48,7 +48,7 @@ public:
          {"a_TexCoord", Hazel::ShaderDataType::Float2}
          });
 
-      m_squareVA->AddVertexBuffer(std::move(squareVB));
+      m_squareVA->SetVertexBuffer(std::move(squareVB));
 
       uint32_t indicesSquare[6] = {0, 1, 2, 2, 3, 0};
       std::unique_ptr<Hazel::IndexBuffer> squareIB = Hazel::IndexBuffer::Create(indicesSquare, sizeof(indicesSquare) / sizeof(uint32_t));
