@@ -14,6 +14,10 @@ namespace Hazel {
          case ShaderDataType::Float4:  return GL_FLOAT;
          case ShaderDataType::Mat3:    return GL_FLOAT;
          case ShaderDataType::Mat4:    return GL_FLOAT;
+         case ShaderDataType::UInt:    return GL_UNSIGNED_INT;
+         case ShaderDataType::UInt2:   return GL_UNSIGNED_INT;
+         case ShaderDataType::UInt3:   return GL_UNSIGNED_INT;
+         case ShaderDataType::UInt4:   return GL_UNSIGNED_INT;
          case ShaderDataType::Int:     return GL_INT;
          case ShaderDataType::Int2:    return GL_INT;
          case ShaderDataType::Int3:    return GL_INT;
@@ -77,12 +81,12 @@ namespace Hazel {
 
 
    VertexBuffer& OpenGLVertexArray::GetVertexBuffer() const {
-      return(*m_vertexBuffer.get());
+      return *m_vertexBuffer.get();
    }
 
 
    const IndexBuffer& OpenGLVertexArray::GetIndexBuffer() const {
-      return(*m_indexBuffer.get());
+      return *m_indexBuffer.get();
    }
 
 }

@@ -65,13 +65,18 @@ namespace Hazel {
    }
 
 
+   uint32_t OpenGLTexture2D::GetId() const {
+      return m_textureId;
+   }
+
+
    uint32_t OpenGLTexture2D::GetWidth() const {
-      return(m_width);
+      return m_width;
    }
 
 
    uint32_t OpenGLTexture2D::GetHeight() const {
-      return(m_height);
+      return m_height;
    }
    
 

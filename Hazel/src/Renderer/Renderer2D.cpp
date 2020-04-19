@@ -10,6 +10,7 @@ namespace Hazel {
       glm::vec3 Position;
       glm::vec4 Color;
       glm::vec2 TexCoord;
+      float TexIndex;
    };
 
 
@@ -17,6 +18,7 @@ namespace Hazel {
       static const uint32_t MaxQuads = 10000;
       static const uint32_t MaxVertices = 4 * MaxQuads;
       static const uint32_t MaxIndices = 6 * MaxQuads;
+      static const uint32_t MaxTextureSlots = 32;
 
       std::unique_ptr<Shader> TextureShader;
       std::unique_ptr<Texture> WhiteTexture;
@@ -24,7 +26,10 @@ namespace Hazel {
 
       uint32_t QuadIndexCount = 0;
       std::unique_ptr<QuadVertex[]> QuadVertices = std::make_unique<QuadVertex[]>(Renderer2DData::MaxVertices);
-      uint32_t CurrentQuad = 0;
+      uint32_t CurrentVertex = 0;
+
+      std::array<uint32_t, MaxTextureSlots> TextureSlots;
+      uint32_t TextureSlotIndex = 0;
    };
 
    static std::unique_ptr<Renderer2DData> s_data;
@@ -38,7 +43,8 @@ namespace Hazel {
       quadVB->SetLayout({
          { "a_position", ShaderDataType::Float3 },
          { "a_color", ShaderDataType::Float4 },
-         { "a_texCoord", ShaderDataType::Float2 }
+         { "a_texCoord", ShaderDataType::Float2 },
+         { "a_texIndex", ShaderDataType::Float }
       });
       s_data->QuadVertexArray->SetVertexBuffer(std::move(quadVB));
 
@@ -61,7 +67,13 @@ namespace Hazel {
 #include "Texture.glsl.h"
       s_data->TextureShader = Shader::Create("Texture", vertexSrc, fragmentSrc);
       s_data->TextureShader->Bind();
-      s_data->TextureShader->SetUInt32("u_Texture", 0);
+
+      std::array<int, Renderer2DData::MaxTextureSlots> textures;
+      for (int i = 0; i < textures.size(); ++i) {
+         textures[i] = i;
+      }
+      s_data->TextureShader->SetIntArray("u_textures", textures.data(), static_cast<uint32_t>(textures.size()));
+
    }
 
 
@@ -71,10 +83,10 @@ namespace Hazel {
 
 
    void Renderer2D::BeginScene(const OrthographicCamera& camera) {
-      s_data->TextureShader->Bind();
       s_data->TextureShader->SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
-      s_data->CurrentQuad = 0;
+      s_data->CurrentVertex = 0;
       s_data->QuadIndexCount = 0;
+      s_data->TextureSlotIndex = 0;
    }
 
 
@@ -85,7 +97,8 @@ namespace Hazel {
 
    void Renderer2D::Flush() {
       HZ_PROFILE_FUNCTION();
-      s_data->QuadVertexArray->GetVertexBuffer().SetData(s_data->QuadVertices.get(), (s_data->CurrentQuad + 1) * sizeof(QuadVertex));
+
+      s_data->QuadVertexArray->GetVertexBuffer().SetData(s_data->QuadVertices.get(), (s_data->CurrentVertex + 1) * sizeof(QuadVertex));
       RenderCommand::DrawIndexed(*s_data->QuadVertexArray, s_data->QuadIndexCount);
    }
 
@@ -106,17 +119,31 @@ namespace Hazel {
 
 
    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Texture& texture, const glm::vec4& color) {
-      //   texture.Bind(0);
-      //   s_data->TextureShader->SetVec4("u_color", color);
-      //   s_data->TextureShader->SetMat4("u_transform", glm::translate(glm::identity<glm::mat4>(), position) * glm::scale(glm::identity<glm::mat4>(), {size.x, size.y, 1.0f}));
-      //   s_data->QuadVertexArray->Bind();
-      //   RenderCommand::DrawIndexed(*s_data->QuadVertexArray);
+      if (s_data->CurrentVertex >= s_data->MaxVertices - 4) {
+         Flush();
+      }
+
+      float texIndex = -1.0f;
+      for (uint32_t i = 0; i < s_data->TextureSlotIndex; ++i) {
+         if (s_data->TextureSlots[i] == texture.GetId()) {
+            texIndex = (float)i;
+            break;
+         }
+      }
+      if (texIndex < 0.0f) {
+         if (s_data->TextureSlotIndex == s_data->MaxTextureSlots) {
+            Flush();
+         }
+         s_data->TextureSlots[s_data->TextureSlotIndex] = texture.GetId();
+         texIndex = (float)s_data->TextureSlotIndex;
+         texture.Bind(s_data->TextureSlotIndex++); // Would probably be nicer in Flush(), but that makes the s_data->TextureSlots data structure more complicated
+      }
 
       const glm::vec2 halfSize = size / 2.0f;
-      s_data->QuadVertices[s_data->CurrentQuad++] = {{position.x - halfSize.x, position.y - halfSize.y, 0.0f}, color, {0.0f, 0.0f}};
-      s_data->QuadVertices[s_data->CurrentQuad++] = {{position.x - halfSize.x, position.y + halfSize.y, 0.0f}, color, {0.0f, 1.0f}};
-      s_data->QuadVertices[s_data->CurrentQuad++] = {{position.x + halfSize.x, position.y + halfSize.y, 0.0f}, color, {1.0f, 1.0f}};
-      s_data->QuadVertices[s_data->CurrentQuad++] = {{position.x + halfSize.x, position.y - halfSize.y, 0.0f}, color, {1.0f, 0.0f}};
+      s_data->QuadVertices[s_data->CurrentVertex++] = {{position.x - halfSize.x, position.y - halfSize.y, position.z}, color, {0.0f, 0.0f}, texIndex};
+      s_data->QuadVertices[s_data->CurrentVertex++] = {{position.x - halfSize.x, position.y + halfSize.y, position.z}, color, {0.0f, 1.0f}, texIndex};
+      s_data->QuadVertices[s_data->CurrentVertex++] = {{position.x + halfSize.x, position.y + halfSize.y, position.z}, color, {1.0f, 1.0f}, texIndex};
+      s_data->QuadVertices[s_data->CurrentVertex++] = {{position.x + halfSize.x, position.y - halfSize.y, position.z}, color, {1.0f, 0.0f}, texIndex};
       s_data->QuadIndexCount += 6;
    };
 

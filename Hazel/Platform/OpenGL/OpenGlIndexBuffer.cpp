@@ -29,7 +29,7 @@ namespace Hazel {
 
 
    uint32_t OpenGLIndexBuffer::GetCount() const {
-      return(m_count);
+      return m_count;
    }
 
 }

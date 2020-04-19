@@ -25,7 +25,7 @@ namespace Hazel {
 
 
    const BufferLayout& OpenGLVertexBuffer::GetLayout() const {
-      return(m_layout);
+      return m_layout;
    }
 
 

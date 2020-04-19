@@ -46,7 +46,7 @@ public:
       squareVB->SetLayout({
          {"a_Position", Hazel::ShaderDataType::Float3},
          {"a_TexCoord", Hazel::ShaderDataType::Float2}
-         });
+      });
 
       m_squareVA->SetVertexBuffer(std::move(squareVB));
 
@@ -65,8 +65,7 @@ public:
 
       std::shared_ptr<Hazel::Shader> textureShader = m_shaderLibrary->GetShader("Texture");
       textureShader->Bind();
-      textureShader->SetUInt32("u_Texture", 0); // TODO: parameterise texture slot?
-       
+      textureShader->SetUInt("u_Texture", 0); // TODO: parameterise texture slot?
    }
 
 

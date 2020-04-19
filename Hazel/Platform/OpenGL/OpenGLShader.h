@@ -16,7 +16,9 @@ namespace Hazel {
       virtual void Bind() const override;
       virtual void Unbind() const override;
 
-      void SetUInt32(const std::string& name, const uint32_t ui) override;
+      void SetIntArray(const std::string& name, const int* data, const uint32_t count) override;
+      void SetUInt(const std::string& name, const uint32_t ui) override;
+      void SetUIntArray(const std::string& name, const uint32_t* data, const uint32_t count) override;
       void SetMat4(const std::string& name, const glm::mat4& mat4) override;
       void SetVec3(const std::string& name, const glm::vec3& vec3) override;
       void SetVec4(const std::string& name, const glm::vec4& vec4) override;

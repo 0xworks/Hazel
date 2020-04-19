@@ -12,13 +12,13 @@ namespace Hazel {
 
    bool WindowsInput::IsKeyPressedImpl(int keycode) {
       GLFWwindow* pwnd = (GLFWwindow*)Application::Get().GetWindow().GetNativeWindow();
-      return(glfwGetKey(pwnd, keycode) == GLFW_PRESS);
+      return (glfwGetKey(pwnd, keycode) == GLFW_PRESS);
    }
 
 
    bool WindowsInput::IsMouseButtonPressedImpl(int button) {
       GLFWwindow* pwnd = (GLFWwindow*)Application::Get().GetWindow().GetNativeWindow();
-      return(glfwGetMouseButton(pwnd, button) == GLFW_PRESS);
+      return (glfwGetMouseButton(pwnd, button) == GLFW_PRESS);
    }
 
 

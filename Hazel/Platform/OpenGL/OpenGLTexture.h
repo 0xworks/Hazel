@@ -12,6 +12,7 @@ namespace Hazel {
       OpenGLTexture2D(const std::string& path);
       virtual ~OpenGLTexture2D();
 
+      virtual uint32_t GetId() const override;
       virtual uint32_t GetWidth() const override;
       virtual uint32_t GetHeight() const override;
 

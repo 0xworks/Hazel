@@ -170,25 +170,42 @@ namespace Hazel {
    }
 
 
-   void OpenGLShader::SetUInt32(const std::string& name, const uint32_t ui) {
+   void OpenGLShader::SetIntArray(const std::string& name, const int* data, const uint32_t count) {
       GLint location = glGetUniformLocation(m_shaderId, name.c_str());
+      HZ_ASSERT(location >= 0, "Uniform '{}' was not found", name);
+      glUniform1iv(location, count, (GLint*)data);
+   }
+
+   void OpenGLShader::SetUInt(const std::string& name, const uint32_t ui) {
+      GLint location = glGetUniformLocation(m_shaderId, name.c_str());
+      HZ_ASSERT(location >= 0, "Uniform '{}' was not found", name);
       glUniform1ui(location, (GLuint)ui);
+   }
+
+
+   void OpenGLShader::SetUIntArray(const std::string& name, const uint32_t* data, const uint32_t count) {
+      GLint location = glGetUniformLocation(m_shaderId, name.c_str());
+      HZ_ASSERT(location >= 0, "Uniform '{}' was not found", name);
+      glUniform1uiv(location, count, (GLuint*)data);
    }
 
 
    void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& mat4) {
       GLint location = glGetUniformLocation(m_shaderId, name.c_str());
+      HZ_ASSERT(location >= 0, "Uniform '{}' was not found", name);
       glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat4));
    }
 
 
    void OpenGLShader::SetVec3(const std::string& name, const glm::vec3& vec3) {
       GLint location = glGetUniformLocation(m_shaderId, name.c_str());
+      HZ_ASSERT(location >= 0, "Uniform '{}' was not found", name);
       glUniform3fv(location, 1, glm::value_ptr(vec3));
    }
 
    void OpenGLShader::SetVec4(const std::string& name, const glm::vec4& vec4) {
       GLint location = glGetUniformLocation(m_shaderId, name.c_str());
+      HZ_ASSERT(location >= 0, "Uniform '{}' was not found", name);
       glUniform4fv(location, 1, glm::value_ptr(vec4));
    }
 

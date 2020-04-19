@@ -14,7 +14,7 @@ namespace Hazel {
 
 
    bool Event::IsHandled() {
-      return(m_handled);
+      return m_handled;
    }
 
 

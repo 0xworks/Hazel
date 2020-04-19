@@ -11,6 +11,10 @@ namespace Hazel {
          case ShaderDataType::Float4:  return sizeof(float) * 4;
          case ShaderDataType::Mat3:    return sizeof(float) * 3 * 3;
          case ShaderDataType::Mat4:    return sizeof(float) * 4 * 4;
+         case ShaderDataType::UInt:    return sizeof(uint32_t);
+         case ShaderDataType::UInt2:   return sizeof(uint32_t) * 2;
+         case ShaderDataType::UInt3:   return sizeof(uint32_t) * 3;
+         case ShaderDataType::UInt4:   return sizeof(uint32_t) * 4;
          case ShaderDataType::Int:     return sizeof(int);
          case ShaderDataType::Int2:    return sizeof(int) * 2;
          case ShaderDataType::Int3:    return sizeof(int) * 3;
@@ -30,6 +34,10 @@ namespace Hazel {
          case ShaderDataType::Float4:  return 4;
          case ShaderDataType::Mat3:    return 3 * 3;
          case ShaderDataType::Mat4:    return 4 * 4;
+         case ShaderDataType::UInt:    return 1;
+         case ShaderDataType::UInt2:   return 2;
+         case ShaderDataType::UInt3:   return 3;
+         case ShaderDataType::UInt4:   return 4;
          case ShaderDataType::Int:     return 1;
          case ShaderDataType::Int2:    return 2;
          case ShaderDataType::Int3:    return 3;
