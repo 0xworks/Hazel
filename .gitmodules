@@ -1,22 +1,9 @@
-[submodule "Hazel/vendor/glfw"]
-	path = Hazel/vendor/glfw
-	url = https://github.com/glfw/glfw
 [submodule "Hazel/vendor/cmake-precompiled-header"]
 	path = vendor/cmake-precompiled-header
 	url = https://github.com/larsch/cmake-precompiled-header.git
 [submodule "Hazel/vendor/glm"]
 	path = Hazel/vendor/glm
 	url = https://github.com/g-truc/glm.git
-[submodule "Hazel/vendor/stb"]
-	path = Hazel/vendor/stb
-	url = https://github.com/nothings/stb.git
-[submodule "Hazel/vendor/imgui"]
-	path = Hazel/vendor/imgui
-	url = https://github.com/ocornut/imgui.git
-	branch = docking
 [submodule "vendor/Tracy"]
 	path = vendor/Tracy
 	url = https://freeman40@bitbucket.org/wolfpld/tracy.git
-[submodule "Hazel/vendor/spdlog"]
-	path = Hazel/vendor/spdlog
-	url = https://github.com/gabime/spdlog
