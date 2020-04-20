@@ -1,7 +1,4 @@
-﻿# CMakeList.txt : CMake project for Hazel shared library, include source and define
-# Hazel shared library project specific logic here.
-#
-cmake_minimum_required (VERSION 3.10)
+﻿cmake_minimum_required (VERSION 3.10)
 
 find_package(glad REQUIRED)
 find_package(glfw3 REQUIRED)
@@ -9,7 +6,7 @@ find_package(glm REQUIRED)
 find_package(imgui REQUIRED)
 find_package(spdlog REQUIRED)
 
-set(ProjectName Hazel)
+project ("Hazel" VERSION 0.1 DESCRIPTION "Hazel Interactive App Engine")
 
 set(
    ProjectSources
@@ -113,14 +110,14 @@ set(
    "spdlog::spdlog_header_only"
 )
 
-add_library(${ProjectName} STATIC ${ProjectSources})
+add_library(${PROJECT_NAME} STATIC ${ProjectSources})
 
 set_target_properties(
-   ${ProjectName} PROPERTIES
+   ${PROJECT_NAME} PROPERTIES
    CXX_STANDARD 17
 )
 
-add_precompiled_header(${ProjectName} "hzpch.h" SOURCE_CXX "hzpch.cpp")
+add_precompiled_header(${PROJECT_NAME} "hzpch.h" SOURCE_CXX "hzpch.cpp")
 
 # no precompiled header for imgui impls
 set_source_files_properties(
@@ -141,7 +138,7 @@ set_source_files_properties(
 
 
 target_compile_definitions(
-   ${ProjectName} PUBLIC
+   ${PROJECT_NAME} PUBLIC
    FMT_HEADER_ONLY
    GLFW_INCLUDE_NONE
    IMGUI_IMPL_OPENGL_LOADER_GLAD
@@ -149,16 +146,16 @@ target_compile_definitions(
 )
 
 target_include_directories(
-   ${ProjectName} PRIVATE
+   ${PROJECT_NAME} PRIVATE
    ${ProjectIncludes}
 )
 
 target_include_directories(
-   ${ProjectName} PUBLIC
-   "${PROJECT_SOURCE_DIR}"
+   ${PROJECT_NAME} PUBLIC
+   ${PROJECT_SOURCE_DIR}
 )
 
 target_link_libraries(
-   ${ProjectName} PUBLIC
+   ${PROJECT_NAME} PUBLIC
    ${ProjectLibs}
 )
