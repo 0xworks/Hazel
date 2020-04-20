@@ -20,7 +20,6 @@ add_precompiled_header(Sandbox "pch.h" SOURCE_CXX "pch.cpp")
 
 target_include_directories(
    ${ProjectName} PUBLIC
-   "${PROJECT_SOURCE_DIR}"
 )
 
 target_link_libraries(

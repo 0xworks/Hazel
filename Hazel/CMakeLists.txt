@@ -94,7 +94,6 @@ endif()
 set(
    ProjectIncludes
    "."
-   "${PROJECT_SOURCE_DIR}/Hazel"
    "vendor/imgui"
 )
 
@@ -152,6 +151,11 @@ target_compile_definitions(
 target_include_directories(
    ${ProjectName} PRIVATE
    ${ProjectIncludes}
+)
+
+target_include_directories(
+   ${ProjectName} PUBLIC
+   "${PROJECT_SOURCE_DIR}"
 )
 
 target_link_libraries(
