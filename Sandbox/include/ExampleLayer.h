@@ -1,6 +1,6 @@
 #pragma once
 
-#include "vendor/imgui/imgui.h"
+#include "imgui.h"
 
 // temporary
 #include "glm/ext.hpp"

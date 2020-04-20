@@ -3,38 +3,12 @@
 #
 cmake_minimum_required (VERSION 3.10)
 
-#
-# IMGUI library
-# This is here (as opposed to in vendor/imgui folder) for two reasons
-# 1) I dont want to make any changes to the imgui submodule
-# 2) Some of this is not specific to imgui but rather is stuff that we are borrowing from the imgui examples
-#    in order to implment IMGUI in our application
-
-add_library(
-   imgui STATIC
-   "vendor/imgui/imgui.cpp"
-   "vendor/imgui/imgui_draw.cpp"
-   "vendor/imgui/imgui_widgets.cpp"
-   "vendor/imgui/imgui_demo.cpp"
-   "vendor/imgui/examples/imgui_impl_opengl3.cpp"
-   "vendor/imgui/examples/imgui_impl_glfw.cpp"
-)
-
-target_compile_definitions(
-   imgui PRIVATE
-   IMGUI_IMPL_OPENGL_LOADER_GLAD
-)
-
-target_include_directories(
-   imgui PUBLIC
-   "vendor/imgui"
-)
-
-target_link_libraries(
-   imgui PUBLIC
-   "glad"
-   "glfw"
-)
+find_package(glad REQUIRED)
+find_package(glfw3 REQUIRED)
+find_package(glm REQUIRED)
+find_package(imgui REQUIRED)
+find_package(spdlog REQUIRED)
+find_package(Stb REQUIRED)
 
 set(
    HazelSources
@@ -70,6 +44,10 @@ set(
    "Platform/OpenGL/OpenGLTexture.cpp"
    "Platform/OpenGL/OpenGLVertexArray.cpp"
    "Platform/OpenGL/OpenGLVertexBuffer.cpp"
+   "vendor/imgui/imgui_impl_glfw.h"
+   "vendor/imgui/imgui_impl_glfw.cpp"
+   "vendor/imgui/imgui_impl_opengl3.h"
+   "vendor/imgui/imgui_impl_opengl3.cpp"
    "../vendor/Tracy/TracyClient.cpp"
 )
 
@@ -85,6 +63,7 @@ set(
    HazelIncludes
    "."
    "include"
+   "vendor/imgui"
 )
 
 if(WIN32)
@@ -96,21 +75,31 @@ endif(WIN32)
 
 set(
    HazelLibs
-   "glad"
+   "glad::glad"
    "glfw"
    "glm"
-   "imgui"
-   "spdlog_header_only"
+   "imgui::imgui"
+   "spdlog::spdlog_header_only"
 )
 
 add_library(Hazel STATIC ${HazelSources})
 
-
-add_precompiled_header(Hazel "hzpch.h" SOURCE_CXX "hzpch.cpp")
-
 set_target_properties(
    Hazel PROPERTIES
    CXX_STANDARD 17
+)
+
+add_precompiled_header(Hazel "hzpch.h" SOURCE_CXX "hzpch.cpp")
+
+# no precompiled header for imgui impls
+set_source_files_properties(
+   "vendor/imgui/imgui_impl_glfw.cpp" PROPERTIES
+   COMPILE_FLAGS /Y-
+)
+
+set_source_files_properties(
+   "vendor/imgui/imgui_impl_opengl3.cpp" PROPERTIES
+   COMPILE_FLAGS /Y-
 )
 
 # no precompiled header for TracyClient.cpp
@@ -119,9 +108,12 @@ set_source_files_properties(
    COMPILE_FLAGS /Y-
 )
 
+
 target_compile_definitions(
-   Hazel PRIVATE
+   Hazel PUBLIC
+   FMT_HEADER_ONLY
    GLFW_INCLUDE_NONE
+   IMGUI_IMPL_OPENGL_LOADER_GLAD
   "$<$<CONFIG:DEBUG>:HZ_ENABLE_ASSERTS>"
 )
 
@@ -130,9 +122,7 @@ target_include_directories(
    ${HazelIncludes}
 )
 
-target_include_directories(
-   Hazel PRIVATE
-   "vendor/stb"
+target_link_libraries(
+   Hazel
+   PUBLIC ${HazelLibs}
 )
-
-target_link_libraries(Hazel PRIVATE ${HazelLibs})
