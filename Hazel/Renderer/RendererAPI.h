@@ -1,7 +1,7 @@
 #pragma once
 
 #include "glm/glm.hpp"
-#include "Renderer/VertexArray.h"
+#include "../Renderer/VertexArray.h"
 
 namespace Hazel {
 

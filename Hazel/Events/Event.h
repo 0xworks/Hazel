@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/Core.h"
+#include "../Core/Core.h"
 
 #define EVENT_CLASS_TYPE(type) public:                            \
 static EventType GetStaticType() {                                \

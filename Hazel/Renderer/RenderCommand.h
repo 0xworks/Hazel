@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Renderer/RendererAPI.h"
-#include "Renderer/VertexArray.h"
+#include "../Renderer/RendererAPI.h"
+#include "../Renderer/VertexArray.h"
 
 #include "glm/glm.hpp"
 

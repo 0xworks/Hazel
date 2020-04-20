@@ -8,73 +8,105 @@ find_package(glfw3 REQUIRED)
 find_package(glm REQUIRED)
 find_package(imgui REQUIRED)
 find_package(spdlog REQUIRED)
-find_package(Stb REQUIRED)
+
+set(ProjectName Hazel)
 
 set(
-   HazelSources
+   ProjectSources
    "hzpch.cpp"
-   "src/Core/Application.cpp"
-   "src/Core/stb_image.cpp"
-   "src/Core/Window.cpp"
-   "src/Core/ImGuiLayer.cpp"
-   "src/Core/Layer.cpp"
-   "src/Core/LayerStack.cpp"
-   "src/Core/Log.cpp"
-   "src/Events/ApplicationEvent.cpp"
-   "src/Events/Event.cpp"
-   "src/Events/KeyEvent.cpp"
-   "src/Events/MouseEvent.cpp"
-   "src/Renderer/BufferLayout.cpp"
-   "src/Renderer/IndexBuffer.cpp"
-   "src/Renderer/OrthographicCamera.cpp"
-   "src/Renderer/OrthographicCameraController.cpp"
-   "src/Renderer/RenderCommand.cpp"
-   "src/Renderer/Renderer.cpp"
-   "src/Renderer/Renderer2D.cpp"
-   "src/Renderer/RendererAPI.cpp"
-   "src/Renderer/Shader.cpp"
-   "src/Renderer/ShaderLibrary.cpp"
-   "src/Renderer/Texture.cpp"
-   "src/Renderer/VertexArray.cpp"
-   "src/Renderer/VertexBuffer.cpp"
+   "Core/Application.h"
+   "Core/Application.cpp"
+   "Core/Window.h"
+   "Core/Window.cpp"
+   "Core/ImGuiLayer.h"
+   "Core/ImGuiLayer.cpp"
+   "Core/Layer.h"
+   "Core/Layer.cpp"
+   "Core/LayerStack.h"
+   "Core/LayerStack.cpp"
+   "Core/Log.h"
+   "Core/Log.cpp"
+   "Events/ApplicationEvent.h"
+   "Events/ApplicationEvent.cpp"
+   "Events/Event.h"
+   "Events/Event.cpp"
+   "Events/KeyEvent.h"
+   "Events/KeyEvent.cpp"
+   "Events/MouseEvent.h"
+   "Events/MouseEvent.cpp"
+   "Renderer/BufferLayout.h"
+   "Renderer/BufferLayout.cpp"
+   "Renderer/IndexBuffer.h"
+   "Renderer/IndexBuffer.cpp"
+   "Renderer/OrthographicCamera.h"
+   "Renderer/OrthographicCamera.cpp"
+   "Renderer/OrthographicCameraController.h"
+   "Renderer/OrthographicCameraController.cpp"
+   "Renderer/RenderCommand.h"
+   "Renderer/RenderCommand.cpp"
+   "Renderer/Renderer.h"
+   "Renderer/Renderer.cpp"
+   "Renderer/Renderer2D.h"
+   "Renderer/Renderer2D.cpp"
+   "Renderer/RendererAPI.h"
+   "Renderer/RendererAPI.cpp"
+   "Renderer/Shader.h"
+   "Renderer/Shader.cpp"
+   "Renderer/ShaderLibrary.h"
+   "Renderer/ShaderLibrary.cpp"
+   "Renderer/Texture.h"
+   "Renderer/Texture.cpp"
+   "Renderer/VertexArray.h"
+   "Renderer/VertexArray.cpp"
+   "Renderer/VertexBuffer.h"
+   "Renderer/VertexBuffer.cpp"
+   "Platform/OpenGL/OpenGLContext.h"
    "Platform/OpenGL/OpenGLContext.cpp"
+   "Platform/OpenGL/OpenGLIndexBuffer.h"
    "Platform/OpenGL/OpenGLIndexBuffer.cpp"
+   "Platform/OpenGL/OpenGLRendererAPI.h"
    "Platform/OpenGL/OpenGLRendererAPI.cpp"
+   "Platform/OpenGL/OpenGLShader.h"
    "Platform/OpenGL/OpenGLShader.cpp"
+   "Platform/OpenGL/OpenGLTexture.h"
    "Platform/OpenGL/OpenGLTexture.cpp"
+   "Platform/OpenGL/OpenGLVertexArray.h"
    "Platform/OpenGL/OpenGLVertexArray.cpp"
+   "Platform/OpenGL/OpenGLVertexBuffer.h"
    "Platform/OpenGL/OpenGLVertexBuffer.cpp"
    "vendor/imgui/imgui_impl_glfw.h"
    "vendor/imgui/imgui_impl_glfw.cpp"
    "vendor/imgui/imgui_impl_opengl3.h"
    "vendor/imgui/imgui_impl_opengl3.cpp"
+   "vendor/stb/stb_image.h"
+   "vendor/stb/stb_image.cpp"
    "../vendor/Tracy/TracyClient.cpp"
 )
 
 if(WIN32)
    list(
-      APPEND HazelSources
+      APPEND ProjectSources
       "Platform/Windows/WindowsInput.cpp"
       "Platform/Windows/WindowsWindow.cpp"
    )
 endif()
 
 set(
-   HazelIncludes
+   ProjectIncludes
    "."
-   "include"
+   "${PROJECT_SOURCE_DIR}/Hazel"
    "vendor/imgui"
 )
 
 if(WIN32)
    list(
-      APPEND HazelIncludes
+      APPEND ProjectIncludes
       "Platform/Windows"
    )
 endif(WIN32)
 
 set(
-   HazelLibs
+   ProjectLibs
    "glad::glad"
    "glfw"
    "glm"
@@ -82,14 +114,14 @@ set(
    "spdlog::spdlog_header_only"
 )
 
-add_library(Hazel STATIC ${HazelSources})
+add_library(${ProjectName} STATIC ${ProjectSources})
 
 set_target_properties(
-   Hazel PROPERTIES
+   ${ProjectName} PROPERTIES
    CXX_STANDARD 17
 )
 
-add_precompiled_header(Hazel "hzpch.h" SOURCE_CXX "hzpch.cpp")
+add_precompiled_header(${ProjectName} "hzpch.h" SOURCE_CXX "hzpch.cpp")
 
 # no precompiled header for imgui impls
 set_source_files_properties(
@@ -110,7 +142,7 @@ set_source_files_properties(
 
 
 target_compile_definitions(
-   Hazel PUBLIC
+   ${ProjectName} PUBLIC
    FMT_HEADER_ONLY
    GLFW_INCLUDE_NONE
    IMGUI_IMPL_OPENGL_LOADER_GLAD
@@ -118,11 +150,11 @@ target_compile_definitions(
 )
 
 target_include_directories(
-   Hazel PUBLIC
-   ${HazelIncludes}
+   ${ProjectName} PRIVATE
+   ${ProjectIncludes}
 )
 
 target_link_libraries(
-   Hazel
-   PUBLIC ${HazelLibs}
+   ${ProjectName} PUBLIC
+   ${ProjectLibs}
 )

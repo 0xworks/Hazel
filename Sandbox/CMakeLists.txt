@@ -3,34 +3,32 @@
 #
 cmake_minimum_required (VERSION 3.10)
 
+set(ProjectName Sandbox)
+
 add_executable(
-   Sandbox
+   ${ProjectName}
    "pch.cpp"
    "src/SandboxApp.cpp"
 )
 
 set_target_properties(
-   Sandbox PROPERTIES
+   ${ProjectName} PROPERTIES
    VERSION ${PROJECT_VERSION}
 )
 
 add_precompiled_header(Sandbox "pch.h" SOURCE_CXX "pch.cpp")
 
 target_include_directories(
-   Sandbox PUBLIC
-   "."
-   "include"
-   "${PROJECT_SOURCE_DIR}/Hazel/include"
+   ${ProjectName} PUBLIC
+   "${PROJECT_SOURCE_DIR}"
 )
 
 target_link_libraries(
-   Sandbox PUBLIC
+   ${ProjectName} PUBLIC
    Hazel
 )
 
 add_custom_command(
-  TARGET Sandbox POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${CMAKE_CURRENT_SOURCE_DIR}/Assets
-    ${CMAKE_CURRENT_BINARY_DIR}/Assets
+  TARGET ${ProjectName} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/Assets ${CMAKE_CURRENT_BINARY_DIR}/Assets
 )
