@@ -29,9 +29,9 @@ public:
       Hazel::RenderCommand::Clear();
 
       Hazel::Renderer2D::BeginScene(m_cameraController.GetCamera());
-      Hazel::Renderer2D::DrawQuad({-0.5f, 0.5f}, {1.0f,  1.0f}, m_squareColor);
-      Hazel::Renderer2D::DrawQuad({0.5f, -0.5f}, {0.75f, 0.5f}, {1.0f, 0.0f, 0.0f, 1.0f});
-      Hazel::Renderer2D::DrawQuad({0.0f,  0.0f, -0.1f}, {10.0f, 10.0f}, *m_texture);
+      Hazel::Renderer2D::DrawQuad({-0.5f, 0.5f}, {1.0f,  1.0f}, glm::radians(45.0f), m_squareColor);
+      Hazel::Renderer2D::DrawQuad({0.5f, -0.5f}, {0.75f, 0.5f}, 0.0f, {1.0f, 0.0f, 0.0f, 1.0f});
+      Hazel::Renderer2D::DrawQuad({0.0f,  0.0f, -0.1f}, {10.0f, 10.0f}, 0.0f, *m_texture);
       Hazel::Renderer2D::EndScene();
    }
 

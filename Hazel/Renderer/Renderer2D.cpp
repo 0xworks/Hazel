@@ -20,6 +20,13 @@ namespace Hazel {
       static const uint32_t MaxIndices = 6 * MaxQuads;
       static const uint32_t MaxTextureSlots = 32;
 
+      std::array<glm::vec4, 4> QuadVertexPostitions = {
+         glm::vec4{-0.5f, -0.5f, 0.0f, 1.0f},
+         glm::vec4{ 0.5f, -0.5f, 0.0f, 1.0f},
+         glm::vec4{ 0.5f,  0.5f, 0.0f, 1.0f},
+         glm::vec4{-0.5f,  0.5f, 0.0f, 1.0f}
+      };
+
       std::unique_ptr<Shader> TextureShader;
       std::unique_ptr<Texture> WhiteTexture;
       std::unique_ptr<VertexArray> QuadVertexArray;
@@ -103,22 +110,22 @@ namespace Hazel {
    }
 
 
-   void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color) {
-      DrawQuad({position.x, position.y, 0.0f}, size, *s_data->WhiteTexture, color);
+   void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const float rotationRadians, const glm::vec4& color) {
+      DrawQuad({position.x, position.y, 0.0f}, size, rotationRadians, *s_data->WhiteTexture, 1.0f, color);
    }
 
 
-   void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color) {
-      DrawQuad(position, size, *s_data->WhiteTexture, color);
+   void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const float rotationRadians, const glm::vec4& color) {
+      DrawQuad(position, size, rotationRadians, *s_data->WhiteTexture, color);
    }
 
 
-   void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Texture& texture, const glm::vec4& color) {
-      DrawQuad({position.x, position.y, 0.0f}, size, texture, color);
+   void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const float rotationRadians, const Texture& texture, const glm::vec4& color) {
+      DrawQuad({position.x, position.y, 0.0f}, size, rotationRadians, texture, color);
    }
 
 
-   void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Texture& texture, const glm::vec4& color) {
+   void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const float rotationRadians, const Texture& texture, const glm::vec4& color) {
       if (s_data->CurrentVertex >= s_data->MaxVertices - 4) {
          Flush();
       }
@@ -140,10 +147,13 @@ namespace Hazel {
       }
 
       const glm::vec2 halfSize = size / 2.0f;
-      s_data->QuadVertices[s_data->CurrentVertex++] = {{position.x - halfSize.x, position.y - halfSize.y, position.z}, color, {0.0f, 0.0f}, texIndex};
-      s_data->QuadVertices[s_data->CurrentVertex++] = {{position.x - halfSize.x, position.y + halfSize.y, position.z}, color, {0.0f, 1.0f}, texIndex};
-      s_data->QuadVertices[s_data->CurrentVertex++] = {{position.x + halfSize.x, position.y + halfSize.y, position.z}, color, {1.0f, 1.0f}, texIndex};
-      s_data->QuadVertices[s_data->CurrentVertex++] = {{position.x + halfSize.x, position.y - halfSize.y, position.z}, color, {1.0f, 0.0f}, texIndex};
+
+      const glm::mat4 transform = glm::translate(glm::identity<glm::mat4>(), position) * glm::rotate(glm::identity<glm::mat4>(), rotationRadians, {0.0f, 0.0f, 1.0f}) * glm::scale(glm::identity<glm::mat4>(), glm::vec3{size, 1.0f});
+
+      s_data->QuadVertices[s_data->CurrentVertex++] = {transform * s_data->QuadVertexPostitions[0], color, {0.0f, 0.0f}, texIndex};
+      s_data->QuadVertices[s_data->CurrentVertex++] = {transform * s_data->QuadVertexPostitions[1], color, {0.0f, 1.0f}, texIndex};
+      s_data->QuadVertices[s_data->CurrentVertex++] = {transform * s_data->QuadVertexPostitions[2], color, {1.0f, 1.0f}, texIndex};
+      s_data->QuadVertices[s_data->CurrentVertex++] = {transform * s_data->QuadVertexPostitions[3], color, {1.0f, 0.0f}, texIndex};
       s_data->QuadIndexCount += 6;
    };
 
