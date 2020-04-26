@@ -38,12 +38,11 @@ namespace Hazel {
       std::unique_ptr<Shader> TextureShader;
       std::unique_ptr<Texture> WhiteTexture;
       std::unique_ptr<VertexArray> QuadVertexArray;
+      std::unique_ptr<QuadVertex[]> QuadVertices = std::make_unique<QuadVertex[]>(Renderer2DData::MaxVertices);
+      std::array<uint32_t, MaxTextureSlots> TextureSlots;
 
       uint32_t QuadIndexCount = 0;
-      std::unique_ptr<QuadVertex[]> QuadVertices = std::make_unique<QuadVertex[]>(Renderer2DData::MaxVertices);
       uint32_t CurrentVertex = 0;
-
-      std::array<uint32_t, MaxTextureSlots> TextureSlots;
       uint32_t TextureSlotIndex = 0;
    };
 
@@ -100,9 +99,6 @@ namespace Hazel {
 
    void Renderer2D::BeginScene(const OrthographicCamera& camera) {
       s_data->TextureShader->SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
-      s_data->CurrentVertex = 0;
-      s_data->QuadIndexCount = 0;
-      s_data->TextureSlotIndex = 0;
    }
 
 
@@ -116,6 +112,9 @@ namespace Hazel {
 
       s_data->QuadVertexArray->GetVertexBuffer().SetData(s_data->QuadVertices.get(), (s_data->CurrentVertex + 1) * sizeof(QuadVertex));
       RenderCommand::DrawIndexed(*s_data->QuadVertexArray, s_data->QuadIndexCount);
+      s_data->CurrentVertex = 0;
+      s_data->QuadIndexCount = 0;
+      s_data->TextureSlotIndex = 0;
    }
 
 
