@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Renderer/RendererAPI.h"
-#include "../Renderer/VertexArray.h"
+#include "Hazel/Renderer/RendererAPI.h"
+#include "Hazel/Renderer/VertexArray.h"
 
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
 
 #include <memory>
 

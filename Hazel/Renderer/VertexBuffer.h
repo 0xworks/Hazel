@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Renderer/BufferLayout.h"
+#include "Hazel/Renderer/BufferLayout.h"
 
 #include <memory>
 

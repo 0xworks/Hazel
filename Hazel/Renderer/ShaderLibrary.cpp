@@ -1,5 +1,5 @@
 #include <hzpch.h>
-#include "Renderer/ShaderLibrary.h"
+#include "Hazel/Renderer/ShaderLibrary.h"
 
 namespace Hazel {
 

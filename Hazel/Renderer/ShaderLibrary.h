@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Renderer/Shader.h"
+#include "Hazel/Renderer/Shader.h"
 
 #include <string>
 #include <unordered_map>

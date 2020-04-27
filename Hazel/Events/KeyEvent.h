@@ -1,51 +1,50 @@
 #pragma once
 
-#include "Event.h"
+#include "Hazel/Events/EventType.h"
 
 namespace Hazel {
 
-   class KeyEvent : public Event {
-      EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
-   public:
-      uint32_t GetKeyCode() const;
+   namespace Events {
+      namespace Key {
+         const EventType PRESSED = "Events::Key::PRESSED"_hash;
+         const EventType RELEASED = "Events::Key::RELEASED"_hash;
+         const EventType TYPED = "Events::Key::TYPED"_hash;
 
-   protected:
-      KeyEvent(uint32_t keycode);
-      uint32_t m_keyCode;
-   };
+         namespace Pressed {
+            const ParamId KEYCODE = "Events::Key::Pressed::KEYCODE"_hash;
+            const ParamId REPEATCOUNT = "Events::Key::Pressed::REPEATCOUNT"_hash;
+         }
 
+         namespace Released {
+            const ParamId KEYCODE = "Events::Key::Released::KEYCODE"_hash;
+         }
 
-   class KeyPressedEvent : public KeyEvent {
-      EVENT_CLASS_TYPE(KeyPressed)
-   public:
-      KeyPressedEvent(uint32_t keycode, int repeatCount);
-
-      int GetRepeatCount() const;
-
-      std::string ToString() const override;
-
-   protected:
-      int m_repeatCount;
-   };
+         namespace Typed {
+            const ParamId KEYCODE = "Events::Key::Typed::KEYCODE"_hash;
+         }
+      }
+   }
 
 
-   class KeyReleasedEvent : public KeyEvent {
-      EVENT_CLASS_TYPE(KeyReleased)
-   public:
-      KeyReleasedEvent(uint32_t keycode);
-
-      std::string ToString() const override;
-
-   };
+   Event KeyPressedEvent(int keyCode, int repeatCount) {
+      Event event(Events::Key::PRESSED);
+      event.SetParam<int>(Events::Key::Pressed::KEYCODE, keyCode);
+      event.SetParam<int>(Events::Key::Pressed::REPEATCOUNT, repeatCount);
+      return event;
+   }
 
 
-   class KeyTypedEvent : public KeyEvent {
-      EVENT_CLASS_TYPE(KeyTyped)
-   public:
-      KeyTypedEvent(uint32_t keycode);
+   Event KeyReleasedEvent(int keyCode) {
+      Event event(Events::Key::RELEASED);
+      event.SetParam<int>(Events::Key::Released::KEYCODE, keyCode);
+      return event;
+   }
 
-      std::string ToString() const override;
 
-   };
+   Event KeyTypedEvent(int keyCode) {
+      Event event(Events::Key::TYPED);
+      event.SetParam<int>(Events::Key::Typed::KEYCODE, keyCode);
+      return event;
+   }
 
 }

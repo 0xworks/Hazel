@@ -1,5 +1,5 @@
 #include "hzpch.h"
-#include "Renderer/BufferLayout.h"
+#include "Hazel/Renderer/BufferLayout.h"
 
 namespace Hazel {
 

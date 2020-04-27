@@ -1,70 +1,64 @@
 #pragma once
-#include "Event.h"
+
+#include "Hazel/Events/EventType.h"
 
 namespace Hazel {
 
-   class MouseMovedEvent : public Event {
-      EVENT_CLASS_TYPE(MouseMoved);
-      EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput);
-   public:
-      MouseMovedEvent(float x, float y);
+   namespace Events {
+      namespace Mouse {
+         const EventType MOVED = "Events::Mouse::MOVED"_hash;
+         const EventType SCROLLED = "Events::Mouse::SCROLLED"_hash;
+         const EventType BUTTONPRESSED = "Events::Mouse::BUTTONPRESSED"_hash;
+         const EventType BUTTONRELEASED = "Events::Mouse::BUTTONRELEASED"_hash;
 
-      float GetX() const;
-      float GetY() const;
+         namespace Moved {
+            const ParamId X = "Events::Mouse::Moved::X"_hash;
+            const ParamId Y = "Events::Mouse::Moved::Y"_hash;
+         }
 
-      std::string ToString() const override;
+         namespace Scrolled {
+            const ParamId XOFFSET = "Events::Mouse::Moved::XOFFSET"_hash;
+            const ParamId YOFFSET = "Events::Mouse::Moved::YOFFSET"_hash;
+         }
 
-   protected:
-      float m_mouseX;
-      float m_mouseY;
-   };
+         namespace ButtonPressed {
+            const ParamId BUTTON = "Events::Mouse::ButtonPressed::BUTTON"_hash;
+         }
 
-
-   class MouseScrolledEvent : public Event {
-      EVENT_CLASS_TYPE(MouseScrolled);
-      EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput);
-   public:
-      MouseScrolledEvent(float xOffset, float yOffset) : m_xOffset(xOffset), m_yOffset(yOffset) {}
-
-      float GetXOffset() const;
-      float GetYOffset() const;
-
-      std::string ToString() const override;
-
-   private:
-      float m_xOffset;
-      float m_yOffset;
-   };
+         namespace ButtonReleased {
+            const ParamId BUTTON = "Events::Mouse::ButtonReleased::BUTTON"_hash;
+         }
+      }
+   }
 
 
-   class MouseButtonEvent : public Event {
-      EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput);
-   public:
-      int GetMouseButton() const;
-
-   protected:
-      MouseButtonEvent(int button);
-      int m_button;
-   };
+   Event MouseMovedEvent(float x, float y) {
+      Event event(Events::Mouse::MOVED);
+      event.SetParam<float>(Events::Mouse::Moved::X, x);
+      event.SetParam<float>(Events::Mouse::Moved::Y, y);
+      return event;
+   }
 
 
-   class MouseButtonPressedEvent : public MouseButtonEvent {
-      EVENT_CLASS_TYPE(MouseButtonPressed);
-   public:
-      MouseButtonPressedEvent(int button);
-
-      std::string ToString() const override;
-
-   };
+   Event MouseScrolledEvent(float xOffset, float yOffset) {
+      Event event(Events::Mouse::SCROLLED);
+      event.SetParam<float>(Events::Mouse::Scrolled::XOFFSET, xOffset);
+      event.SetParam<float>(Events::Mouse::Scrolled::YOFFSET, yOffset);
+      return event;
+   }
 
 
-   class MouseButtonReleasedEvent : public MouseButtonEvent {
-      EVENT_CLASS_TYPE(MouseButtonReleased);
-   public:
-      MouseButtonReleasedEvent(int button);
+   Event MouseButtonPressedEvent(int button) {
+      Event event(Events::Mouse::BUTTONPRESSED);
+      event.SetParam<int>(Events::Mouse::ButtonPressed::BUTTON, button);
+      return event;
+   }
 
-      std::string ToString() const override;
 
-   };
+   Event MouseButtonReleasedEvent(int button) {
+      Event event(Events::Mouse::BUTTONRELEASED);
+      event.SetParam<int>(Events::Mouse::ButtonReleased::BUTTON, button);
+      return event;
+   }
 
 }

@@ -1,9 +1,12 @@
 #include "hzpch.h"
-#include "Renderer/Renderer.h"
+#include "Hazel/Renderer.h"
 
-#include "Renderer/Renderer2D.h"
+#include "Hazel/Renderer2D.h"
+#include "Hazel/Components/Camera.h"
+#include "Hazel/Components/Transform.h"
+#include "Hazel/ECS/ECS.h"
 
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
 
 namespace Hazel {
 
@@ -25,8 +28,9 @@ namespace Hazel {
    }
 
 
-   void Renderer::BeginScene(const OrthographicCamera& camera) {
-      s_viewProjectionMatrix = camera.GetViewProjectionMatrix();
+   void Renderer::BeginScene(const Entity camera) {
+      auto& cameraComponent = ECS::GetComponent<Camera>(camera);
+      s_viewProjectionMatrix = cameraComponent.ViewProjectionMatrix;
    }
 
 

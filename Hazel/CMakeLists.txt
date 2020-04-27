@@ -11,6 +11,8 @@ project ("Hazel" VERSION 0.1 DESCRIPTION "Hazel Interactive App Engine")
 set(
    ProjectSources
    "hzpch.cpp"
+   "Components/Camera.h"
+   "Components/Camera.cpp"
    "Core/Application.h"
    "Core/Application.cpp"
    "Core/Core.h"
@@ -30,23 +32,23 @@ set(
    "Core/Window.h"
    "Core/Window.cpp"
    "Debug/Instrumentor.h"
-   "Events/ApplicationEvent.h"
-   "Events/ApplicationEvent.cpp"
+   "ECS/ComponentArray.h"
+   "ECS/ComponentManager.h"
+   "ECS/ECS.h"
+   "ECS/EntityManager.h"
+   "ECS/System.h"
+   "ECS/SystemManager.h"
    "Events/Event.h"
-   "Events/Event.cpp"
+   "Events/EventManager.h"
+   "Events/EventType.h"
    "Events/KeyEvent.h"
-   "Events/KeyEvent.cpp"
    "Events/MouseEvent.h"
-   "Events/MouseEvent.cpp"
+   "Events/WindowEvent.h"
    "Renderer/BufferLayout.h"
    "Renderer/BufferLayout.cpp"
    "Renderer/GraphicsContext.h"
    "Renderer/IndexBuffer.h"
    "Renderer/IndexBuffer.cpp"
-   "Renderer/OrthographicCamera.h"
-   "Renderer/OrthographicCamera.cpp"
-   "Renderer/OrthographicCameraController.h"
-   "Renderer/OrthographicCameraController.cpp"
    "Renderer/RenderCommand.h"
    "Renderer/RenderCommand.cpp"
    "Renderer/Renderer.h"
@@ -80,6 +82,8 @@ set(
    "Platform/OpenGL/OpenGLVertexArray.cpp"
    "Platform/OpenGL/OpenGLVertexBuffer.h"
    "Platform/OpenGL/OpenGLVertexBuffer.cpp"
+   "Systems/CameraController2D.h"
+   "Systems/CameraController2D.cpp"
    "vendor/imgui/imgui_impl_glfw.h"
    "vendor/imgui/imgui_impl_glfw.cpp"
    "vendor/imgui/imgui_impl_opengl3.h"
@@ -99,7 +103,6 @@ endif()
 
 set(
    ProjectIncludes
-   "."
    "vendor/imgui"
 )
 
@@ -161,7 +164,7 @@ target_include_directories(
 
 target_include_directories(
    ${PROJECT_NAME} PUBLIC
-   ${PROJECT_SOURCE_DIR}
+   ${PROJECT_SOURCE_DIR}/../
 )
 
 target_link_libraries(

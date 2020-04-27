@@ -1,9 +1,11 @@
 #pragma once
 
-#include "imgui.h"
+#include "Hazel/Systems/CameraController2D.h"
+
+#include <imgui.h>
 
 // temporary
-#include "glm/ext.hpp"
+#include <glm/ext.hpp>
 
 class ExampleLayer : public Hazel::Layer {
 public:
@@ -125,7 +127,7 @@ public:
 
 
 private:
-   Hazel::OrthographicCameraController m_cameraController;
+   std::shared_ptr<Hazel::CameraController2D> m_cameraController;
    glm::vec4 m_squareColor;
    std::unique_ptr<Hazel::VertexArray> m_vertexArray;
    std::unique_ptr<Hazel::Shader> m_shader;

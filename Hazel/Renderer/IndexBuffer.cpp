@@ -1,8 +1,8 @@
 #include "hzpch.h"
-#include "Renderer/IndexBuffer.h"
+#include "Hazel/Renderer/IndexBuffer.h"
 
+#include "Hazel/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGlIndexBuffer.h"
-#include "Renderer/Renderer.h"
 
 namespace Hazel {
    std::unique_ptr<IndexBuffer> IndexBuffer::Create(const uint32_t* indices, const uint32_t count) {

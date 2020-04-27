@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Renderer/IndexBuffer.h"
-#include "../Renderer/VertexBuffer.h"
+#include "Hazel/Renderer/IndexBuffer.h"
+#include "Hazel/Renderer/VertexBuffer.h"
 
 #include <memory>
 
