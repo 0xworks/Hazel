@@ -8,6 +8,10 @@ namespace Hazel {
 
       extern std::unique_ptr<EventManager> eventManager;
 
+      inline void Init() {
+         eventManager = std::make_unique<EventManager>();
+      }
+
       inline void AddEventListener(EventType eventType, std::function<void(Event&)> const& listener) {
          eventManager->AddListener(eventType, listener);
       }

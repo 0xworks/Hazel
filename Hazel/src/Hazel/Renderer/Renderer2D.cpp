@@ -100,7 +100,7 @@ namespace Hazel {
    }
 
 
-   void Renderer2D::BeginScene(const Entity camera) {
+   void Renderer2D::BeginScene(const ECS::Entity camera) {
       auto& cameraComponent = ECS::GetComponent<Camera>(camera);
       s_data->TextureShader->SetMat4("u_viewProjection", cameraComponent.ViewProjectionMatrix);
    }

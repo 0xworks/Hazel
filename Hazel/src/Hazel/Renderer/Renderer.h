@@ -13,7 +13,7 @@ namespace Hazel {
       static void Init();
       static void ShutDown();
 
-      static void BeginScene(const Entity camera);
+      static void BeginScene(const ECS::Entity camera);
       static void EndScene();
 
       static void Submit(Shader& shader, const VertexArray& vertexArray, const glm::mat4& transform);

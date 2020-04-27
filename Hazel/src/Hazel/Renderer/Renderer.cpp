@@ -28,7 +28,7 @@ namespace Hazel {
    }
 
 
-   void Renderer::BeginScene(const Entity camera) {
+   void Renderer::BeginScene(const ECS::Entity camera) {
       auto& cameraComponent = ECS::GetComponent<Camera>(camera);
       s_viewProjectionMatrix = cameraComponent.ViewProjectionMatrix;
    }

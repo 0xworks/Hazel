@@ -12,6 +12,12 @@ namespace Hazel {
       extern std::unique_ptr<ComponentManager> componentManager;
       extern std::unique_ptr<SystemManager> systemManager;
 
+      inline void Init() {
+         entityManager = std::make_unique<EntityManager>();
+         componentManager = std::make_unique<ComponentManager>();
+         systemManager = std::make_unique<SystemManager>();
+      }
+
       inline Entity CreateEntity() {
          return entityManager->CreateEntity();
       }
@@ -54,7 +60,6 @@ namespace Hazel {
       ComponentType GetComponentType() {
          return componentManager->GetComponentType<T>();
       }
-
 
       template<typename T>
       std::shared_ptr<T> RegisterSystem() {

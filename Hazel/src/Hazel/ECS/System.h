@@ -6,10 +6,13 @@
 
 namespace Hazel {
 
-   class System {
-   friend class SystemManager;
-   protected:
-      std::set<Entity> m_entities;
-   };
+   namespace ECS {
 
+      class System {
+      friend class SystemManager;
+      protected:
+         std::set<Entity> m_entities;
+      };
+
+   }
 }
