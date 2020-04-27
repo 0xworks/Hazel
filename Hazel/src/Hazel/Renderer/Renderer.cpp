@@ -1,7 +1,7 @@
 #include "hzpch.h"
-#include "Hazel/Renderer.h"
+#include "Hazel/Renderer/Renderer.h"
 
-#include "Hazel/Renderer2D.h"
+#include "Hazel/Renderer/Renderer2D.h"
 #include "Hazel/Components/Camera.h"
 #include "Hazel/Components/Transform.h"
 #include "Hazel/ECS/ECS.h"

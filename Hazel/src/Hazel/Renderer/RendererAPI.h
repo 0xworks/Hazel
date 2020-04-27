@@ -2,6 +2,8 @@
 
 #include "Hazel/Renderer/VertexArray.h"
 
+#include <glm/glm.hpp>
+
 namespace Hazel {
 
    class RendererAPI {

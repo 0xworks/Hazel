@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../vendor/Tracy/Tracy.hpp"
+#include "Tracy/Tracy.hpp"
 
 
 #define HZ_PROFILE 1

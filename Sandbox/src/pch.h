@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Hazel/hzpch.h"
+#include "hzpch.h"
 
 #include "Hazel/Components/Camera.h"
 #include "Hazel/Components/Transform.h"

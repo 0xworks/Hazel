@@ -1,5 +1,5 @@
 #include "hzpch.h"
-#include "Hazel/CameraController2D.h"
+#include "Hazel/Systems/CameraController2D.h"
 
 #include "Hazel/Components/Transform.h"
 #include "Hazel/Core/Input.h"
