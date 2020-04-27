@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Hazel/Systems/CameraController2D.h"
+#include "Hazel/Components/Transform.h"
+#include "Hazel/ECS/ECSType.h"
 
 #include <imgui.h>
 
@@ -11,9 +12,17 @@ class ExampleLayer : public Hazel::Layer {
 public:
    ExampleLayer()
    : Layer("Example")
-   , m_cameraController(/*aspectRatio=*/1280.0f / 720.0f, /*allowRotation=*/true)
+   , m_camera(Hazel::ECS::CreateEntity())
    , m_squareColor(0.2f, 0.3f, 0.8f, 1.0f)
    {
+      Hazel::ECS::AddComponent(m_camera, Hazel::Transform {
+         .Position = glm::vec3(0.0f, 0.0f, 500.0f)
+      });
+
+      Hazel::ECS::AddComponent(m_camera, Hazel::Camera {
+         .ViewProjectionMatrix = Hazel::Camera::MakeOrthographic(-640.0f, 360.0f, 640.0f, -360.0f)
+      });
+
       m_vertexArray = Hazel::VertexArray::Create();
 
       float vertices[3 * 7] = {
@@ -71,17 +80,9 @@ public:
    }
 
 
-   virtual void OnEvent(Hazel::Event& e) override {
-      m_cameraController.OnEvent(e);
-   }
-
-
    virtual void OnUpdate(Hazel::Timestep ts) override {
 
       //HZ_CORE_INFO("Delta time = {0}ms", deltaTime.GetMilliseconds());
-
-      // Update
-      m_cameraController.OnUpdate(ts);
 
       // Render
       Hazel::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
@@ -89,7 +90,7 @@ public:
 
       glm::mat4 scale = glm::scale(glm::identity<glm::mat4>(), glm::vec3(0.1f));
 
-      Hazel::Renderer::BeginScene(m_cameraController.GetCamera());
+      Hazel::Renderer::BeginScene(m_camera);
 
       std::shared_ptr<Hazel::Shader> flatColorShader = m_shaderLibrary->GetShader("FlatColor");
       flatColorShader->Bind();
@@ -127,7 +128,7 @@ public:
 
 
 private:
-   std::shared_ptr<Hazel::CameraController2D> m_cameraController;
+   Hazel::Entity m_camera;
    glm::vec4 m_squareColor;
    std::unique_ptr<Hazel::VertexArray> m_vertexArray;
    std::unique_ptr<Hazel::Shader> m_shader;

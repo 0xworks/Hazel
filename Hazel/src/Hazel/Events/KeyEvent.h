@@ -26,7 +26,7 @@ namespace Hazel {
    }
 
 
-   Event KeyPressedEvent(int keyCode, int repeatCount) {
+   inline Event KeyPressedEvent(int keyCode, int repeatCount) {
       Event event(Events::Key::PRESSED);
       event.SetParam<int>(Events::Key::Pressed::KEYCODE, keyCode);
       event.SetParam<int>(Events::Key::Pressed::REPEATCOUNT, repeatCount);
@@ -34,14 +34,14 @@ namespace Hazel {
    }
 
 
-   Event KeyReleasedEvent(int keyCode) {
+   inline Event KeyReleasedEvent(int keyCode) {
       Event event(Events::Key::RELEASED);
       event.SetParam<int>(Events::Key::Released::KEYCODE, keyCode);
       return event;
    }
 
 
-   Event KeyTypedEvent(int keyCode) {
+   inline Event KeyTypedEvent(int keyCode) {
       Event event(Events::Key::TYPED);
       event.SetParam<int>(Events::Key::Typed::KEYCODE, keyCode);
       return event;

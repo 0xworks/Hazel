@@ -7,21 +7,20 @@
 namespace Hazel {
 
    namespace ECS {
-      std::unique_ptr<EntityManager> entityManager;
-      std::unique_ptr<ComponentManager> componentManager;
-      std::unique_ptr<SystemManager> systemManager;
 
+      extern std::unique_ptr<EntityManager> entityManager;
+      extern std::unique_ptr<ComponentManager> componentManager;
+      extern std::unique_ptr<SystemManager> systemManager;
 
-      Entity CreateEntity() {
+      inline Entity CreateEntity() {
          return entityManager->CreateEntity();
       }
 
-      void DestroyEntity(const Entity entity) {
+      inline void DestroyEntity(const Entity entity) {
          entityManager->DestroyEntity(entity);
          componentManager->EntityDestroyed(entity);
          systemManager->EntityDestroyed(entity);
       }
-
 
       template<typename T>
       void RegisterComponent() {

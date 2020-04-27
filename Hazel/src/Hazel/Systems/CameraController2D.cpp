@@ -8,8 +8,7 @@
 #include "Hazel/Events/Events.h"
 #include "Hazel/Events/MouseEvent.h"
 
-#define _USE_MATH_DEFINES
-#include <math.h>
+#define M_PI_FLOAT 3.14159265358979323846f
 
 namespace Hazel {
 
@@ -49,10 +48,10 @@ namespace Hazel {
             } else if (Input::IsKeyPressed(HZ_KEY_E)) {
                transform.RotationRadians.z -= (rotationSpeed * deltaTime);
             }
-            if (transform.RotationRadians.z > M_PI) {
-               transform.RotationRadians.z -= 2.0f * M_PI;
-            } else if (transform.RotationRadians.z <= -M_PI) {
-               transform.RotationRadians.z += 2 * M_PI;
+            if (transform.RotationRadians.z > M_PI_FLOAT) {
+               transform.RotationRadians.z -= 2.0f * static_cast<float>(M_PI_FLOAT);
+            } else if (transform.RotationRadians.z <= -M_PI_FLOAT) {
+               transform.RotationRadians.z += 2 * M_PI_FLOAT;
             }
          }
       }

@@ -98,12 +98,12 @@ namespace Hazel {
 
       glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xoffset, double yoffset) {
          WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
-         Events::SendEvent(MouseScrolledEvent(xoffset, yoffset));
+         Events::SendEvent(MouseScrolledEvent(static_cast<float>(xoffset), static_cast<float>(yoffset)));
       });
 
       glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xpos, double ypos) {
          WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
-         Events::SendEvent(MouseMovedEvent(xpos, ypos));
+         Events::SendEvent(MouseMovedEvent(static_cast<float>(xpos), static_cast<float>(ypos)));
       });
 
    }

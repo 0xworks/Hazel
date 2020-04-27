@@ -32,7 +32,7 @@ namespace Hazel {
    }
 
 
-   Event MouseMovedEvent(float x, float y) {
+   inline Event MouseMovedEvent(float x, float y) {
       Event event(Events::Mouse::MOVED);
       event.SetParam<float>(Events::Mouse::Moved::X, x);
       event.SetParam<float>(Events::Mouse::Moved::Y, y);
@@ -40,7 +40,7 @@ namespace Hazel {
    }
 
 
-   Event MouseScrolledEvent(float xOffset, float yOffset) {
+   inline Event MouseScrolledEvent(float xOffset, float yOffset) {
       Event event(Events::Mouse::SCROLLED);
       event.SetParam<float>(Events::Mouse::Scrolled::XOFFSET, xOffset);
       event.SetParam<float>(Events::Mouse::Scrolled::YOFFSET, yOffset);
@@ -48,14 +48,14 @@ namespace Hazel {
    }
 
 
-   Event MouseButtonPressedEvent(int button) {
+   inline Event MouseButtonPressedEvent(int button) {
       Event event(Events::Mouse::BUTTONPRESSED);
       event.SetParam<int>(Events::Mouse::ButtonPressed::BUTTON, button);
       return event;
    }
 
 
-   Event MouseButtonReleasedEvent(int button) {
+   inline Event MouseButtonReleasedEvent(int button) {
       Event event(Events::Mouse::BUTTONRELEASED);
       event.SetParam<int>(Events::Mouse::ButtonReleased::BUTTON, button);
       return event;

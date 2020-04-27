@@ -17,7 +17,7 @@ namespace Hazel {
    }
 
 
-   Event WindowResizeEvent(int width, int height) {
+   inline Event WindowResizeEvent(int width, int height) {
       Event event(Events::Window::RESIZE);
       event.SetParam<int>(Events::Window::Resize::WIDTH, width);
       event.SetParam<int>(Events::Window::Resize::HEIGHT, height);
@@ -25,7 +25,7 @@ namespace Hazel {
    }
 
 
-   Event WindowCloseEvent() {
+   inline Event WindowCloseEvent() {
       Event event(Events::Window::CLOSE);
       return event;
    }
