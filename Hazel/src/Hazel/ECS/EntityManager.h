@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Hazel/Core/Core.h"
 #include "Hazel/ECS/ECSType.h"
 
 #include <array>
