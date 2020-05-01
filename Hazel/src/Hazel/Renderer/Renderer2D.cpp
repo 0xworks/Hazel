@@ -33,9 +33,9 @@ namespace Hazel {
 
       std::array<glm::vec2, 4> QuadTextureCoordinates = {
          glm::vec2{0.0f, 0.0f},
-         glm::vec2{0.0f, 1.0f},
+         glm::vec2{1.0f, 0.0f},
          glm::vec2{1.0f, 1.0f},
-         glm::vec2{1.0f, 0.0f}
+         glm::vec2{0.0f, 1.0f}
       };
 
       std::unique_ptr<Shader> TextureShader;
