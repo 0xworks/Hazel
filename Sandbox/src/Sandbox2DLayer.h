@@ -22,6 +22,8 @@ public:
    virtual void OnUpdate(Hazel::Timestep deltaTime) override {
       HZ_PROFILE_FUNCTION();
       // Update
+      static float rotationDegrees = 0.0f;
+      rotationDegrees += deltaTime * 50.0f;
       m_cameraController.OnUpdate(deltaTime);
 
       // Render
@@ -29,9 +31,10 @@ public:
       Hazel::RenderCommand::Clear();
 
       Hazel::Renderer2D::BeginScene(m_cameraController.GetCamera());
-      Hazel::Renderer2D::DrawQuad({-0.5f, 0.5f}, {1.0f,  1.0f}, m_squareColor);
-      Hazel::Renderer2D::DrawQuad({0.5f, -0.5f}, {0.75f, 0.5f}, {1.0f, 0.0f, 0.0f, 1.0f});
-      Hazel::Renderer2D::DrawQuad({0.0f,  0.0f, -0.1f}, {10.0f, 10.0f}, *m_texture);
+      Hazel::Renderer2D::DrawQuad({-0.5f, 0.5f}, {1.0f,  1.0f}, glm::radians(45.0f), m_squareColor);
+      Hazel::Renderer2D::DrawQuad({0.5f, -0.5f}, {0.75f, 0.5f}, 0.0f, {1.0f, 0.0f, 0.0f, 1.0f});
+      Hazel::Renderer2D::DrawQuad({0.0f,  0.0f, -0.1f}, {10.0f, 10.0f}, 0.0f, *m_texture);
+      Hazel::Renderer2D::DrawQuad({0.0f,  0.0f, 0.0f}, {1.0f, 1.0f}, glm::radians(rotationDegrees), *m_texture, 10.0f);
       Hazel::Renderer2D::EndScene();
    }
 

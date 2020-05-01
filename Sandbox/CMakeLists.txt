@@ -1,34 +1,26 @@
-# CMakeList.txt : CMake project for Sandbox application.
-# Sandbox project specific logic here.
-#
 cmake_minimum_required (VERSION 3.10)
 
-set(ProjectName Sandbox)
+project ("Sandbox" VERSION 0.1 DESCRIPTION "Sandbox demo")
 
 add_executable(
-   ${ProjectName}
+   ${PROJECT_NAME}
    "pch.cpp"
    "src/SandboxApp.cpp"
 )
 
 set_target_properties(
-   ${ProjectName} PROPERTIES
+   ${PROJECT_NAME} PROPERTIES
    VERSION ${PROJECT_VERSION}
 )
 
-add_precompiled_header(Sandbox "pch.h" SOURCE_CXX "pch.cpp")
-
-target_include_directories(
-   ${ProjectName} PUBLIC
-   "${PROJECT_SOURCE_DIR}"
-)
+add_precompiled_header(${PROJECT_NAME} "pch.h" SOURCE_CXX "pch.cpp")
 
 target_link_libraries(
-   ${ProjectName} PUBLIC
+   ${PROJECT_NAME} PRIVATE
    Hazel
 )
 
 add_custom_command(
-  TARGET ${ProjectName} POST_BUILD
+  TARGET ${PROJECT_NAME} POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/Assets ${CMAKE_CURRENT_BINARY_DIR}/Assets
 )
