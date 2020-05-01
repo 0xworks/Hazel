@@ -12,7 +12,7 @@ set(
    ProjectSources
    "src/hzpch.cpp"
    "src/Hazel/Components/Camera.h"
-   "src/Hazel/Components/Camera.cpp"
+   
    "src/Hazel/Components/Transform.h"
    "src/Hazel/Core/Application.h"
    "src/Hazel/Core/Application.cpp"

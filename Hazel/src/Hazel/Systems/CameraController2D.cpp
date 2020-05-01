@@ -85,7 +85,7 @@ namespace Hazel {
 
          m_translationSpeed = cameraSettings.Zoom;
 
-         camera.ProjectionMatrix = Camera::MakeOrthographic(-cameraSettings.AspectRatio * cameraSettings.Zoom, cameraSettings.Zoom, cameraSettings.AspectRatio * cameraSettings.Zoom, -cameraSettings.Zoom);
+         camera.ProjectionMatrix = glm::ortho(-cameraSettings.AspectRatio * cameraSettings.Zoom, cameraSettings.AspectRatio * cameraSettings.Zoom, -cameraSettings.Zoom, cameraSettings.Zoom, -1.0f, 1.0f);
          camera.ViewProjectionMatrix = camera.ProjectionMatrix * camera.ViewMatrix;
       }
    }
@@ -101,7 +101,7 @@ namespace Hazel {
 
          cameraSettings.AspectRatio = static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
 
-         camera.ProjectionMatrix = Camera::MakeOrthographic(-cameraSettings.AspectRatio * cameraSettings.Zoom, cameraSettings.Zoom, cameraSettings.AspectRatio * cameraSettings.Zoom, -cameraSettings.Zoom);
+         camera.ProjectionMatrix = glm::ortho(-cameraSettings.AspectRatio * cameraSettings.Zoom, cameraSettings.AspectRatio * cameraSettings.Zoom, -cameraSettings.Zoom, cameraSettings.Zoom, -1.0f, 1.0f);
          camera.ViewProjectionMatrix = camera.ProjectionMatrix * camera.ViewMatrix;
       }
    }

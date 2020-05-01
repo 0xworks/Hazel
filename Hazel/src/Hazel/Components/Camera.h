@@ -8,8 +8,6 @@ namespace Hazel {
       glm::mat4 ProjectionMatrix;
       glm::mat4 ViewMatrix;
       glm::mat4 ViewProjectionMatrix;
-
-      static glm::mat4 MakeOrthographic(const float left, const float top, const float right, const float bottom);
    };
 
 }

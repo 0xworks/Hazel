@@ -3,7 +3,6 @@
 #include "Hazel/Components/Camera.h"
 #include "Hazel/Components/CameraSettings.h"
 #include "Hazel/Components/Transform.h"
-#include "Hazel/ECS/ECSType.h"
 #include "Hazel/Systems/CameraController2D.h"
 
 #include <imgui.h>
@@ -23,7 +22,9 @@ public:
 
       Hazel::Transform transform {};
       Hazel::CameraSettings cameraSettings {};
-      glm::mat4 projectionMatrix = Hazel::Camera::MakeOrthographic(-cameraSettings.AspectRatio * cameraSettings.Zoom, cameraSettings.AspectRatio * cameraSettings.Zoom, -cameraSettings.Zoom, cameraSettings.Zoom);
+
+      glm::mat4 projectionMatrix = glm::ortho(-cameraSettings.AspectRatio * cameraSettings.Zoom, cameraSettings.AspectRatio * cameraSettings.Zoom, -cameraSettings.Zoom, cameraSettings.Zoom, -1.0f, 1.0f); 
+
       Hazel::Camera camera {projectionMatrix, glm::identity<glm::mat4>(), projectionMatrix};
 
       // All systems must be registered and Init()ialised before you go adding any components to entities

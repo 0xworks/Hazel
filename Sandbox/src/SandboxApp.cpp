@@ -1,8 +1,5 @@
 #include "pch.h"
 #include "Sandbox2DLayer.h"
-#include "Hazel/Components/Camera.h"
-#include "Hazel/Components/Transform.h"
-#include "Hazel/ECS/ECS.h"
 
 class SandboxApp : public Hazel::Application {
 public:
