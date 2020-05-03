@@ -4,7 +4,7 @@ project ("Sandbox" VERSION 0.1 DESCRIPTION "Sandbox demo")
 
 add_executable(
 	${PROJECT_NAME}
-	"src/pch.cpp"
+	"src/Sandbox2DLayer.h"
 	"src/SandboxApp.cpp"
 )
 
@@ -12,8 +12,6 @@ set_target_properties(
 	${PROJECT_NAME} PROPERTIES
 	VERSION ${PROJECT_VERSION}
 )
-
-add_precompiled_header(${PROJECT_NAME} "pch.h" SOURCE_CXX "src/pch.cpp")
 
 target_link_libraries(
 	${PROJECT_NAME} PRIVATE

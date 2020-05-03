@@ -4,18 +4,18 @@
 
 namespace Hazel {
 
-   class Log {
-   public:
+	class Log {
+	public:
 
-      static void Init();
+		static void Init();
 
-      static spdlog::logger& GetCoreLogger();
-      static spdlog::logger& GetClientLogger();
+		static spdlog::logger& GetCoreLogger();
+		static spdlog::logger& GetClientLogger();
 
-   private:
-      static std::shared_ptr<spdlog::logger> s_spdlogCore;
-      static std::shared_ptr<spdlog::logger> s_spdlogClient;
-   };
+	private:
+		static std::shared_ptr<spdlog::logger> s_spdlogCore;
+		static std::shared_ptr<spdlog::logger> s_spdlogClient;
+	};
 
 }
 

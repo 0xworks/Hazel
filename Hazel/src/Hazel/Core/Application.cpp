@@ -1,5 +1,5 @@
 #include "hzpch.h"
-#include "Hazel/Core/Application.h"
+#include "Application.h"
 
 #include "Hazel/Core/Input.h"
 #include "Hazel/Core/ImGuiLayer.h"
@@ -12,90 +12,90 @@
 
 namespace Hazel {
 
-   Application* Application::sm_application = nullptr;
+	Application* Application::sm_application = nullptr;
 
 
-   Application::Application() {
-      HZ_CORE_ASSERT(!sm_application, "Application already exists!");
-      sm_application = this;
-      m_window = Window::Create();
+	Application::Application() {
+		HZ_CORE_ASSERT(!sm_application, "Application already exists!");
+		sm_application = this;
+		m_window = Window::Create();
 
-      Renderer::Init();
+		Renderer::Init();
 
-      Events::AddEventListener(HZ_BIND_EVENT_METHOD(Events::Window::RESIZE, Application::OnWindowResize));
-      Events::AddEventListener(HZ_BIND_EVENT_METHOD(Events::Window::CLOSE, Application::OnWindowClose));
+		Events::AddEventListener(HZ_BIND_EVENT_METHOD(Events::Window::RESIZE, Application::OnWindowResize));
+		Events::AddEventListener(HZ_BIND_EVENT_METHOD(Events::Window::CLOSE, Application::OnWindowClose));
 
-      PushOverlay(std::make_unique<ImGuiLayer>());
-   }
-
-
-   Application::~Application() {
-      Renderer::ShutDown();
-   }
+		PushOverlay(std::make_unique<ImGuiLayer>());
+	}
 
 
-   void Application::Run() {
-      HZ_PROFILE_FUNCTION();
-
-      while(m_isRunning) {
-         float time = (float)glfwGetTime(); // this should be in Platform/...
-         Timestep deltaTime = (time - m_lastFrameTime);
-         m_lastFrameTime = time;
-
-         if (!m_isMinimised) {
-            for (auto& layer : m_layerStack) {
-               layer->OnUpdate(deltaTime);
-            }
-         }
-
-         HZ_PROFILE_SCOPE("ImGuiLayer");
-         ImGuiLayer::Begin();
-         for(auto& layer : m_layerStack) {
-            layer->OnImGuiRender();
-         }
-         ImGuiLayer::End();
-
-         m_window->OnUpdate();
-      }
-   }
+	Application::~Application() {
+		Renderer::ShutDown();
+	}
 
 
-   void Application::PushLayer(std::unique_ptr<Layer> layer) {
-      m_layerStack.PushLayer(std::move(layer));
-   }
+	void Application::Run() {
+		HZ_PROFILE_FUNCTION();
+
+		while (m_isRunning) {
+			float time = (float)glfwGetTime(); // this should be in Platform/...
+			Timestep deltaTime = (time - m_lastFrameTime);
+			m_lastFrameTime = time;
+
+			if (!m_isMinimised) {
+				for (auto& layer : m_layerStack) {
+					layer->OnUpdate(deltaTime);
+				}
+			}
+
+			HZ_PROFILE_SCOPE("ImGuiLayer");
+			ImGuiLayer::Begin();
+			for (auto& layer : m_layerStack) {
+				layer->OnImGuiRender();
+			}
+			ImGuiLayer::End();
+
+			m_window->OnUpdate();
+		}
+	}
 
 
-   void Application::PushOverlay(std::unique_ptr<Layer> overlay) {
-      m_layerStack.PushOverlay(std::move(overlay));
-   }
+	void Application::PushLayer(std::unique_ptr<Layer> layer) {
+		m_layerStack.PushLayer(std::move(layer));
+	}
 
 
-   Window& Application::GetWindow() {
-      HZ_CORE_ASSERT(m_window, "Window is null!");
-      return *m_window;
-   }
+	void Application::PushOverlay(std::unique_ptr<Layer> overlay) {
+		m_layerStack.PushOverlay(std::move(overlay));
+	}
 
 
-   Application& Application::Get() {
-      HZ_CORE_ASSERT(sm_application, "Application is null!");
-      return *sm_application;
-   }
+	Window& Application::GetWindow() {
+		HZ_CORE_ASSERT(m_window, "Window is null!");
+		return *m_window;
+	}
 
 
-   void Application::OnWindowClose(Event&) {
-      m_isRunning = false;
-   }
+	Application& Application::Get() {
+		HZ_CORE_ASSERT(sm_application, "Application is null!");
+		return *sm_application;
+	}
 
 
-   void Application::OnWindowResize(Event& event) {
-      int width = event.GetParam<int>(Events::Window::Resize::WIDTH);
-      int height = event.GetParam<int>(Events::Window::Resize::HEIGHT);
-      if (width == 0 || height == 0) {
-         m_isMinimised = true;
-      } else {
-         m_isMinimised = false;
-         Renderer::OnWindowResized(width, height);
-      }
-   }
+	void Application::OnWindowClose(Event&) {
+		m_isRunning = false;
+	}
+
+
+	void Application::OnWindowResize(Event& event) {
+		int width = event.GetParam<int>(Events::Window::Resize::WIDTH);
+		int height = event.GetParam<int>(Events::Window::Resize::HEIGHT);
+		if (width == 0 || height == 0) {
+			m_isMinimised = true;
+		} else {
+			m_isMinimised = false;
+			Renderer::OnWindowResized(width, height);
+		}
+	}
 
 }

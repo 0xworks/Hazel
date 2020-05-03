@@ -2,11 +2,11 @@
 
 namespace Hazel {
 
-   class GraphicsContext {
-   public:
-      virtual ~GraphicsContext() = default;
+	class GraphicsContext {
+	public:
+		virtual ~GraphicsContext() = default;
 
-      virtual void SwapBuffers() = 0;
-   };
+		virtual void SwapBuffers() = 0;
+	};
 
 }

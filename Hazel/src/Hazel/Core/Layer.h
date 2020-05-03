@@ -5,20 +5,20 @@
 
 namespace Hazel {
 
-   class Layer {
-   public:
-      Layer(const std::string& name = "Layer");
-      virtual ~Layer();
+	class Layer {
+	public:
+		Layer(const std::string& name = "Layer");
+		virtual ~Layer();
 
-      virtual void OnAttach() {};
-      virtual void OnDetach() {};
-      virtual void OnUpdate(Timestep deltaTime) {};
-      virtual void OnImGuiRender() {};
+		virtual void OnAttach() {};
+		virtual void OnDetach() {};
+		virtual void OnUpdate(Timestep deltaTime) {};
+		virtual void OnImGuiRender() {};
 
-      const std::string& GetName() const;
+		const std::string& GetName() const;
 
-   protected:
-      std::string m_debugName;
-   };
+	protected:
+		std::string m_debugName;
+	};
 
 }

@@ -1,13 +1,13 @@
 #include "hzpch.h"
-#include "Hazel/Events/Events.h"
+#include "Events.h"
 
 namespace Hazel {
 
-   namespace Events {
+	namespace Events {
 
-      std::unique_ptr<EventManager> eventManager;
+		std::unique_ptr<EventManager> eventManager;
 
-   }
+	}
 
 }
 
