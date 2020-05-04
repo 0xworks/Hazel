@@ -13,7 +13,7 @@
 
 #include "Hazel/Core/Log.h"
 
-#ifdef HZ_ENABLE_ASSERTS
+#ifdef HZ_DEBUG
 #define HZ_ASSERT(x, ...) { if(!(x)) { HZ_ERROR(__VA_ARGS__); __debugbreak(); } }
 #define HZ_CORE_ASSERT(x, ...) { if(!(x)) { HZ_CORE_ERROR(__VA_ARGS__); __debugbreak(); } }
 #else

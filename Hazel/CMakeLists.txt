@@ -158,7 +158,7 @@ target_compile_definitions(
 	FMT_HEADER_ONLY
 	GLFW_INCLUDE_NONE
 	IMGUI_IMPL_OPENGL_LOADER_GLAD
-  "$<$<CONFIG:DEBUG>:HZ_ENABLE_ASSERTS>"
+  "$<$<CONFIG:DEBUG>:HZ_DEBUG>"
 )
 
 target_include_directories(
