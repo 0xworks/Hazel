@@ -11,6 +11,8 @@ namespace Hazel {
 		float GetSeconds() { return m_time; }
 		float GetMilliseconds() { return m_time * 1000.0f; }
 
+		Timestep& operator+=(const float delta) { m_time += delta; return *this; }
+
 	private:
 		float m_time;
 	};
