@@ -4,6 +4,7 @@
 #include "Hazel/Renderer/RenderCommand.h"
 #include "Hazel/ECS/ECS.h"
 
+#include <GLFW/glfw3.h>
 #include <glm/ext.hpp>
 
 namespace Hazel {
@@ -46,6 +47,8 @@ namespace Hazel {
 		uint32_t QuadIndexCount = 0;
 		uint32_t CurrentVertex = 0;
 		uint32_t TextureSlotIndex = 0;
+
+		Renderer2D::Statistics Stats;
 	};
 
 	static std::unique_ptr<Renderer2DData> s_data;
@@ -114,6 +117,7 @@ namespace Hazel {
 
 		s_data->QuadVertexArray->GetVertexBuffer().SetData(s_data->QuadVertices.get(), (s_data->CurrentVertex + 1) * sizeof(QuadVertex));
 		RenderCommand::DrawIndexed(*s_data->QuadVertexArray, s_data->QuadIndexCount);
+		s_data->Stats.DrawCalls++;
 		s_data->CurrentVertex = 0;
 		s_data->QuadIndexCount = 0;
 		s_data->TextureSlotIndex = 0;
@@ -154,6 +158,8 @@ namespace Hazel {
 			s_data->TextureSlots[s_data->TextureSlotIndex] = texture.GetId();
 			textureIndex = (float)s_data->TextureSlotIndex;
 			texture.Bind(s_data->TextureSlotIndex++); // Would probably be nicer in Flush(), but that makes the s_data->TextureSlots data structure more complicated
+			s_data->Stats.TextureCount++;
+
 		}
 
 		const glm::vec2 halfSize = size / 2.0f;
@@ -164,6 +170,29 @@ namespace Hazel {
 			s_data->QuadVertices[s_data->CurrentVertex++] = {transform * s_data->QuadVertexPostitions[i], color, s_data->QuadTextureCoordinates[i], textureIndex, tilingFactor};
 		}
 		s_data->QuadIndexCount += 6;
+		s_data->Stats.QuadCount++;
 	};
+
+	void Renderer2D::ResetStats() {
+		s_data->Stats.DrawCalls = 0;
+		s_data->Stats.QuadCount = 0;
+		s_data->Stats.TextureCount = 0;
+	}
+
+	void Renderer2D::StatsBeginFrame() {
+		s_data->Stats.CurrentFrameBeginTime = (float)glfwGetTime();
+	}
+
+	void Renderer2D::StatsEndFrame() {
+		s_data->Stats.FrameRenderTime[s_data->Stats.FrameCount] = (float)glfwGetTime() - s_data->Stats.CurrentFrameBeginTime;
+		s_data->Stats.TotalFrameRenderTime += (s_data->Stats.FrameRenderTime[s_data->Stats.FrameCount] - s_data->Stats.FrameRenderTime[(s_data->Stats.FrameCount + 1) % s_data->Stats.FrameRenderTime.size()]);
+		if (++s_data->Stats.FrameCount == s_data->Stats.FrameRenderTime.size()) {
+			s_data->Stats.FrameCount = 0;
+		}
+	}
+
+	Renderer2D::Statistics Renderer2D::GetStats() {
+		return s_data->Stats;
+	}
 
 }
