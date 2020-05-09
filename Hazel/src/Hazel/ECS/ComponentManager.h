@@ -28,7 +28,7 @@ namespace Hazel {
 			}
 
 			template<typename T>
-			void AddComponent(const Entity entity, T component) {
+			void AddComponent(const Entity entity, const T& component) {
 				GetComponentArray<T>()->Insert(entity, component);
 			}
 

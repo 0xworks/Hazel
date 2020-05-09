@@ -19,7 +19,7 @@ namespace Hazel {
 		template<typename T>
 		class ComponentArray : public IComponentArray {
 		public:
-			void Insert(const Entity entity, T component) {
+			void Insert(const Entity entity, const T& component) {
 				HZ_CORE_ASSERT(m_EntityToIndexMap.find(entity) == m_EntityToIndexMap.end(), "ERROR: Component added to same entity more than once.");
 
 				// Put new entry at end

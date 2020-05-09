@@ -40,7 +40,7 @@ namespace Hazel {
 		}
 
 		template<typename T>
-		void AddComponent(const Entity entity, T component) {
+		void AddComponent(const Entity entity, const T& component) {
 			componentManager->AddComponent<T>(entity, component);
 			auto signature = entityManager->GetSignature(entity);
 			signature.set(componentManager->GetComponentType<T>(), true);
