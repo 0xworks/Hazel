@@ -161,6 +161,14 @@ target_compile_definitions(
   "$<$<CONFIG:DEBUG>:HZ_DEBUG>"
 )
 
+if(HZ_PROFILE)
+	target_compile_definitions(
+		${PROJECT_NAME} PUBLIC
+		HZ_PROFILE
+		TRACY_ENABLE
+	)
+endif()
+
 target_include_directories(
 	${PROJECT_NAME} PRIVATE
 	${ProjectIncludes}
