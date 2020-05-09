@@ -3,7 +3,6 @@
 #include "../vendor/Tracy/Tracy.hpp"
 
 
-#define HZ_PROFILE 1
 #if HZ_PROFILE
 	#define HZ_PROFILE_BEGIN_SESSION(name, filepath)
 	#define HZ_PROFILE_END_SESSION()
