@@ -50,12 +50,12 @@ namespace Hazel {
 			data->Width = width;
 			data->Height = height;
 			Events::SendEvent(WindowResizeEvent(width, height));
-			});
+		});
 
 		glfwSetWindowCloseCallback(m_window, [] (GLFWwindow* window) {
 			WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
 			Events::SendEvent(WindowCloseEvent());
-			});
+		});
 
 		glfwSetKeyCallback(m_window, [] (GLFWwindow* window, int key, int scanCode, int action, int mods) {
 			WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
@@ -74,12 +74,12 @@ namespace Hazel {
 					break;
 				}
 			}
-			});
+		});
 
 		glfwSetCharCallback(m_window, [] (GLFWwindow* window, uint32_t keycode) {
 			WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
-			Events::SendEvent(KeyTypedEvent(keycode));
-			});
+		   Events::SendEvent(KeyTypedEvent(keycode));
+		});
 
 		glfwSetMouseButtonCallback(m_window, [] (GLFWwindow* window, int button, int action, int mods) {
 			WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
@@ -94,17 +94,17 @@ namespace Hazel {
 					break;
 				}
 			}
-			});
+		});
 
 		glfwSetScrollCallback(m_window, [] (GLFWwindow* window, double xoffset, double yoffset) {
 			WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
 			Events::SendEvent(MouseScrolledEvent(static_cast<float>(xoffset), static_cast<float>(yoffset)));
-			});
+		});
 
 		glfwSetCursorPosCallback(m_window, [] (GLFWwindow* window, double xpos, double ypos) {
 			WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
 			Events::SendEvent(MouseMovedEvent(static_cast<float>(xpos), static_cast<float>(ypos)));
-			});
+		});
 
 	}
 
